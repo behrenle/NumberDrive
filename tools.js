@@ -98,11 +98,20 @@ function productScalarTensor(scalar, tensor, mulSign = "*") {
   }
 }
 
+function productVectorPair(vec1, vec2) {
+  var v = 0;
+  for (var i = 0; i < vec1.length; i++) {
+    v += vec1[i] * vec2[i];
+  }
+  return v;
+}
+
 module.exports = {
   tensorNodeDims: tensorNodeDims,
   tensorDims: tensorDims,
   compare: compare,
   zeroTensor: zeroTensor,
   sumTensorPair: sumTensorPair,
-  productScalarTensor: productScalarTensor
+  productScalarTensor: productScalarTensor,
+  productVectorPair: productVectorPair,
 };

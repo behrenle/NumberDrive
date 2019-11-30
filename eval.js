@@ -46,6 +46,13 @@ function evalNode(node) {
           } else {
             v = Tools.productScalarTensor(evalNode(node.elements[i]), v, "/");
           }
+        } else if (v instanceof Array && evalNode(node.elements[i]) instanceof Array) {
+          var w = evalNode(node.elements[i])
+          var dims1 = Tools.tensorDims(v);
+          var dims2 = Tools.tensorDims(w);
+          if (dims1.length == 1 && dims2.length == 1 && dims1[0] == dims2[0]) {
+            v = Tools.productVectorPair(v, w);
+          }
         }
       }
       return v;
