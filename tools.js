@@ -87,10 +87,22 @@ function sumTensorPair(tensor1, tensor2, sign1 = "+", sign2 = "+") {
   throw "sumTensor: incompatible dimensions";
 }
 
+function productScalarTensor(scalar, tensor, mulSign = "*") {
+  if (tensorDims(tensor).length == 1) {
+    if (mulSign == "*") {
+      return tensor.map(x => x * scalar);
+    }
+    return tensor.map(x => x / scalar);
+  } else {
+    return tensor.map(x => productScalarTensor(scalar, x));
+  }
+}
+
 module.exports = {
   tensorNodeDims: tensorNodeDims,
   tensorDims: tensorDims,
   compare: compare,
   zeroTensor: zeroTensor,
-  sumTensorPair: sumTensorPair
+  sumTensorPair: sumTensorPair,
+  productScalarTensor: productScalarTensor
 };

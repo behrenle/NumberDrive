@@ -21,7 +21,6 @@ function evalNode(node) {
       return list;
 
     case "sum":
-      console.log(typeof evalNode(node.elements[0]));
       if (typeof evalNode(node.elements[0]) == "number") {
         return sumScalar(node);
       } else if (evalNode(node.elements[0]) instanceof Array) {
@@ -29,6 +28,27 @@ function evalNode(node) {
       } else {
         throw "unsupported types";
       }
+
+    case "product":
+      var v = 1;
+      for (var i = 0; i < node.elements.length; i++) {
+        if (typeof v == "number" && typeof evalNode(node.elements[i]) == "number") {
+          if (node.elements[i].mulSign == "*") {
+            v *= evalNode(node.elements[i]);
+          } else {
+            v /= evalNode(node.elements[i]);
+          }
+        } else if (typeof v == "number" && evalNode(node.elements[i]) instanceof Array) {
+          v = Tools.productScalarTensor(v, evalNode(node.elements[i]));
+        } else if (typeof evalNode(node.elements[i]) == "number" && v instanceof Array) {
+          if (node.elements[i].mulSign == "*") {
+            v = Tools.productScalarTensor(evalNode(node.elements[i]), v);
+          } else {
+            v = Tools.productScalarTensor(evalNode(node.elements[i]), v, "/");
+          }
+        }
+      }
+      return v;
   }
 }
 
