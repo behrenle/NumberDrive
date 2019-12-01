@@ -135,7 +135,7 @@ function evalNode(node, scope) {
               }
               return v;
             }
-            throw "pow: no square matrix found"
+            throw "pow: no square matrix found";
           } else {
             throw "pow: unsupported tensor of rank " + rank;
           }
