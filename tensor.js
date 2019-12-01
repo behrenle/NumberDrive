@@ -39,7 +39,12 @@ function getDimensions(tensor) {
 }
 
 function getRank(tensor) {
-  return getDimensions(tensor).length;
+  var r = getDimensions(tensor);
+  if (r == false) {
+    return 0;
+  } else {
+    return r.length;
+  }
 }
 
 function get(tensor, iTensor) {
@@ -205,7 +210,17 @@ function getMulMode(tensor1, tensor2) {
     return "matvec";
   } else if (rank1 == 1 && rank2 == 2 && dim1[0] == dim2[1]) {
     return "vecmat";
+  } else if (rank1 == 0 && rank2 > 0) {
+    return "numten";
+  } else if (rank1 > 0 && rank2 == 0) {
+    return "tennum";
+  } else if (rank1 == 0 && rank2 == 0) {
+    return "numnum";
   }
+}
+
+function copyOf(tensor) {
+  return tensor.slice();
 }
 
 module.exports = {
@@ -225,4 +240,5 @@ module.exports = {
   transposeVector: transposeVector,
   mulScalarTensor: mulScalarTensor,
   getMulMode: getMulMode,
+  copyOf: copyOf,
 }
