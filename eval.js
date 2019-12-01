@@ -1,9 +1,8 @@
 const Parser = require('./parser.js');
-const Tools = require('./tools.js');
+const Tensor = require('./tensor.js');
 
 function eval(str) {
   var root = Parser.parse(str);
-  console.log(JSON.stringify(root, null, 2));
   return evalNode(root);
 }
 
@@ -24,7 +23,11 @@ function evalNode(node) {
       if (typeof evalNode(node.elements[0]) == "number") {
         return sumScalar(node);
       } else if (evalNode(node.elements[0]) instanceof Array) {
-        return sumTensor(node);
+        var v = Tensor.zeros(Tensor.getDimensions(evalNode(node.elements[0])));
+        for (var i = 0; i < node.elements.length; i++) {
+          v = Tensor.sumTensors(v, evalNode(node.elements[i]));
+        }
+        return v;
       } else {
         throw "unsupported types";
       }
@@ -39,19 +42,36 @@ function evalNode(node) {
             v /= evalNode(node.elements[i]);
           }
         } else if (typeof v == "number" && evalNode(node.elements[i]) instanceof Array) {
-          v = Tools.productScalarTensor(v, evalNode(node.elements[i]));
+          v = Tensor.mulScalarTensor(v, evalNode(node.elements[i]));
         } else if (typeof evalNode(node.elements[i]) == "number" && v instanceof Array) {
           if (node.elements[i].mulSign == "*") {
-            v = Tools.productScalarTensor(evalNode(node.elements[i]), v);
+            v = Tensor.mulScalarTensor(evalNode(node.elements[i]), v);
           } else {
-            v = Tools.productScalarTensor(evalNode(node.elements[i]), v, "/");
+            v = Tensor.mulScalarTensor(evalNode(node.elements[i]), v, "/");
           }
         } else if (v instanceof Array && evalNode(node.elements[i]) instanceof Array) {
-          var w = evalNode(node.elements[i])
-          var dims1 = Tools.tensorDims(v);
-          var dims2 = Tools.tensorDims(w);
-          if (dims1.length == 1 && dims2.length == 1 && dims1[0] == dims2[0]) {
-            v = Tools.productVectorPair(v, w);
+          var w = evalNode(node.elements[i]);
+          var dims1 = Tensor.getDimensions(v);
+          var dims2 = Tensor.getDimensions(w);
+          var mulMode = Tensor.getMulMode(v, w);
+          if (mulMode == "vec") {
+            v = Tensor.mulVectors(v, w);
+          } else if (mulMode == "mat") {
+            v = Tensor.mulMatrices(v, w);
+          } else if (mulMode == "matvec") {
+            v = Tensor.transposeMatrix(
+              Tensor.mulMatrices(
+                v, Tensor.transposeVector(w)
+              )
+            )[0];
+          } else if (mulMode == "vecmat") {
+            v = Tensor.mulMatrices(
+              Tensor.transposeMatrix(
+                Tensor.transposeVector(v)
+              ), w
+            )[0];
+          } else {
+            throw "mul: incompatible tensors";
           }
         }
       }
@@ -72,15 +92,6 @@ function sumScalar(node) {
     } else {
       throw "sum: incompatible types";
     }
-  }
-  return v;
-}
-
-function sumTensor(node) {
-  var dims = Tools.tensorDims(evalNode(node.elements[0]));
-  var v = Tools.zeroTensor(dims);
-  for (var i = 0; i < node.elements.length; i++) {
-    v = Tools.sumTensorPair(v, evalNode(node.elements[i]), "+", node.elements[i].sign);
   }
   return v;
 }
