@@ -1,32 +1,44 @@
 const Parser = require('./parser.js');
 const Tensor = require('./tensor.js');
 
-function eval(str) {
+function eval(str, scope = {}, debug = false) {
   var root = Parser.parse(str);
-  return evalNode(root);
+  if (debug) {
+    console.log(JSON.stringify(root,null,2));
+  }
+  return evalNode(root, scope);
 }
 
-function evalNode(node) {
+function evalNode(node, scope) {
   switch (node.type) {
     case "number":
       return node.value;
-      break;
+
+    case "symbol":
+      if (scope[node.value] != null) {
+        if (typeof scope[node.value] == "function") {
+          throw node.value + " is a function";
+        }
+        return scope[node.value];
+      }
+      throw "unknown symbol: " + node.value;
+
 
     case "list":
       var list = [];
       for (var i = 0; i < node.elements.length; i++) {
-        list.push(evalNode(node.elements[i]));
+        list.push(evalNode(node.elements[i]), scope);
       }
       return list;
 
     case "sum":
-      if (typeof evalNode(node.elements[0]) == "number") {
-        return sumScalar(node);
-      } else if (evalNode(node.elements[0]) instanceof Array) {
-        var v = Tensor.zeros(Tensor.getDimensions(evalNode(node.elements[0])));
+      if (typeof evalNode(node.elements[0], scope) == "number") {
+        return sumScalar(node, scope);
+      } else if (evalNode(node.elements[0], scope) instanceof Array) {
+        var v = Tensor.zeros(Tensor.getDimensions(evalNode(node.elements[0], scope)));
         for (var i = 0; i < node.elements.length; i++) {
           v = Tensor.addTensors(
-            v, evalNode(node.elements[i]),
+            v, evalNode(node.elements[i], scope),
             "+", node.elements[i].sign
           );
         }
@@ -38,22 +50,22 @@ function evalNode(node) {
     case "product":
       var v = 1;
       for (var i = 0; i < node.elements.length; i++) {
-        if (typeof v == "number" && typeof evalNode(node.elements[i]) == "number") {
+        if (typeof v == "number" && typeof evalNode(node.elements[i], scope) == "number") {
           if (node.elements[i].mulSign == "*") {
-            v *= evalNode(node.elements[i]);
+            v *= evalNode(node.elements[i], scope);
           } else {
-            v /= evalNode(node.elements[i]);
+            v /= evalNode(node.elements[i], scope);
           }
-        } else if (typeof v == "number" && evalNode(node.elements[i]) instanceof Array) {
-          v = Tensor.mulScalarTensor(v, evalNode(node.elements[i]));
-        } else if (typeof evalNode(node.elements[i]) == "number" && v instanceof Array) {
+        } else if (typeof v == "number" && evalNode(node.elements[i], scope) instanceof Array) {
+          v = Tensor.mulScalarTensor(v, evalNode(node.elements[i], scope));
+        } else if (typeof evalNode(node.elements[i], scope) == "number" && v instanceof Array) {
           if (node.elements[i].mulSign == "*") {
-            v = Tensor.mulScalarTensor(evalNode(node.elements[i]), v);
+            v = Tensor.mulScalarTensor(evalNode(node.elements[i], scope), v);
           } else {
-            v = Tensor.mulScalarTensor(evalNode(node.elements[i]), v, "/");
+            v = Tensor.mulScalarTensor(evalNode(node.elements[i], scope), v, "/");
           }
-        } else if (v instanceof Array && evalNode(node.elements[i]) instanceof Array) {
-          var w = evalNode(node.elements[i]);
+        } else if (v instanceof Array && evalNode(node.elements[i], scope) instanceof Array) {
+          var w = evalNode(node.elements[i], scope);
           var dims1 = Tensor.getDimensions(v);
           var dims2 = Tensor.getDimensions(w);
           var mulMode = Tensor.getMulMode(v, w);
@@ -81,8 +93,8 @@ function evalNode(node) {
       return v;
 
     case "power":
-      var base = evalNode(node.base);
-      var exp  = evalNode(node.exp);
+      var base = evalNode(node.base, scope);
+      var exp  = evalNode(node.exp, scope);
       if (typeof base == "number" && typeof exp == "number") {
         return Math.pow(base, exp);
       } else if (base instanceof Array && typeof exp == "number") {
@@ -120,12 +132,13 @@ function evalNode(node) {
       }
       throw "pow: incompatible types";
   }
+  throw "unsupported node type: " + node.type;
 }
 
-function sumScalar(node) {
+function sumScalar(node, scope) {
   var v = 0;
   for (var i = 0; i < node.elements.length; i++)  {
-    var r = evalNode(node.elements[i]);
+    var r = evalNode(node.elements[i], scope);
     if (typeof r == "number") {
       if (node.elements[i].sign == "-") {
         v -= r;
