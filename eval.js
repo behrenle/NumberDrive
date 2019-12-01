@@ -39,7 +39,7 @@ function evalNode(node, scope) {
     case "list":
       var list = [];
       for (var i = 0; i < node.elements.length; i++) {
-        list.push(evalNode(node.elements[i]), scope);
+        list.push(evalNode(node.elements[i], scope));
       }
       return list;
 
