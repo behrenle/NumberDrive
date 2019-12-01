@@ -25,7 +25,10 @@ function evalNode(node) {
       } else if (evalNode(node.elements[0]) instanceof Array) {
         var v = Tensor.zeros(Tensor.getDimensions(evalNode(node.elements[0])));
         for (var i = 0; i < node.elements.length; i++) {
-          v = Tensor.sumTensors(v, evalNode(node.elements[i]));
+          v = Tensor.addTensors(
+            v, evalNode(node.elements[i]),
+            "+", node.elements[i].sign
+          );
         }
         return v;
       } else {
@@ -76,6 +79,46 @@ function evalNode(node) {
         }
       }
       return v;
+
+    case "power":
+      var base = evalNode(node.base);
+      var exp  = evalNode(node.exp);
+      if (typeof base == "number" && typeof exp == "number") {
+        return Math.pow(base, exp);
+      } else if (base instanceof Array && typeof exp == "number") {
+        var dim = Tensor.getDimensions(base);
+        var rank = Tensor.getRank(base);
+        if (Number.isInteger(exp) && exp > 0) {
+          if (exp == 1) {
+            return base;
+          }
+          if (rank == 1) {
+            var v = Tensor.copyOf(base);
+            for (var i = 1; i < exp; i++) {
+              var mulMode = Tensor.getMulMode(v, base);
+              if (mulMode == "vec") {
+                v = Tensor.mulVectors(v, base);
+              } else if (mulMode == "numten") {
+                v = Tensor.mulScalarTensor(v, base);
+              }
+            }
+            return v;
+          } else if (rank == 2) {
+            if (dim[0] == dim[1]) {
+              var v = Tensor.copyOf(base);
+              for (var i = 1; i < exp; i++) {
+                v = Tensor.mulMatrices(v, base);
+              }
+              return v;
+            }
+            throw "pow: no square matrix found"
+          } else {
+            throw "pow: unsupported tensor of rank " + rank;
+          }
+        }
+        throw "pow: non integer exponent or <= 0";
+      }
+      throw "pow: incompatible types";
   }
 }
 
