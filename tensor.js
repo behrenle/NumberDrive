@@ -95,7 +95,9 @@ function zeros(dims) {
   }
 }
 
-function addTensors(tensor1, tensor2) {
+function addTensors(tensor1, tensor2, sign1 = "+", sign2 = "+") {
+  var s1 = sign1 == "+" ? 1 : -1;
+  var s2 = sign2 == "+" ? 1 : -1;
   if (compare(getDimensions(tensor1), getDimensions(tensor2))) {
     var dims = getDimensions(tensor1);
     var indizes = getIndizes(dims);
@@ -104,7 +106,7 @@ function addTensors(tensor1, tensor2) {
       rTensor = set(
         rTensor,
         indizes[i],
-        get(tensor1, indizes[i]) + get(tensor2, indizes[i])
+        s1 * get(tensor1, indizes[i]) + s2 * get(tensor2, indizes[i])
       );
     }
     return rTensor;
@@ -177,13 +179,33 @@ function transposeVector(vec) {
   return mat;
 }
 
-function mulScalarTensor(scalar, tensor) {
+function mulScalarTensor(scalar, tensor, scalarMulSign = "*") {
   var r = zeros(getDimensions(tensor));
   var indizes = getIndizes(getDimensions(tensor));
   for (var i = 0; i < indizes.length; i++) {
-    r = set(r, indizes[i], get(tensor, indizes[i]) * scalar);
+    if (scalarMulSign == "*") {
+      r = set(r, indizes[i], get(tensor, indizes[i]) * scalar);
+    } else {
+      r = set(r, indizes[i], get(tensor, indizes[i]) / scalar);
+    }
   }
   return r;
+}
+
+function getMulMode(tensor1, tensor2) {
+  var dim1 = getDimensions(tensor1);
+  var dim2 = getDimensions(tensor2);
+  var rank1 = getRank(tensor1);
+  var rank2 = getRank(tensor2);
+  if (compare(dim1, dim2) && rank1 == 1) {
+    return "vec";
+  } else if (rank1 == 2 && rank2 == 2 && dim1[0] == dim2[1]) {
+    return "mat";
+  } else if (rank1 == 2 && rank2 == 1 && dim1[0] == dim2[0]) {
+    return "matvec";
+  } else if (rank1 == 1 && rank2 == 2 && dim1[0] == dim2[1]) {
+    return "vecmat";
+  }
 }
 
 module.exports = {
@@ -202,4 +224,5 @@ module.exports = {
   transposeMatrix: transposeMatrix,
   transposeVector: transposeVector,
   mulScalarTensor: mulScalarTensor,
+  getMulMode: getMulMode,
 }
