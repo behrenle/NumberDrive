@@ -23,6 +23,18 @@ function evalNode(node, scope) {
       }
       throw "unknown symbol: " + node.value;
 
+    case "function":
+      if (scope[node.name] != null) {
+        if (typeof scope[node.name] == "function") {
+          var params = [];
+          for (var i = 0; i < node.elements.length; i++) {
+            params.push(evalNode(node.elements[i], scope));
+          }
+          return scope[node.name](...params);
+        }
+        throw node.name + " is not a function";
+      }
+      throw "unknown function: " + node.name;
 
     case "list":
       var list = [];
