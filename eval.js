@@ -11,6 +11,13 @@ function eval(str, scope = {}, debug = false) {
 
 function evalNode(node, scope) {
   switch (node.type) {
+    case "definition":
+      if (node.elements[0].type == "symbol") {
+        var v = evalNode(node.elements[1]);
+        scope[node.elements[0].value] = v;
+        return v;
+      }
+
     case "number":
       return node.value;
 

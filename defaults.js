@@ -62,6 +62,7 @@ function exp(x) {
 }
 
 module.exports = {
+  CONTAINS_DEFAULS: true,
   pi: Math.PI,
   e: Math.E,
   sin: sin,
