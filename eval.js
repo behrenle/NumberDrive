@@ -16,7 +16,23 @@ function evalNode(node, scope) {
         var v = evalNode(node.elements[1]);
         scope[node.elements[0].value] = v;
         return v;
+      } else if (node.elements[0].type == "function") {
+        var name = node.elements[0].name;
+        var params = [];
+        for (var i = 0; i < node.elements[0].elements.length; i++) {
+          var param = node.elements[0].elements[i];
+          if (param.type != "symbol") {
+            throw "parameter must be a symbol";
+          }
+          if (params.includes()) {
+            throw "parameter duplicate found.";
+          }
+          params.push(param.value);
+        }
+        scope[name] = new UserFunction(name, params, node.elements[1]);
+        return "defined " + name + " successfully";
       }
+      throw "unsupported identifier";
 
     case "number":
       return node.value;
@@ -38,6 +54,12 @@ function evalNode(node, scope) {
             params.push(evalNode(node.elements[i], scope));
           }
           return scope[node.name](...params);
+        } else if (scope[node.name] instanceof UserFunction) {
+          var params = [];
+          for (var i = 0; i < node.elements.length; i++) {
+            params.push(evalNode(node.elements[i], scope));
+          }
+          return scope[node.name].call(params, scope);
         }
         throw node.name + " is not a function";
       }
@@ -169,6 +191,27 @@ function sumScalar(node, scope) {
     }
   }
   return v;
+}
+
+class UserFunction {
+  constructor(name, params, term) {
+    console.log(name, params, term);
+    this.name = name;
+    this.params = params;
+    this.term = term;
+  }
+
+  call(params, scope) {
+    var nScope = {...scope};
+    nScope[this.name] = null; // prevent calling recursively
+    if (this.params.length != params.length) {
+      throw "call user function: invalid number of parameters";
+    }
+    for (var i = 0; i < this.params.length; i++) {
+      nScope[this.params[i]] = params[i];
+    }
+    return evalNode(this.term, nScope);
+  }
 }
 
 module.exports = {
