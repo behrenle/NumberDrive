@@ -16,6 +16,8 @@ function compare(tensor1, tensor2) {
       }
       return true;
     }
+  } else {
+    return tensor1 == tensor2;
   }
   return false;
 }
