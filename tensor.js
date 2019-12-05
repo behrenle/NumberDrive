@@ -272,6 +272,25 @@ function det(matrix) {
   throw "det only supports matrices";
 }
 
+function replaceRow(tensor, row, n) {
+  var nTensor = copyOf(tensor);
+  nTensor[n] = row;
+  return nTensor;
+}
+
+function replaceCol(tensor, col, n) {
+  if (getRank(tensor) < 2) {
+    throw "replaceCol requires rank >= 2";
+  } else if (getDimensions(tensor)[1] != col.length) {
+    throw "incompatible column";
+  }
+  var nTensor = copyOf(tensor);
+  for (var i = 0; i < col.length; i++) {
+    nTensor = set(nTensor, [n, i], col[i]);
+  }
+  return nTensor;
+}
+
 module.exports = {
   compare: compare,
   getDimensions: getDimensions,
@@ -291,4 +310,6 @@ module.exports = {
   getMulMode: getMulMode,
   copyOf: copyOf,
   det: det,
+  replaceCol: replaceCol,
+  replaceRow: replaceRow,
 }
