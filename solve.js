@@ -127,7 +127,7 @@ function simplifyProduct(node, scope) {
     mulsign: "*",
     elements: cElements,
   }
-  var c = Eval.evalNode(cNode);
+  var c = Eval.evalNode(cNode, scope);
   rNode.elements = [{
     type: "number",
     sign: "+",
@@ -202,6 +202,14 @@ function simplifySumOnce(node, scope = {}) {
       simplifiedSummands.push(
         simplifyProduct(node.elements[i], scope)
       );
+    } else if (
+      node.elements[i].type == "symbol"
+      && scope[node.elements[i].value] != null
+    ) {
+      simplifiedSummands.push({
+        type: "number", sign: "+", mulSign: "*",
+        value: scope[node.elements[i].value],
+      });
     } else {
       simplifiedSummands.push(
         node.elements[i]
@@ -286,26 +294,45 @@ function simplifySumOnce(node, scope = {}) {
   };
 }
 
+function simplify(node, scope) {
+  if (node.type == "sum") {
+    return simplifySum(node, scope);
+  } else if (node.type == "product") {
+    return simplifyProduct(node, scope);
+  } else if (
+    node.type == "symbol"
+    && scope[node.value] != null
+    && typeof scope[node.value] == "number"
+  ) {
+    return {
+      type: "number",
+      sign: node.sign,
+      mulSign: node.mulSign,
+      value: scope[node.value],
+    };
+  } else if (node.type == "number") {
+    return node;
+  }
+  throw "simplify: incompatible node type";
+}
+
 function simplifyEquation(node, scope = {}) {
   // setup
-  var term1 = node.elements[0].type == "sum"
-    ? {...simplifySum(node.elements[0])}
-    : (node.elements[0].type == "product"
-        ? {...simplifyProduct(node.elements[0])}
-        : node.elements[0]
-      );
-  var term2 = node.elements[1].type == "sum"
-    ? {...simplifySum(node.elements[1])}
-    : (node.elements[1].type == "product"
-        ? {...simplifyProduct(node.elements[1])}
-        : node.elements[1]
-      );
+  var term1 = simplify(node.elements[0], scope);
+  var term2 = simplify(node.elements[1], scope);
   var term  = {
     type: "equation",
     sign: "+",
     mulSign: "*",
     elements: [],
   };
+
+  console.log(JSON.stringify(
+    term1, null, 2
+  ));
+  console.log(JSON.stringify(
+    term2, null, 2
+  ));
 
   // combine term1 and term2 to term
   // insert all summands of term1
@@ -349,13 +376,14 @@ function simplifyEquation(node, scope = {}) {
 }
 
 const Parser = require("./parser.js");
-var n1 = Parser.parse("7 - 3");
+var n1 = Parser.parse("7 + 3 = n");
 var n2 = Parser.parse("3*x");
 //console.log(compareNodes(n1, n2));
 //console.log(isMultipleOf(n1,n2));
 //console.log(getCoefficient(n2));
 //console.log(simplifyProduct(n1));
 //console.log(JSON.stringify(n1, null, 2));
+var scope = {n: 5};
 console.log("------------------------------------------");
-console.log(JSON.stringify(simplifySum(n1), null, 2));
+console.log(JSON.stringify(simplifyEquation(n1, scope), null, 2));
 console.log("------------------------------------------");
