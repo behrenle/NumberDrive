@@ -4,6 +4,22 @@ function copyOf(node) {
   return JSON.parse(JSON.stringify(node));
 }
 
+function sign(s) {
+  return s == "-" ? -1 : 1;
+}
+
+function uSign(n) {
+  return n == -1 ? "-" : "+";
+}
+
+function combineSigns(s1, s2) {
+  return sign(s1) * sign(s2);
+}
+
+function uCombineSigns(s1, s2) {
+  return uSign(combineSigns(s1, s2));
+}
+
 function compareNodes(node1, node2) {
   if (node1.type == node2.type) {
     if (node1.type == "number" || node1.type == "symbol") {
@@ -191,6 +207,11 @@ function simplifySum(node, scope) {
     l = rNode.elements.length;
     i++;
   }
+  if (rNode.elements.length == 1) {
+    var summand = copyOf(rNode.elements[0]);
+    summand.sign = uCombineSigns(summand.sign, node.sign);
+    return summand;
+  }
   return rNode;
 }
 
@@ -376,7 +397,7 @@ function simplifyEquation(node, scope = {}) {
 }
 
 const Parser = require("./parser.js");
-var n1 = Parser.parse("7 + 3 = n");
+var n1 = Parser.parse("x*x^2 = 0 ");
 var n2 = Parser.parse("3*x");
 //console.log(compareNodes(n1, n2));
 //console.log(isMultipleOf(n1,n2));
