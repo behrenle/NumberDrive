@@ -648,6 +648,12 @@ function newton(node, scope, start, stop) {
 }
 
 function numericSolve(node, start, stop, scope) {
+  if (node.type == "equation") {
+    return numericSolve(
+      simplifyEquation(node).elements[0],
+      start, stop, scope
+    );
+  }
   var symbols = getVariableSymbols(node, scope);
   if (symbols.length != 1) {
     throw "nSolve requires exactly one variable";
