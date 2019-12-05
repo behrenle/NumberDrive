@@ -1,7 +1,12 @@
 const Eval = require('./eval.js');
+const Tensor = require('./tensor.js');
 
 function copyOf(node) {
   return JSON.parse(JSON.stringify(node));
+}
+
+function compare(node1, node2) {
+  return JSON.stringify(node1) == JSON.stringify(node2);
 }
 
 function sign(s) {
@@ -428,16 +433,73 @@ function isLinear(node, scope = {}) {
   return true;
 }
 
-const Parser = require("./parser.js");
-var n1 = Parser.parse("n*2*x + 2*y = n*7");
-var n2 = Parser.parse("3*x");
-//console.log(compareNodes(n1, n2));
-//console.log(isMultipleOf(n1,n2));
-//console.log(getCoefficient(n2));
-//console.log(simplifyProduct(n1));
-//console.log(JSON.stringify(n1, null, 2));
-var scope = {n: 5};
-console.log("------------------------------------------");
-console.log(JSON.stringify(getCoefficients(n1, scope), null, 2));
-console.log(isLinear(n1, scope))
-console.log("------------------------------------------");
+function getVariablesSystem(eqArr, scope) {
+  const vars = [];
+  for (var i = 0; i < eqArr.length; i++) {
+    // equation
+    var eVars = getCoefficients(eqArr[i], scope);
+    for (var j = 0; j < eVars.length; j++) {
+      // summand
+      for (var k = 0; k < eVars[j].v.length; k++) {
+        // variable
+        var alreadyInserted = false;
+        for (var l = 0; l < vars.length; l++) {
+          if (compare(vars[l], eVars[j].v[k].symbol)) {
+            alreadyInserted = true;
+          }
+        }
+        if (!alreadyInserted) {
+          vars.push(eVars[j].v[k].symbol)
+        }
+      }
+    }
+  }
+  return vars;
+}
+
+function solveLinearSystem() {
+  var args = args = Array.prototype.slice.call(arguments);
+  var equations = args.slice(0, args.length - 1);
+  var scope = args[args.length -1];
+  for (var i = 0; i < equations.length; i++) {
+    if (!isLinear(equations[i], scope)) {
+      throw "can not solve non-linear system";
+    }
+  }
+
+  var vars = getVariablesSystem(equations, scope);
+  var consts = [];
+  var cMatrix = [];
+  for (var i = 0; i < equations.length; i++) {
+    var matRow = Tensor.zeros([vars.length]);
+    var vConst = 0;
+    var coeffs = getCoefficients(equations[i], scope);
+    for (var j = 0; j < coeffs.length; j++) {
+      if (coeffs[j].v.length == 0) {
+        vConst = -coeffs[j].c.value;
+      } else {
+        matRow[vars.indexOf(coeffs[j].v[0].symbol)] = coeffs[j].c.value;
+      }
+    }
+    cMatrix.push(matRow);
+    consts.push(vConst);
+  }
+  if (Tensor.det(cMatrix) == 0) {
+    throw "The equation system has no or no unique solution";
+  }
+  var solStr = "[";
+  for (var i = 0; i < vars.length; i++) {
+    var cMatrixI = Tensor.replaceCol(cMatrix, consts, i);
+    var sol = Tensor.det(cMatrixI) / Tensor.det(cMatrix);
+    solStr += vars[i] + " = " + sol;
+    if (i < vars.length - 1) {
+      solStr += ", ";
+    }
+  }
+  solStr += "]";
+  return solStr;
+}
+
+module.exports = {
+  solveLinearSystem: solveLinearSystem,
+};
