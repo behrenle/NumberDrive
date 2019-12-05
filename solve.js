@@ -333,6 +333,8 @@ function simplify(node, scope) {
     };
   } else if (node.type == "number") {
     return node;
+  } else if (node.type == "equation") {
+    return simplifyEquation(node, scope);
   }
   throw "simplify: incompatible node type";
 }
@@ -347,13 +349,6 @@ function simplifyEquation(node, scope = {}) {
     mulSign: "*",
     elements: [],
   };
-
-  console.log(JSON.stringify(
-    term1, null, 2
-  ));
-  console.log(JSON.stringify(
-    term2, null, 2
-  ));
 
   // combine term1 and term2 to term
   // insert all summands of term1
@@ -396,8 +391,45 @@ function simplifyEquation(node, scope = {}) {
   };
 }
 
+function getCoefficients(node, scope = {}) {
+  var coefficients = [];
+  var sNode = simplify(node, scope);
+  if (sNode.type == "equation") {
+    return getCoefficients(sNode.elements[0]);
+  }
+  if (sNode.elements) {
+    for (var i = 0; i < sNode.elements.length; i++) {
+      coefficients.push({
+        c: getCoefficient(sNode.elements[i]),
+        v: getVariables(sNode.elements[i]),
+      });
+    }
+  } else {
+    coefficients.push({
+      c: getCoefficient(sNode),
+      v: getVariables(sNode),
+    });
+  }
+  return coefficients;
+}
+
+function isLinear(node, scope = {}) {
+  var c = getCoefficients(node, scope);
+  for (var i = 0; i < c.length; i++) {
+    if (c[i].v.length > 1) {
+      return false;
+    }
+    if (c[i].v.length == 1) {
+      if (c[i].v[0].exp > 1) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 const Parser = require("./parser.js");
-var n1 = Parser.parse("x*x^2 = 0 ");
+var n1 = Parser.parse("n*2*x + 2*y = n*7");
 var n2 = Parser.parse("3*x");
 //console.log(compareNodes(n1, n2));
 //console.log(isMultipleOf(n1,n2));
@@ -406,5 +438,6 @@ var n2 = Parser.parse("3*x");
 //console.log(JSON.stringify(n1, null, 2));
 var scope = {n: 5};
 console.log("------------------------------------------");
-console.log(JSON.stringify(simplifyEquation(n1, scope), null, 2));
+console.log(JSON.stringify(getCoefficients(n1, scope), null, 2));
+console.log(isLinear(n1, scope))
 console.log("------------------------------------------");
