@@ -265,15 +265,76 @@ function simplifySumOnce(node, scope = {}) {
   };
 }
 
+function simplifyEquation(node, scope = {}) {
+  // setup
+  var term1 = node.elements[0].type == "sum"
+    ? {...simplifySum(node.elements[0])}
+    : (node.elements[0].type == "product"
+        ? {...simplifyProduct(node.elements[0])}
+        : node.elements[0]
+      );
+  var term2 = node.elements[1].type == "sum"
+    ? {...simplifySum(node.elements[1])}
+    : (node.elements[1].type == "product"
+        ? {...simplifyProduct(node.elements[1])}
+        : node.elements[1]
+      );
+  var term  = {
+    type: "equation",
+    sign: "+",
+    mulSign: "*",
+    elements: [],
+  };
+
+  // combine term1 and term2 to term
+  // insert all summands of term1
+  if (term1.type == "sum") {
+    for (var i = 0; i < term1.elements.length; i ++) {
+      term.elements.push(term1.elements[i]);
+    }
+  } else {
+    term.elements.push(term1);
+  }
+
+  // insert all summands of term2
+  if (term2.type == "sum") {
+    for (var i = 0; i < term2.elements.length; i ++) {
+      var newSummand = term2.elements[i];
+      newSummand.sign = newSummand.sign == "-" ? "+" : "-";
+      term.elements.push(newSummand);
+    }
+  } else {
+    // invert sign and push
+    var newSummand = term2;
+    newSummand.sign = newSummand.sign == "-" ? "+" : "-";
+    term.elements.push(newSummand);
+  }
+
+  // return simplified equation node
+  return {
+    type: "equation",
+    sign: "+",
+    mulSign: "*",
+    elements: [
+      simplifySum(term, scope),
+      {
+        type: "number",
+        value: "0",
+        sign: "+",
+        mulSign: "*"
+      }
+    ]
+  };
+}
 
 const Parser = require("./parser.js");
-var n1 = Parser.parse("2*x + 3*x + 2*y + 4 * y + 3*y");
+var n1 = Parser.parse("2*x + 4 * y = 7");
 var n2 = Parser.parse("3*x");
 //console.log(compareNodes(n1, n2));
 //console.log(isMultipleOf(n1,n2));
 //console.log(getCoefficient(n2));
 //console.log(simplifyProduct(n1));
-console.log(JSON.stringify(n1, null, 2));
+//console.log(JSON.stringify(n1, null, 2));
 console.log("------------------------------------------");
-console.log(JSON.stringify(simplifySum(n1), null, 2));
+console.log(JSON.stringify(simplifyEquation(n1), null, 2));
 console.log("------------------------------------------");
