@@ -1,6 +1,13 @@
 const Eval = require('./eval.js');
 const Tensor = require('./tensor.js');
 
+const regulaFalsiMaxIterations = 100;
+const regulaFalsiEpsilon = Math.pow(10, -14);
+const newtonDx = Math.pow(10, -14);
+const newtonZeroEpsilon = Math.pow(10, -14);
+const newtonZeroPointEpsilon = Math.pow(10, -4);
+const nSolveScanN = Math.pow(10, 3);
+
 function copyOf(node) {
   return JSON.parse(JSON.stringify(node));
 }
@@ -500,6 +507,186 @@ function solveLinearSystem() {
   return solStr;
 }
 
+function getVariableSymbols(node, scope) {
+  var vars = getVariables(node, scope);
+  var symbols = [];
+  for (var i = 0; i < vars.length; i++) {
+    if (!symbols.includes(vars[i].symbol)) {
+      symbols.push(vars[i].symbol);
+    }
+  }
+  return symbols;
+}
+
+function evalTerm(node, scope, values) {
+  var nScope = {...scope, ...values};
+  return Eval.evalNode(node, nScope);
+}
+
+function scanInterval(node, scope, symbol, start, stop, steps) {
+  var xValues = [];
+  var yValues = [];
+  for (
+    var i = Math.min(start, stop);
+    i <= Math.max(start,stop);
+    i += Math.abs((start - stop) / steps)
+  ) {
+    xValues.push(i);
+    var values = {};
+    values[symbol] = i;
+    yValues.push(evalTerm(node, scope, values));
+  }
+  return {
+    xValues: xValues,
+    yValues: yValues,
+  }
+}
+
+function filterSignChange(values) {
+  var changes = [];
+  for (var i = 0; i < values.xValues.length - 1; i++) {
+    var v1 = values.yValues[i];
+    var v2 = values.yValues[i + 1];
+    if (v1 < 0 && v2 > 0 || v1 > 0 && v2 < 0) {
+      changes.push([
+        values.xValues[i],
+        values.xValues[i + 1],
+      ]);
+    } else if (v1 == 0) {
+      changes.push([
+        values.xValues[i],
+      ]);
+    } else if (v2 == 0) {
+      changes.push([
+        values.xValues[i + 1],
+      ]);
+    }
+  }
+  return changes;
+}
+
+function filterLocalApproach(values) {
+  var approaches = [];
+  for (var i = 1; i < values.xValues.length - 1; i++) {
+    var v1 = values.yValues[i - 1];
+    var v2 = values.yValues[i];
+    var v3 = values.yValues[i + 1];
+    if (
+      (v1 > 0 && v2 > 0 && v3 > 0
+      && v1 > v2 && v2 < v3)
+      || (v1 < 0 && v2 < 0 && v3 < 0
+      && v1 < v2 && v2 > v3)
+    ) {
+      approaches.push([v1, v3]);
+    }
+  }
+  return approaches;
+}
+
+function regulaFalsi(node, scope, start, stop) {
+  var symbols = getVariableSymbols(node);
+  if (symbols.length != 1) {
+    throw "regulaFalsi needs exactly one variable";
+  }
+  var varName = symbols[0];
+  var p1 = [start, evalTerm(node, scope, {[varName]: Math.min(start, stop)})];
+  var p2 = [stop, evalTerm(node, scope, {[varName]: Math.max(start, stop)})];
+  for (var i = 0; i < regulaFalsiMaxIterations; i++) {
+    var deltaX = p2[0] - p1[0];
+    var deltaY = p2[1] - p1[1];
+    var m = deltaY / deltaX;
+    var b = p1[1] - m * p1[0];
+    var newX = - b / m;
+    var newY = evalTerm(node, scope, {[varName]: newX});
+    if (newY == 0) {
+      return [newX, newY];
+    }
+    if (newY < 0 && p2[1] < 0 || newY > 0 && p2[1] > 0) {
+      p2 = [newX, newY];
+    } else {
+      p1 = [newX, newY];
+    }
+  }
+  if (
+    Math.abs(p1[1]) >= Math.abs(p2[1])
+    && p2[1] < regulaFalsiEpsilon
+  ) {
+    return p2;
+  } else if (
+    Math.abs(p1[1]) < Math.abs(p2[1])
+    && p1[1] < regulaFalsiEpsilon
+  ) {
+    return p1;
+  }
+}
+
+function newton(node, scope, start, stop) {
+  var symbols = getVariableSymbols(node);
+  if (symbols.length != 1) {
+    throw "newton algorithm needs exactly one variable";
+  }
+  var varName = symbols[0];
+  var x = start;
+  var y = evalTerm(node, scope, {[varName]: Math.min(start, stop)});
+  for (var i = 0; i < 1000; i++) {
+    var y = evalTerm(node, scope, {[varName]: x});
+    var dy = evalTerm(node, scope, {[varName]: x + newtonDx}) - y;
+    var m = dy / newtonDx;
+    var b = y - m * x;
+
+    if (x < Math.min(start, stop) || x > Math.max(start, stop)) {
+      return;
+    }
+    // update x
+    x = - b / m;
+    if (Math.abs(x) < newtonZeroPointEpsilon && Math.abs(y) < newtonZeroPointEpsilon) {
+      return [0,0];
+    } else if (Math.abs(y) < newtonZeroEpsilon) {
+      return [x,y]
+    }
+  }
+}
+
+function numericSolve(node, start, stop, scope) {
+  var symbols = getVariableSymbols(node, scope);
+  if (symbols.length != 1) {
+    throw "nSolve requires exactly one variable";
+  }
+  var symbol = symbols[0];
+  var scanValues = scanInterval(
+    node, scope, symbol, start, stop, nSolveScanN
+  );
+  var signChanges = filterSignChange(scanValues);
+  var approaches = filterLocalApproach(scanValues);
+  var sols = [];
+  for (var i = 0; i < signChanges.length; i++) {
+    if (signChanges[i].length == 1) {
+      sols.push(signChanges[i][0]);
+    } else {
+      var sol = regulaFalsi(
+        node, scope,
+        Math.min(signChanges[i][0], signChanges[i][1]),
+        Math.max(signChanges[i][0], signChanges[i][1])
+      );
+      if (sol != null) {
+        sols.push(sol[0]);
+      }
+    }
+  }
+  for (var i = 0; i < approaches.length; i++) {
+    var sol = newton(
+      node, scope,
+      Math.min(approaches[i][0], approaches[i][1]),
+      Math.max(approaches[i][0], approaches[i][1])
+    );
+    if (sol != null) {
+      sols.push(sol[0]);
+    }
+  }
+  return sols.sort();
+}
+
 module.exports = {
   solveLinearSystem: solveLinearSystem,
+  numericSolve: numericSolve,
 };
