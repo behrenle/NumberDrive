@@ -1,5 +1,9 @@
 const Eval = require('./eval.js');
 
+function copyOf(node) {
+  return JSON.parse(JSON.stringify(node));
+}
+
 function compareNodes(node1, node2) {
   if (node1.type == node2.type) {
     if (node1.type == "number" || node1.type == "symbol") {
@@ -103,7 +107,7 @@ function includesTensor(node, scope = {}) {
 }
 
 function simplifyProduct(node, scope) {
-  var rNode = {...node};
+  var rNode = copyOf(node);
   if (includesTensor(node)) {
     throw "simplifyProduct: tensors are not supported";
   }
@@ -170,11 +174,13 @@ function getCoefficient(node) {
     return {value: s * 1, mode: false};
   } else if (node.type == "symbol") {
     return {value: s * 1, mode: false};
+  } else if (node.type == "number") {
+    return {value: s * node.value, mode: false};
   }
 }
 
 function simplifySum(node, scope) {
-  var rNode = {...node};
+  var rNode = copyOf(node);
   var l = rNode.elements.length;
   var i = 0;
   while (true) {
@@ -194,7 +200,7 @@ function simplifySumOnce(node, scope = {}) {
   for (var i = 0; i < node.elements.length; i++) {
     if (node.elements[i].type == "product") {
       simplifiedSummands.push(
-        simplifyProduct(node.elements[i])
+        simplifyProduct(node.elements[i], scope)
       );
     } else {
       simplifiedSummands.push(
@@ -219,28 +225,43 @@ function simplifySumOnce(node, scope = {}) {
         var c2 = getCoefficient(simplifiedSummands[j]);
         var c  = c1.value + c2.value;
 
-        // get new elements
-        var summandElements = [];
-        if (c1.mode) {
-          summandElements = simplifiedSummands[i].elements.slice(
-            1, simplifiedSummands[i].elements.length
-          );
-        } else {
-          summandElements = simplifiedSummands[i].elements;
-        }
-
         // create new summand
         var newSummand = {
-          type: "product",
-          sign: "+", //simplifiedSummands[i].sign,
+          type: simplifiedSummands[i].type,
+          sign: "+",
           mulSign: simplifiedSummands[i].mulSign,
         };
-        newSummand.elements = [];
-        newSummand.elements.push({
-          type: "number", value: c, mulSign: "*",
-        });
-        //console.log(JSON.stringify(newSummand.elements));
-        newSummand.elements = newSummand.elements.concat(summandElements);
+
+        if (simplifiedSummands[i].type == "product") {
+          // get new elements
+          var summandElements = [];
+          if (c1.mode) {
+            summandElements = simplifiedSummands[i].elements.slice(
+              1, simplifiedSummands[i].elements.length
+            );
+          } else {
+            summandElements = simplifiedSummands[i].elements;
+          }
+
+          // create elements
+          newSummand.elements = [];
+          newSummand.elements.push({
+            type: "number", value: c, mulSign: "*",
+          });
+          newSummand.elements = newSummand.elements.concat(summandElements);
+        } else if (simplifiedSummands[i].type == "symbol") {
+          newSummand.type = "product";
+          newSummand.elements = [];
+          newSummand.elements.push({
+            type: "number", sign: "+", mulSign: "*", value: c,
+          });
+          newSummand.elements.push(simplifiedSummands[i]);
+        } else if (simplifiedSummands[i].type == "number") {
+          newSummand.sign = "+";
+          newSummand.value = c;
+        }
+
+        // insert combined summand
         combinedSummands.push(newSummand);
 
         // mark summands as already combined
@@ -259,8 +280,8 @@ function simplifySumOnce(node, scope = {}) {
   // return simplified node
   return {
     type: "sum",
-    sign: node.sign,
-    mulSign: node.mulSign,
+    sign: node.sign == undefined ? "+" : node.sign,
+    mulSign: node.mulSign == undefined ? "*" : node.mulSign,
     elements: combinedSummands
   };
 }
@@ -328,7 +349,7 @@ function simplifyEquation(node, scope = {}) {
 }
 
 const Parser = require("./parser.js");
-var n1 = Parser.parse("2*x + 4 * y = 7");
+var n1 = Parser.parse("7 - 3");
 var n2 = Parser.parse("3*x");
 //console.log(compareNodes(n1, n2));
 //console.log(isMultipleOf(n1,n2));
@@ -336,5 +357,5 @@ var n2 = Parser.parse("3*x");
 //console.log(simplifyProduct(n1));
 //console.log(JSON.stringify(n1, null, 2));
 console.log("------------------------------------------");
-console.log(JSON.stringify(simplifyEquation(n1), null, 2));
+console.log(JSON.stringify(simplifySum(n1), null, 2));
 console.log("------------------------------------------");
