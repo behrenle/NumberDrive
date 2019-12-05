@@ -37,6 +37,9 @@ function evalNode(node, scope) {
     case "number":
       return node.value;
 
+    case "equation":
+      return node;
+
     case "symbol":
       if (scope[node.value] != null) {
         if (typeof scope[node.value] == "function") {
@@ -53,7 +56,7 @@ function evalNode(node, scope) {
           for (var i = 0; i < node.elements.length; i++) {
             params.push(evalNode(node.elements[i], scope));
           }
-          return scope[node.name](...params);
+          return scope[node.name](...params, scope);
         } else if (scope[node.name] instanceof UserFunction) {
           var params = [];
           for (var i = 0; i < node.elements.length; i++) {

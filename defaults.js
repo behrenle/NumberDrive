@@ -1,3 +1,5 @@
+const Solve = require('./solve.js');
+
 const epsilon = Math.pow(10, -14);
 
 function roundUpFix(x, y, errY) {
@@ -71,4 +73,5 @@ module.exports = {
   atan: atan,
   acot: acot,
   exp: exp,
+  solveLinear: Solve.solveLinearSystem,
 }
