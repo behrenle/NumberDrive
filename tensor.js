@@ -225,6 +225,53 @@ function copyOf(tensor) {
   return tensor.slice();
 }
 
+function deleteRow(tensor, n) {
+  var nTensor = copyOf(tensor);
+  nTensor.splice(n, 1);
+  return nTensor;
+}
+
+function deleteCol(tensor, n) {
+  if (getRank(tensor) < 2) {
+    throw "deleteCol requires a rank >= 2";
+  }
+  var nTensor = copyOf(tensor);
+  for (var i = 0; i < nTensor.length; i++) {
+    nTensor[i] = deleteRow(nTensor[i], n);
+  }
+  return nTensor;
+}
+
+function deleteColRow(tensor, m, n) {
+  return deleteRow(deleteCol(tensor, m), n);
+}
+
+function det2(matrix) {
+  return get(matrix, [0, 0]) * get(matrix, [1, 1])
+       - get(matrix, [1, 0]) * get(matrix, [0, 1]);
+}
+
+function det(matrix) {
+  if (getRank(matrix) == 2) {
+    var dims = getDimensions(matrix);
+    if (dims[0] == dims[1]) {
+      if (dims[0] == 1) {
+        return get(matrix, [0, 0]);
+      } else if (dims[0] == 2) {
+        return det2(matrix);
+      } else {
+        var d = 0;
+        for (var i = 0; i < dims[0]; i++) {
+          d += Math.pow(-1, 2 + i) * get(matrix, [0, i]) * det(deleteColRow(matrix, 0, i));
+        }
+        return d;
+      }
+    }
+    throw "det only supports square matrices";
+  }
+  throw "det only supports matrices";
+}
+
 module.exports = {
   compare: compare,
   getDimensions: getDimensions,
@@ -243,4 +290,5 @@ module.exports = {
   mulScalarTensor: mulScalarTensor,
   getMulMode: getMulMode,
   copyOf: copyOf,
+  det: det,
 }
