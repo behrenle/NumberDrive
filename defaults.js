@@ -74,4 +74,5 @@ module.exports = {
   acot: acot,
   exp: exp,
   solveLinear: Solve.solveLinearSystem,
+  nSolve: Solve.numericSolve,
 }
