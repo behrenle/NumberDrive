@@ -651,55 +651,6 @@ function newton(node, scope, start, stop) {
   }
 }
 
-function bisection(node, scope, start, stop) {
-  console.log(start, stop);
-  var symbols = getVariableSymbols(node);
-  if (symbols.length != 1) {
-    throw "bisection needs exactly one variable";
-  }
-  var symbol = symbols[0];
-  var x1 = Math.min(start, stop);
-  var x3 = Math.max(start, stop);
-  var x2 = (x1 + x3) / 2;
-  var y1 = evalTerm(node, scope,{[symbol]: x1});
-  var y2 = evalTerm(node, scope,{[symbol]: x2});
-  var y3 = evalTerm(node, scope,{[symbol]: x3});
-  if (Math.abs(y1) == 0) {
-    return [x1, y1];
-  } else if (y2 == 0) {
-    return [x2, y2];
-  } else if (y3 == 0) {
-    return [x3, y3];
-  }
-  for (var i = 0; i < bisectionMAXIterations; i++) {
-    y1 = evalTerm(node, scope,{[symbol]: x1});
-    y2 = evalTerm(node, scope,{[symbol]: x2});
-    y3 = evalTerm(node, scope,{[symbol]: x3});
-    if (x1 != x2) {
-      //console.log(x1,x2,x3);
-    }
-    if (Math.abs(y2) < bisectionYEPS) {
-      if (Math.abs(x2) < bisectionXEPS) {
-        return [0, 0];
-      }
-      return [x2, 0];
-    }
-    var y12 = evalTerm(node, scope,{[symbol]: (x1 + x2) / 2});
-    var y23 = evalTerm(node, scope,{[symbol]: (x2 + x3) / 2});
-    if (Math.abs(y12) <= Math.abs(y23)) {
-      x1 = x1;
-      x3 = x2;
-      x2 = (x1 + x3) / 2;
-      //if (x1 != x2) console.log("left");
-    } else {
-      x1 = x2;
-      x2 = (x2 + x3) / 2;
-      x3 = x3;
-      //if (x1 != x2) console.log("right");
-    }
-  }
-}
-
 function numericSolve(node, start, stop, scope) {
   if (node.type == "equation") {
     return numericSolve(
