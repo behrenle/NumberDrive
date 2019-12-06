@@ -4,12 +4,10 @@ const Tensor = require('./tensor.js');
 const regulaFalsiMaxIterations = 100;
 const regulaFalsiEpsilon = Math.pow(10, -14);
 const newtonDx = Math.pow(10, -14);
-const newtonZeroEpsilon = Math.pow(10, -14);
-const newtonZeroPointEpsilon = Math.pow(10, -4);
+const newtonEPSX = Math.pow(10, -10);
+const newtonEPSY = Math.pow(10, -20);
+const newtonMAXIterations = 1000;
 const nSolveScanN = Math.pow(10, 3);
-const bisectionXEPS = Math.pow(10,-50);
-const bisectionYEPS = Math.pow(10,-100);
-const bisectionMAXIterations = 400;
 
 function copyOf(node) {
   return JSON.parse(JSON.stringify(node));
@@ -580,7 +578,6 @@ function filterLocalApproach(values) {
       || (v1 < 0 && v2 < 0 && v3 < 0
       && v1 < v2 && v2 > v3)
     ) {
-      console.log(v1,v2,v3);
       approaches.push([values.xValues[i - 1], values.xValues[i + 1]]);
     }
   }
@@ -632,7 +629,7 @@ function newton(node, scope, start, stop) {
   var varName = symbols[0];
   var x = start;
   var y = evalTerm(node, scope, {[varName]: Math.min(start, stop)});
-  for (var i = 0; i < 1000; i++) {
+  for (var i = 0; i < newtonMAXIterations; i++) {
     var y = evalTerm(node, scope, {[varName]: x});
     var dy = evalTerm(node, scope, {[varName]: x + newtonDx}) - y;
     var m = dy / newtonDx;
@@ -643,10 +640,10 @@ function newton(node, scope, start, stop) {
     }
     // update x
     x = - b / m;
-    if (Math.abs(x) < newtonZeroPointEpsilon && Math.abs(y) < newtonZeroPointEpsilon) {
-      return [0,0];
-    } else if (Math.abs(y) < newtonZeroEpsilon) {
-      return [x,y]
+    if (Math.abs(x) < newtonEPSX && Math.abs(y) < newtonEPSY) {
+      return [0, 0];
+    } else if (Math.abs(y) < newtonEPSY) {
+      return [x, y];
     }
   }
 }
@@ -668,7 +665,6 @@ function numericSolve(node, start, stop, scope) {
   );
   var signChanges = filterSignChange(scanValues);
   var approaches = filterLocalApproach(scanValues);
-  console.log(JSON.stringify(approaches,null,2));
   var sols = [];
   for (var i = 0; i < signChanges.length; i++) {
     if (signChanges[i].length == 1) {
@@ -697,11 +693,6 @@ function numericSolve(node, start, stop, scope) {
   return sols.sort();
 }
 
-/*
-const Parser = require('./parser.js');
-var n1 = Parser.parse("x^2");
-console.log(bisection(n1, {}, -1, 2));
-*/
 module.exports = {
   solveLinearSystem: solveLinearSystem,
   numericSolve: numericSolve,
