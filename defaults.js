@@ -1,5 +1,5 @@
 const Solve = require('./solve.js');
-
+const Tensor = require('./tensor.js');
 const epsilon = Math.pow(10, -14);
 
 function roundUpFix(x, y, errY) {
@@ -104,10 +104,43 @@ function exp(x) {
   return Math.pow(Math.E, x);
 }
 
+function cross(vector1, vector2) {
+  if (vector1 instanceof Array && vector2 instanceof Array) {
+    if (
+      Tensor.getRank(vector1) == 1
+      && Tensor.getRank(vector2) == 1
+      && Tensor.getDimensions(vector1)[0] == 3
+      && Tensor.getDimensions(vector2)[0] == 3
+    ) {
+      return [
+        vector1[1] * vector2[2] - vector1[2] * vector2[1],
+        vector1[2] * vector2[0] - vector1[0] * vector2[2],
+        vector1[0] * vector2[1] - vector1[1] * vector2[0],
+      ];
+    }
+  }
+  throw "incompatible types";
+}
+
 module.exports = {
   CONTAINS_DEFAULS: true,
+  // physics constats
+  physics_c: 299792458,
+  physics_e: 1.602176634 * Math.pow(10, -19),
+  phycics_mu0: 1.25663706212 *  Math.pow(10, -6),
+  physics_eps0: 8.8541878128 * Math.pow(10, -12),
+  physics_G: 6.67430 *  Math.pow(10, -11),
+  physics_m_planck: 2.176434 * Math.pow(10, -8),
+  physics_kb: 1.380649 *  Math.pow(10, -23),
+  physics_h: 6.62607015 *  Math.pow(10, -34),
+  physics_me: 9.1093837015 *  Math.pow(10, -31),
+
+  // math constatns
   pi: Math.PI,
   e: Math.E,
+  deg: Math.PI / 180,
+
+  // math functions
   sin: sin,
   asin: asin,
   cos: cos,
@@ -116,9 +149,12 @@ module.exports = {
   atan: atan,
   acot: acot,
   exp: exp,
-  solveLinear: Solve.solveLinearSystem,
-  nSolve: Solve.numericSolve,
   binco: nueberk,
   B: B,
   F: F,
+  cross: cross,
+
+  // advanced stuff
+  solveLinear: Solve.solveLinearSystem,
+  nSolve: Solve.numericSolve,
 }
