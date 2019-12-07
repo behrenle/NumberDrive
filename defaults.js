@@ -50,12 +50,20 @@ function sin(x) {
   }
 }
 
+function asin(x) {
+  return Math.asin(x);
+}
+
 function cos(x) {
   if (roundUpFix(Math.abs(x % Math.PI), Math.PI / 2, epsilon)) {
     return 0;
   } else {
     return Math.cos(x);
   }
+}
+
+function acos(x) {
+  return Math.acos(x);
 }
 
 function tan(x) {
@@ -101,7 +109,9 @@ module.exports = {
   pi: Math.PI,
   e: Math.E,
   sin: sin,
+  asin: asin,
   cos: cos,
+  acos: acos,
   cot: cot,
   atan: atan,
   acot: acot,
