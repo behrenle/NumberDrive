@@ -675,9 +675,6 @@ function bisection(node, scope, start, stop) {
     y1 = evalTerm(node, scope,{[symbol]: x1});
     y2 = evalTerm(node, scope,{[symbol]: x2});
     y3 = evalTerm(node, scope,{[symbol]: x3});
-    if (x1 != x2) {
-      //console.log(x1,x2,x3);
-    }
     if (Math.abs(y2) < bisectionEPSY) {
       if (Math.abs(x2) < bisectionEPSX) {
         return [0, 0];
@@ -690,12 +687,10 @@ function bisection(node, scope, start, stop) {
       x1 = x1;
       x3 = x2;
       x2 = (x1 + x3) / 2;
-      //if (x1 != x2) console.log("left");
     } else {
       x1 = x2;
       x2 = (x2 + x3) / 2;
       x3 = x3;
-      //if (x1 != x2) console.log("right");
     }
   }
 }
