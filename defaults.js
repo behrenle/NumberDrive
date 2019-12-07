@@ -145,6 +145,7 @@ module.exports = {
   asin: asin,
   cos: cos,
   acos: acos,
+  tan: tan,
   cot: cot,
   atan: atan,
   acot: acot,
