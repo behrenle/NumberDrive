@@ -122,6 +122,28 @@ function cross(vector1, vector2) {
   throw "incompatible types";
 }
 
+function s_round(x, n) {
+  if (Array.isArray(x) == true) {
+    var r = [];
+    for (var i = 0; i < x.length; i++) {
+      r[i] = s_round(x[i], n);
+    }
+    return r;
+  } else if (typeof x == "number") {
+    var k = 0;
+    if (x != 0) {
+      while (Math.abs(x) <= Math.pow(10, -k)) {
+        k++;
+      }
+    } else {
+      k = -n;
+    }
+    return Math.round(x * Math.pow(10,n + k)) / Math.pow(10,n + k);
+  } else if (typeof x == "string") {
+    return x;
+  }
+}
+
 module.exports = {
   CONTAINS_DEFAULS: true,
   // physics constats
@@ -158,4 +180,7 @@ module.exports = {
   // advanced stuff
   solveLinear: Solve.solveLinearSystem,
   nSolve: Solve.numericSolve,
+
+  // misc
+  s_round: s_round,
 }
