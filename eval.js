@@ -1,4 +1,4 @@
-const Parser = require('./parser.js');
+const Parser = require('@behrenle/number-drive-parser');
 const Tensor = require('./tensor.js');
 
 function eval(str, scope = {}, debug = false) {
