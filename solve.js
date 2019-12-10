@@ -347,12 +347,12 @@ function simplify(node, scope) {
       mulSign: node.mulSign,
       value: scope[node.value],
     };
-  } else if (node.type == "number" || node.type == "power") {
+  } else if (node.type == "number" || node.type == "power" || node.type == "symbol") {
     return node;
   } else if (node.type == "equation") {
     return simplifyEquation(node, scope);
   }
-  throw "simplify: incompatible node type";
+  throw "simplify: incompatible node type: " + node.type;
 }
 
 function simplifyEquation(node, scope = {}) {
@@ -508,6 +508,7 @@ function solveLinearSystem() {
     }
   }
   solStr += "]";
+  debugger;
   return solStr;
 }
 
