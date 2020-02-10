@@ -469,7 +469,7 @@ function getVariablesSystem(eqArr, scope) {
 }
 
 function solveLinearSystem() {
-  var args = args = Array.prototype.slice.call(arguments);
+  var args = Array.prototype.slice.call(arguments);
   var equations = args.slice(0, args.length - 1);
   var scope = args[args.length -1];
   for (var i = 0; i < equations.length; i++) {
@@ -744,4 +744,7 @@ function numericSolve(node, start, stop, scope) {
 module.exports = {
   solveLinearSystem: solveLinearSystem,
   numericSolve: numericSolve,
+  utils: {
+    getVariableSymbols: getVariableSymbols,
+  },
 };
