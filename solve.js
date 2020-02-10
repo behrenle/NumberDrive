@@ -65,12 +65,13 @@ function compareNodes(node1, node2) {
   return false;
 }
 
-function getVariables(node, scope = {}) {
+function getVariables(node, scope = {}, insideFunction = false) {
+  console.log(node);
   if (node.type == "symbol") {
     if (scope[node.value] == null) {
       return [{
         symbol: node.value,
-        expFunc: false,
+        expFunc: false || insideFunction,
         exp: 1,
       }];
     }
@@ -81,10 +82,11 @@ function getVariables(node, scope = {}) {
     node.type == "sum"
     || node.type == "product"
     || node.type == "equation"
+    || node.type == "function"
   ) {
     var vars = [];
     for (var i = 0; i < node.elements.length; i++) {
-      var nVars = getVariables(node.elements[i]);
+      var nVars = getVariables(node.elements[i], scope, insideFunction || node.type == "function");
       if (node.elements[i].mulSign == "/") {
         for (var j = 0; j < nVars.length; j++) {
           if (nVars[j]) {
@@ -103,7 +105,7 @@ function getVariables(node, scope = {}) {
       var eValue = Eval.evalNode(node.exp, scope);
     }
     for (var i = 0; i < vars.length; i++) {
-      if (eVars.length == 0) {
+      if (eVars.length == 0 && !insideFunction) {
         vars[i].exp = eValue;
       } else {
         vars[i].exp = null;
