@@ -38,6 +38,10 @@ class AbstractNode {
   equals(otherNode) {
     return JSON.stringify(this) == JSON.stringify(otherNode);
   }
+
+  getSign() {
+    return this.sign == "-" ? -1 : 1;
+  }
 }
 
 module.exports = AbstractNode;
