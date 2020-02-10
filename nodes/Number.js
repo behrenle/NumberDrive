@@ -7,6 +7,15 @@ class Number extends AbstractNode {
     this.sign = sign;
     this.addElement(value);
   }
+
+  addNumber(number) {
+    var nValue = this.getValue() + number.getValue();
+    return new Number(Math.abs(nValue), nValue < 0 ? "-" : "+");
+  }
+
+  getValue() {
+    return this.elements[0] * this.getSign();
+  }
 }
 
 module.exports = Number;
