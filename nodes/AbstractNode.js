@@ -30,6 +30,14 @@ class AbstractNode {
       console.log(line);
     }
   }
+
+  evaluate() {
+    return this;
+  }
+
+  equals(otherNode) {
+    return JSON.stringify(this) == JSON.stringify(otherNode);
+  }
 }
 
 module.exports = AbstractNode;
