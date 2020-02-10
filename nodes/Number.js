@@ -1,13 +1,11 @@
 const AbstractNode = require("./AbstractNode");
 
 class Number extends AbstractNode {
-  constructor(numberObject) {
+  constructor(value, sign = "+") {
     super();
-    if (numberObject.type != "number") {
-      throw "number: expected number object";
-    }
     this.type = "number";
-    this.addElement(numberObject.value);
+    this.sign = sign;
+    this.addElement(value);
   }
 }
 
