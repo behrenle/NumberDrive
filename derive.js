@@ -6,14 +6,23 @@ function derive() {
   // check parameters
   var args = Array.prototype.slice.call(arguments);
   if (args.length != 3) {
-    throw "Invalid number of arguments. Usage: derive(expression, position)";
+    throw "derive: Invalid number of arguments. Usage: derive(expression, position)";
   }
   var scope = args[2];
   var expNode = args[0];
   var posNode = Eval.evalNode(args[1], scope);
 
+  // check nodes
+  if (posNode.type != "number") {
+    throw "derive: position is not a number";
+  }
+  if (expNode.type == "equation" || expNode.type == "definition") {
+    throw "derive: can't derive equation or definition";
+  }
+  
+
+
   // WIP:
-  // * check nodes
   // * quadratic interpolation
   // * return result
 }
