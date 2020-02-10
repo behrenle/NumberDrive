@@ -11,7 +11,7 @@ class AbstractNode {
 
   stringify() {
     var lines = [];
-    lines.push(this.type + ":");
+    lines.push(this.type + ":" + " (" + this.sign + ")");
     for (var element of this.elements) {
       var elementLines;
       if (element instanceof AbstractNode) {
