@@ -2,6 +2,7 @@ class AbstractNode {
   constructor(elements = []) {
     this.elements = elements;
     this.type = "AbstractNode";
+    this.sign = "+";
   }
 
   addElement(element) {
@@ -30,3 +31,5 @@ class AbstractNode {
     }
   }
 }
+
+module.exports = AbstractNode;
