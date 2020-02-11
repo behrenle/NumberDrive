@@ -5,7 +5,7 @@ class Number extends AbstractNode {
     super();
     this.type = "number";
     this.sign = sign;
-    this.addElement(value);
+    this.push(value);
   }
 
   addNumber(number) {
