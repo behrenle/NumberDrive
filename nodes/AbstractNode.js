@@ -5,7 +5,7 @@ class AbstractNode {
     this.sign = "+";
   }
 
-  addElement(element) {
+  push(element) {
     this.elements.push(element);
   }
 
