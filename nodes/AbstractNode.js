@@ -81,6 +81,11 @@ class AbstractNode {
       this.getSign(), s
     ));
   }
+
+  clone() {
+    var cloneOBJ = new this.constructor();
+    return Object.assign(cloneOBJ, this);
+  }
 }
 
 module.exports = AbstractNode;

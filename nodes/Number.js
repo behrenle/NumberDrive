@@ -3,7 +3,7 @@ const Decimal = require('decimal.js');
 Decimal.precision = 64;
 
 class Number extends AbstractNode {
-  constructor(value, sign, mulSign) {
+  constructor(value = 0, sign, mulSign) {
     super([], sign, mulSign);
     this.type = "number";
     var rawValue = new Decimal(value);

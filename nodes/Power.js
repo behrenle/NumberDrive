@@ -7,8 +7,8 @@ class Power extends AbstractNode {
     this.type = "power";
   }
 
-  evaluate() {
-    var result = this.elements[0].evaluate().power(this.elements[1].evaluate());
+  evaluate(scope) {
+    var result = this.elements[0].evaluate(scope).power(this.elements[1].evaluate(scope));
     result.setMulSign(this.getMulSign());
     result.applySign(this.getSign());
     return result;

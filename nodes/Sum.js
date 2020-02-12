@@ -7,10 +7,10 @@ class Sum extends AbstractNode {
     this.type = "sum";
   }
 
-  evaluate() {
+  evaluate(scope) {
     var result = new Number(0);
     for (var element of this.elements) {
-      result = result.addNumber(element.evaluate());
+      result = result.addNumber(element.evaluate(scope));
     }
     result.setMulSign(this.getMulSign());
     result.applySign(this.getSign());

@@ -7,10 +7,10 @@ class Product extends AbstractNode {
     this.type = "product";
   }
 
-  evaluate() {
+  evaluate(scope) {
     var result = new Number(1);
     for (var element of this.elements) {
-      result = result.mulNumber(element.evaluate());
+      result = result.mulNumber(element.evaluate(scope));
     }
     result.setMulSign(this.getMulSign());
     result.applySign(this.getSign());

@@ -3,6 +3,7 @@ const Number = require("./nodes/Number");
 const Sum = require("./nodes/Sum");
 const Product = require("./nodes/Product");
 const Power = require("./nodes/Power");
+const Symbol = require("./nodes/Symbol");
 
 class TreeBuilder {
   getSign(parseTreeNode) {
@@ -26,6 +27,9 @@ class TreeBuilder {
 
       case "power":
         return this.buildPower(parseTreeNode);
+
+      case "symbol":
+        return this.buildSymbol(parseTreeNode);
     }
   }
 
@@ -67,6 +71,14 @@ class TreeBuilder {
     node.push(this.build(parseTreeNode.base));
     node.push(this.build(parseTreeNode.exp));
     return node;
+  }
+
+  buildSymbol(parseTreeNode) {
+    return new Symbol(
+      parseTreeNode.value,
+      this.getSign(parseTreeNode),
+      this.getMulSign(parseTreeNode)
+    );
   }
 }
 
