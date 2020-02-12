@@ -16,7 +16,11 @@ class AbstractNode {
 
   stringify() {
     var lines = [];
-    lines.push(this.type + ":" + " (" + (this.sign == -1 ? "-" : "+") + ")");
+    lines.push(
+      this.type + ":" + " ("
+      + (this.sign.equals(-1) ? "-" : "+") + " "
+      + (this.mulSign.equals(-1) ? "/" : "*")
+      + ")");
     for (var element of this.elements) {
       var elementLines;
       if (element instanceof AbstractNode) {
@@ -70,6 +74,12 @@ class AbstractNode {
       }
     }
     this.setSign(new Decimal(1));
+  }
+
+  applySign(s) {
+    this.setSign(Decimal.mul(
+      this.getSign(), s
+    ));
   }
 }
 

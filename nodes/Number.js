@@ -7,10 +7,7 @@ class Number extends AbstractNode {
     super([], sign, mulSign);
     this.type = "number";
     var rawValue = new Decimal(value);
-    this.setSign(Decimal.mul(this.getSign(), Decimal.sign(rawValue)));
-    if (sign) {
-      this.sign = Decimal.mul(this.sign, sign);
-    }
+    this.applySign(Decimal.sign(rawValue));
     this.push(rawValue.abs());
   }
 

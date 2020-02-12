@@ -8,7 +8,10 @@ class Power extends AbstractNode {
   }
 
   evaluate() {
-    return this.elements[0].evaluate().power(this.elements[1].evaluate());
+    var result = this.elements[0].evaluate().power(this.elements[1].evaluate());
+    result.setMulSign(this.getMulSign());
+    result.applySign(this.getSign());
+    return result;
   }
 }
 

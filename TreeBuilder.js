@@ -60,7 +60,10 @@ class TreeBuilder {
   }
 
   buildPower(parseTreeNode) {
-    var node = new Power();
+    var node = new Power(
+      this.getSign(parseTreeNode),
+      this.getMulSign(parseTreeNode)
+    );
     node.push(this.build(parseTreeNode.base));
     node.push(this.build(parseTreeNode.exp));
     return node;

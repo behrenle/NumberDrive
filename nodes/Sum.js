@@ -12,6 +12,8 @@ class Sum extends AbstractNode {
     for (var element of this.elements) {
       result = result.addNumber(element.evaluate());
     }
+    result.setMulSign(this.getMulSign());
+    result.applySign(this.getSign());
     return result;
   }
 }

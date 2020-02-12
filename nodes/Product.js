@@ -12,6 +12,8 @@ class Product extends AbstractNode {
     for (var element of this.elements) {
       result = result.mulNumber(element.evaluate());
     }
+    result.setMulSign(this.getMulSign());
+    result.applySign(this.getSign());
     return result;
   }
 }
