@@ -33,6 +33,12 @@ class Number extends AbstractNode {
     ));
   }
 
+  power(number) {
+    return new Number(Decimal.pow(
+      this.getValue(), number.getValue()
+    ));
+  }
+
   getValue() {
     return this.elements[0];
   }
