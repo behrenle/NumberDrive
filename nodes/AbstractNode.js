@@ -13,7 +13,7 @@ class AbstractNode {
 
   stringify() {
     var lines = [];
-    lines.push(this.type + ":" + " (" + this.sign + ")");
+    lines.push(this.type + ":" + " (" + (this.sign == -1 ? "-" : "+") + ")");
     for (var element of this.elements) {
       var elementLines;
       if (element instanceof AbstractNode) {
