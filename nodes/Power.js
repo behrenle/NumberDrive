@@ -2,13 +2,13 @@ const AbstractNode = require("./AbstractNode");
 const Number = require("./Number");
 
 class Power extends AbstractNode {
-  constructor() {
-    super();
+  constructor(sign, mulSign) {
+    super([], sign, mulSign);
     this.type = "power";
   }
 
   evaluate() {
-    return this.elements[0].power(this.elements[1]);
+    return this.elements[0].evaluate().power(this.elements[1].evaluate());
   }
 }
 

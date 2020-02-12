@@ -1,11 +1,13 @@
 const Decimal = require("decimal.js");
 
 class AbstractNode {
-  constructor(elements = []) {
+  constructor(elements = [], sign, mulSign) {
     this.elements = elements;
     this.type = "AbstractNode";
     this.sign = new Decimal(1);
     this.mulSign = new Decimal(1);
+    this.setSign(sign);
+    this.setMulSign(mulSign);
   }
 
   push(element) {

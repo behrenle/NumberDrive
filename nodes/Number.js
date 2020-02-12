@@ -4,15 +4,13 @@ Decimal.precision = 64;
 
 class Number extends AbstractNode {
   constructor(value, sign, mulSign) {
-    super();
+    super([], sign, mulSign);
     this.type = "number";
     var rawValue = new Decimal(value);
-    this.setSign(sign);
     this.setSign(Decimal.mul(this.getSign(), Decimal.sign(rawValue)));
     if (sign) {
       this.sign = Decimal.mul(this.sign, sign);
     }
-    this.setMulSign(mulSign);
     this.push(rawValue.abs());
   }
 
