@@ -5,6 +5,7 @@ class AbstractNode {
     this.elements = elements;
     this.type = "AbstractNode";
     this.sign = new Decimal(1);
+    this.mulSign = new Decimal(1);
   }
 
   push(element) {
@@ -43,6 +44,30 @@ class AbstractNode {
 
   getSign() {
     return this.sign;
+  }
+
+  getMulSign() {
+    return this.mulSign;
+  }
+
+  setSign(s) {
+    if (s) {
+      if (new Decimal(1).equals(s) || new Decimal(-1).equals(s)) {
+        this.sign = s;
+        return;
+      }
+    }
+    this.setSign(new Decimal(1));
+  }
+
+  setMulSign(s) {
+    if (s) {
+      if (new Decimal(1).equals(s) || new Decimal(-1).equals(s)) {
+        this.mulSign = s;
+        return;
+      }
+    }
+    this.setSign(new Decimal(1));
   }
 }
 

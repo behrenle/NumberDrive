@@ -3,14 +3,16 @@ const Decimal = require('decimal.js');
 Decimal.precision = 64;
 
 class Number extends AbstractNode {
-  constructor(value, sign) {
+  constructor(value, sign, mulSign) {
     super();
     this.type = "number";
     var rawValue = new Decimal(value);
-    this.sign = Decimal.sign(rawValue);
+    this.setSign(sign);
+    this.setSign(Decimal.mul(this.getSign(), Decimal.sign(rawValue)));
     if (sign) {
       this.sign = Decimal.mul(this.sign, sign);
     }
+    this.setMulSign(mulSign);
     this.push(rawValue.abs());
   }
 
@@ -24,16 +26,15 @@ class Number extends AbstractNode {
   mulNumber(number) {
     return new Number(Decimal.mul(
       Decimal.mul(this.getSign(), number.getSign()),
-      Decimal.mul(this.getValue(), number.getValue())
+      Decimal.mul(
+        Decimal.pow(this.getValue(), this.getMulSign()),
+        Decimal.pow(number.getValue(), number.getMulSign())
+      )
     ));
   }
 
   getValue() {
     return this.elements[0];
-  }
-
-  getSign() {
-    return this.sign;
   }
 }
 
