@@ -21,6 +21,13 @@ class Number extends AbstractNode {
     ));
   }
 
+  mulNumber(number) {
+    return new Number(Decimal.mul(
+      Decimal.mul(this.getSign(), number.getSign()),
+      Decimal.mul(this.getValue(), number.getValue())
+    ));
+  }
+
   getValue() {
     return this.elements[0];
   }
