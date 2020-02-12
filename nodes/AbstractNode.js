@@ -1,8 +1,10 @@
+const Decimal = require("decimal.js");
+
 class AbstractNode {
   constructor(elements = []) {
     this.elements = elements;
     this.type = "AbstractNode";
-    this.sign = "+";
+    this.sign = new Decimal(1);
   }
 
   push(element) {
@@ -40,7 +42,7 @@ class AbstractNode {
   }
 
   getSign() {
-    return this.sign == "-" ? -1 : 1;
+    return this.sign;
   }
 }
 

@@ -1,20 +1,20 @@
 const AbstractNode = require("./AbstractNode");
+const Decimal = require('decimal.js');
+Decimal.precision = 64;
 
 class Number extends AbstractNode {
-  constructor(value, sign = "+") {
+  constructor(value) {
     super();
     this.type = "number";
-    this.sign = sign;
-    this.push(value);
+    this.push(new Decimal(value));
   }
 
   addNumber(number) {
-    var nValue = this.getValue() + number.getValue();
-    return new Number(Math.abs(nValue), nValue < 0 ? "-" : "+");
+    return new Number(Decimal.add(this.getValue(), number.getValue()));
   }
 
   getValue() {
-    return this.elements[0] * this.getSign();
+    return this.elements[0];
   }
 }
 
