@@ -20,6 +20,10 @@ class Symbol extends AbstractNode {
   getName() {
     return this.elements[0];
   }
+
+  serialize() {
+    return this.getName();
+  }
 }
 
 module.exports = Symbol;

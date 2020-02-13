@@ -37,6 +37,10 @@ class Number extends AbstractNode {
   getValue() {
     return this.elements[0];
   }
+
+  serialize() {
+    return this.getValue().toString();
+  }
 }
 
 module.exports = Number;

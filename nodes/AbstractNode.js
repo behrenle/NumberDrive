@@ -52,8 +52,16 @@ class AbstractNode {
     return this.sign;
   }
 
+  getSignString() {
+    return this.sign.equals(new Decimal(-1)) ? "-" : "+";
+  }
+
   getMulSign() {
     return this.mulSign;
+  }
+
+  getMulSignString() {
+    return this.mulSign.equals(new Decimal(-1)) ? "-" : "+";
   }
 
   setSign(s) {

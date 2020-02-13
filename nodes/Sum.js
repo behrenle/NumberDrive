@@ -32,6 +32,17 @@ class Sum extends AbstractNode {
       return node;
     }
   }
+
+  serialize() {
+    var output = "";
+    for (var i = 0; i < this.elements.length; i++) {
+      if (!(i == 0 && this.elements[i].getSignString() == "+")) {
+        output += " " + this.elements[i].getSignString() + " ";
+      }
+      output += this.elements[i].serialize();
+    }
+    return output;
+  }
 }
 
 module.exports = Sum;

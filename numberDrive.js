@@ -28,7 +28,8 @@ NumberDrive.evalString = function(str, scope = {}) {
   }
   if (this.outputResult) {
     console.log("Result:");
-    result.output();
+    //result.output();
+    console.log(result.serialize());
   }
   return result;
 }

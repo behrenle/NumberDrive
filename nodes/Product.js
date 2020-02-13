@@ -16,6 +16,17 @@ class Product extends AbstractNode {
     result.applySign(this.getSign());
     return result;
   }
+
+  serialize() {
+    var output = "";
+    for (var i = 0; i < this.elements.length; i++) {
+      if (!(i == 0 && this.elements[i].getMulSignString() == "*")) {
+        output += " " + this.elements[i].getMulSignString() + " ";
+      }
+      output += this.elements[i].serialize();
+    }
+    return output;
+  }
 }
 
 module.exports = Product;

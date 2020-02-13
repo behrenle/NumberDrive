@@ -13,6 +13,18 @@ class Power extends AbstractNode {
     result.applySign(this.getSign());
     return result;
   }
+
+  getBase() {
+    return this.elements[0];
+  }
+
+  getExponent() {
+    return this.elements[1];
+  }
+
+  serialize() {
+    return this.getBase().serialize() + "^" + this.getExponent().serialize();
+  }
 }
 
 module.exports = Power;
