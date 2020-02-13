@@ -13,6 +13,7 @@ class Sum extends AbstractNode {
   evaluate(scope) {
     var result = new Number(0);
     var symbols = [];
+    var countConst = 0;
     for (var element of this.elements) {
       var value = element.evaluate(scope);
       if (value instanceof Symbol ||
@@ -22,6 +23,7 @@ class Sum extends AbstractNode {
         symbols.push(value);
       } else {
         result = result.addNumber(value);
+        countConst++;
       }
     }
     if (symbols.length == 0) {
@@ -30,7 +32,9 @@ class Sum extends AbstractNode {
       return result;
     } else {
       var node = new Sum(this.getSign(), this.getMulSign());
-      node.push(result);
+      if (countConst > 0) {
+        node.push(result);
+      }
       for (var symbol of symbols) {
         node.push(symbol);
       }

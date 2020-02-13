@@ -12,12 +12,14 @@ class Product extends AbstractNode {
   evaluate(scope) {
     var result = new Number(1);
     var symbols = [];
+    var countConst = 0;
     for (var element of this.elements) {
       var value = element.evaluate(scope);
       if (value instanceof Symbol || value instanceof Power) {
         symbols.push(value);
       } else {
         result = result.mulNumber(value);
+        countConst++;
       }
     }
     if (symbols.length == 0) {
@@ -26,7 +28,9 @@ class Product extends AbstractNode {
       return result;
     } else {
       var node = new Product(this.getSign(), this.getMulSign());
-      node.push(result);
+      if (countConst > 0) {
+        node.push(result);
+      }
       for (var symbol of symbols) {
         node.push(symbol);
       }
@@ -37,7 +41,7 @@ class Product extends AbstractNode {
   serialize() {
     var output = "";
     for (var i = 0; i < this.elements.length; i++) {
-      if (!(i == 0 && this.elements[i].getMulSignString() == "*")) {
+      if (!(this.elements[i].getMulSignString() == "*")) {
         output += " " + this.elements[i].getMulSignString() + " ";
       }
       output += this.elements[i].serialize();
