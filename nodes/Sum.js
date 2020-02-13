@@ -1,8 +1,5 @@
 const AbstractContainer = require("./AbstractContainer");
 const Number = require("./Number");
-//const Symbol = require("./Symbol");
-//const Product = require("./Product");
-//const Power = require("./Power");
 
 class Sum extends AbstractContainer {
   constructor(sign, mulSign) {
@@ -21,37 +18,28 @@ class Sum extends AbstractContainer {
     return result;
   }
 
-  /*evaluate(scope) {
-    var result = new Number(0);
-    var symbols = [];
-    var countConst = 0;
-    for (var element of this.elements) {
-      var value = element.evaluate(scope);
-      if (value.getType() == "symbol" ||
-          value.getType() == "product" ||
-          value.getType() == "power"
-        ) {
-        symbols.push(value);
-      } else if() {
-        result = result.addNumber(value);
-        countConst++;
+  simplify(scope) {
+    var evaluables = [];
+    var nonEvaluables = [];
+    for (var element of this.getElements()) {
+      var value = element.simplify(scope);
+      if (value.isEvaluable(scope)) {
+        evaluables.push(value);
+      } else {
+        nonEvaluables.push(value);
       }
     }
-    if (symbols.length == 0) {
-      result.setMulSign(this.getMulSign());
-      result.applySign(this.getSign());
-      return result;
-    } else {
-      var node = new Sum(this.getSign(), this.getMulSign());
-      if (countConst > 0) {
-        node.push(result);
-      }
-      for (var symbol of symbols) {
-        node.push(symbol);
-      }
-      return node;
+    var result = new Sum(this.getSign(), this.getMulSign());
+    if (evaluables.length > 0) {
+      var value = new Sum();
+      value.setElements(evaluables);
+      result.push(value.evaluate(scope));
     }
-  }*/
+    if (nonEvaluables.length > 0) {
+      result.setElements(result.getElements().concat(nonEvaluables));
+    }
+    return result;
+  }
 
   serialize() {
     var output = "";

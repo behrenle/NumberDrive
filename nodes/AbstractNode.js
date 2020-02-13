@@ -10,6 +10,10 @@ class AbstractNode {
     this.setMulSign(mulSign);
   }
 
+  simplify(scope) {
+    return this;
+  }
+
   isEvaluable(scope) {
     return true;
   }
@@ -17,29 +21,6 @@ class AbstractNode {
   getType() {
     return this.type;
   }
-
-  /*push(element) {
-    this.elements.push(element);
-  }*/
-
-  /*stringify() {
-    var lines = [];
-    lines.push(
-      this.type + ":" + " ("
-      + (this.sign.equals(-1) ? "-" : "+") + " "
-      + (this.mulSign.equals(-1) ? "/" : "*")
-      + ")");
-    for (var element of this.elements) {
-      var elementLines;
-      if (element instanceof AbstractNode) {
-        elementLines = element.stringify().map(x => "  " + x);
-      } else {
-        elementLines = ["  " + element];
-      }
-      lines = lines.concat(elementLines);
-    }
-    return lines;
-  }*/
 
   stringify() {
     return [this.type];
@@ -113,13 +94,6 @@ class AbstractNode {
     + (this.getMulSign().equals(-1) ? "/" : "*")
     + ")";
   }
-  /*getElements() {
-    return this.elements;
-  }
-
-  getLength() {
-    return this.getElements().length;
-  }*/
 }
 
 module.exports = AbstractNode;
