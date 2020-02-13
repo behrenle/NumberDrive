@@ -16,18 +16,22 @@ class Symbol extends AbstractNode {
   }
 
   evaluate(scope) {
-    if (
-      scope[this.getName()]
-      && typeof scope[this.getName()] == "object"
-      && scope[this.getName()].getType() == "number"
-    ) {
-      var value = scope[this.getName()].clone();
+    if (this.hasValue(scope)) {
+      var value = this.getValue(scope);
       value.applySign(this.getSign());
       value.setMulSign(this.getMulSign());
       return value;
     } else {
       throw new UnknownSymbolException(this);
     }
+  }
+
+  hasValue(scope) {
+    return scope[this.getName()] instanceof AbstractNode;
+  }
+
+  getValue(scope) {
+    return scope[this.getName()].clone();
   }
 
   getName() {
