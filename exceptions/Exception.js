@@ -6,7 +6,7 @@ class Exception {
 
   print() {
     console.log(
-      this.type + ": " + this.message
+      this.type + (this.message ? ": " + this.message : "")
     );
   }
 

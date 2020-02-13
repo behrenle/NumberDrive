@@ -1,5 +1,6 @@
 const AbstractContainer = require("./AbstractContainer");
 const Number = require("./Number");
+const DevideByZeroException = require("../exceptions/DivideByZeroException");
 
 class Product extends AbstractContainer {
   constructor(sign, mulSign) {
@@ -12,6 +13,9 @@ class Product extends AbstractContainer {
     for (var element of this.getElements()) {
       var value = element.evaluate(scope);
       if (value.getType() == "number") {
+        if (value.getValue().equals(0)) {
+          throw new DevideByZeroException();
+        }
         result = result.mulNumber(value);
       }
     }
