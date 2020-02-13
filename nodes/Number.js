@@ -8,7 +8,7 @@ class Number extends AbstractNode {
     this.type = "number";
     var rawValue = new Decimal(value);
     this.applySign(Decimal.sign(rawValue));
-    this.push(rawValue.abs());
+    this.value = rawValue.abs();
   }
 
   addNumber(number) {
@@ -35,7 +35,7 @@ class Number extends AbstractNode {
   }
 
   getValue() {
-    return this.elements[0];
+    return this.value;
   }
 
   serialize() {
@@ -48,6 +48,13 @@ class Number extends AbstractNode {
            && this.getSign().equals(node.getSign())
            && this.getMulSign().equals(node.getMulSign())
            : false;
+  }
+
+  stringify() {
+    var lines = [];
+    lines.push(this.stringifyHead());
+    lines.push("  " + this.getValue());
+    return lines;
   }
 }
 

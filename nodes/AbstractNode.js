@@ -14,11 +14,11 @@ class AbstractNode {
     return this.type;
   }
 
-  push(element) {
+  /*push(element) {
     this.elements.push(element);
-  }
+  }*/
 
-  stringify() {
+  /*stringify() {
     var lines = [];
     lines.push(
       this.type + ":" + " ("
@@ -35,6 +35,10 @@ class AbstractNode {
       lines = lines.concat(elementLines);
     }
     return lines;
+  }*/
+
+  stringify() {
+    return [this.type];
   }
 
   output() {
@@ -98,6 +102,20 @@ class AbstractNode {
     var cloneOBJ = new this.constructor();
     return Object.assign(cloneOBJ, this);
   }
+
+  stringifyHead() {
+    return this.type + ":" + " ("
+    + (this.getSign().equals(-1) ? "-" : "+") + " "
+    + (this.getMulSign().equals(-1) ? "/" : "*")
+    + ")";
+  }
+  /*getElements() {
+    return this.elements;
+  }
+
+  getLength() {
+    return this.getElements().length;
+  }*/
 }
 
 module.exports = AbstractNode;

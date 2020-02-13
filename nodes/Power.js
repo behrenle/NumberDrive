@@ -1,7 +1,7 @@
-const AbstractNode = require("./AbstractNode");
+const AbstractContainer = require("./AbstractContainer");
 const Number = require("./Number");
 
-class Power extends AbstractNode {
+class Power extends AbstractContainer {
   constructor(sign, mulSign) {
     super([], sign, mulSign);
     this.type = "power";
@@ -29,11 +29,11 @@ class Power extends AbstractNode {
   }*/
 
   getBase() {
-    return this.elements[0];
+    return this.getElement(0);
   }
 
   getExponent() {
-    return this.elements[1];
+    return this.getElement(1);
   }
 
   serialize() {

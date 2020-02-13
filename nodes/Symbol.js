@@ -5,7 +5,7 @@ class Symbol extends AbstractNode {
   constructor(name, sign, mulSign) {
     super([], sign, mulSign);
     this.type = "symbol";
-    this.push(name);
+    this.name = name;
   }
 
   evaluate(scope) {
@@ -24,7 +24,7 @@ class Symbol extends AbstractNode {
   }
 
   getName() {
-    return this.elements[0];
+    return this.name;
   }
 
   serialize() {
@@ -33,6 +33,13 @@ class Symbol extends AbstractNode {
 
   equals(node) {
     return node instanceof Symbol ? this.getName() == node.getName() : false;
+  }
+
+  stringify() {
+    var lines = [];
+    lines.push(this.stringifyHead());
+    lines.push("  " + this.getName());
+    return lines;
   }
 }
 

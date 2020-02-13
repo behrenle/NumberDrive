@@ -1,10 +1,10 @@
-const AbstractNode = require("./AbstractNode");
+const AbstractContainer = require("./AbstractContainer");
 const Number = require("./Number");
 //const Symbol = require("./Symbol");
 //const Power = require("./Power");
 //const Sum = require("./Sum");
 
-class Product extends AbstractNode {
+class Product extends AbstractContainer {
   constructor(sign, mulSign) {
     super([], sign, mulSign);
     this.type = "product";
@@ -12,7 +12,7 @@ class Product extends AbstractNode {
 
   evaluate(scope) {
     var result = new Number(1);
-    for (var element of this.elements) {
+    for (var element of this.getElements()) {
       var value = element.evaluate(scope);
       if (value.getType() == "number") {
         result.mulNumber(value);
@@ -73,10 +73,10 @@ class Product extends AbstractNode {
 
   serialize() {
     var output = "";
-    for (var i = 0; i < this.elements.length; i++) {
-      output += this.elements[i].getMulSignString() == "*" ? "" : "/ ";
-      output += this.elements[i].serialize();
-      if (i < this.elements.length - 1) {
+    for (var i = 0; i < this.getLength(); i++) {
+      output += this.getElement(i).getMulSignString() == "*" ? "" : "/ ";
+      output += this.getElement(i).serialize();
+      if (i < this.getLength() - 1) {
         output += " ";
       }
     }

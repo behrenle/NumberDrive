@@ -1,10 +1,10 @@
-const AbstractNode = require("./AbstractNode");
+const AbstractContainer = require("./AbstractContainer");
 const Number = require("./Number");
 //const Symbol = require("./Symbol");
 //const Product = require("./Product");
 //const Power = require("./Power");
 
-class Sum extends AbstractNode {
+class Sum extends AbstractContainer {
   constructor(sign, mulSign) {
     super([], sign, mulSign);
     this.type = "sum";
