@@ -23,16 +23,8 @@ class Product extends AbstractContainer {
   }
 
   simplify(scope) {
-    var evaluables = [];
-    var nonEvaluables = [];
-    for (var element of this.getElements()) {
-      var value = element.simplify(scope);
-      if (value.isEvaluable(scope)) {
-        evaluables.push(value);
-      } else {
-        nonEvaluables.push(value);
-      }
-    }
+    var evaluables = this.getEvaluables(scope);
+    var nonEvaluables = this.getNonEvaluables(scope);
     var result = new Product(this.getSign(), this.getMulSign());
     if (evaluables.length > 0) {
       var value = new Product();

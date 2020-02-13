@@ -16,6 +16,26 @@ class AbstractContainer extends AbstractNode {
     return true;
   }
 
+  getEvaluables(scope) {
+    var result = [];
+    for (var element of this.getElements()) {
+      if (element.isEvaluable(scope)) {
+        result.push(element);
+      }
+    }
+    return result;
+  }
+
+  getNonEvaluables(scope) {
+    var result = [];
+    for (var element of this.getElements()) {
+      if (!element.isEvaluable(scope)) {
+        result.push(element);
+      }
+    }
+    return result;
+  }
+
   getElements() {
     return this.elements;
   }
