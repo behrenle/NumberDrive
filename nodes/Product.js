@@ -1,6 +1,7 @@
 const AbstractNode = require("./AbstractNode");
 const Number = require("./Number");
 const Symbol = require("./Symbol");
+const Power = require("./Power");
 
 class Product extends AbstractNode {
   constructor(sign, mulSign) {
@@ -13,7 +14,7 @@ class Product extends AbstractNode {
     var symbols = [];
     for (var element of this.elements) {
       var value = element.evaluate(scope);
-      if (value instanceof Symbol) {
+      if (value instanceof Symbol || value instanceof Power) {
         symbols.push(value);
       } else {
         result = result.mulNumber(value);
