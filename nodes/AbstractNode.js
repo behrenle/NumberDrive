@@ -10,6 +10,10 @@ class AbstractNode {
     this.setMulSign(mulSign);
   }
 
+  isEvaluable(scope) {
+    return true;
+  }
+
   getType() {
     return this.type;
   }

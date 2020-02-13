@@ -8,6 +8,13 @@ class Symbol extends AbstractNode {
     this.name = name;
   }
 
+  isEvaluable(scope) {
+    if (scope[this.getName()]) {
+      return true;
+    }
+    return false;
+  }
+
   evaluate(scope) {
     if (
       scope[this.getName()]

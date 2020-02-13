@@ -26,14 +26,14 @@ NumberDrive.evalString = function(str, scope = {}) {
     throw new FailedParsingException(e);
   }
 
-  var tree      = this.builder.build(parseTree);
+  var tree = this.builder.build(parseTree);
   if (this.outputTree) {
     console.log("Tree:");
     tree.output();
     console.log();
   }
 
-  var result    = tree.evaluate(scope);
+  var result = tree.evaluate(scope);
   if (this.outputResult) {
     console.log("Result:");
     console.log(result.serialize());

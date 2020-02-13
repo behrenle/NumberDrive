@@ -15,7 +15,7 @@ class Sum extends AbstractContainer {
     for (var element of this.elements) {
       var value = element.evaluate(scope);
       if (value.getType() == "number") {
-        result.addNumber(value);
+        result = result.addNumber(value);
       }
     }
     return result;

@@ -8,7 +8,7 @@ class Number extends AbstractNode {
     this.type = "number";
     var rawValue = new Decimal(value);
     this.applySign(Decimal.sign(rawValue));
-    this.value = rawValue.abs();
+    this.setValue(rawValue.abs());
   }
 
   addNumber(number) {
@@ -36,6 +36,10 @@ class Number extends AbstractNode {
 
   getValue() {
     return this.value;
+  }
+
+  setValue(value) {
+    this.value = value;
   }
 
   serialize() {

@@ -15,7 +15,7 @@ class Product extends AbstractContainer {
     for (var element of this.getElements()) {
       var value = element.evaluate(scope);
       if (value.getType() == "number") {
-        result.mulNumber(value);
+        result = result.mulNumber(value);
       }
     }
     return result;

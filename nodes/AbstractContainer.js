@@ -7,6 +7,15 @@ class AbstractContainer extends AbstractNode {
     this.type = "AbstractContainer";
   }
 
+  isEvaluable(scope) {
+    for (var element of this.getElements()) {
+      if (!element.isEvaluable(scope)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   getElements() {
     return this.elements;
   }
