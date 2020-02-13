@@ -1,8 +1,5 @@
 const AbstractContainer = require("./AbstractContainer");
 const Number = require("./Number");
-//const Symbol = require("./Symbol");
-//const Power = require("./Power");
-//const Sum = require("./Sum");
 
 class Product extends AbstractContainer {
   constructor(sign, mulSign) {
@@ -21,55 +18,28 @@ class Product extends AbstractContainer {
     return result;
   }
 
-  /*evaluate(scope) {
-    var result = new Number(1);
-    var sums = [];
-    var symbols = [];
-    var countConst = 0;
-    console.log(typeof Sum);
-    console.log(typeof Power);
-    for (var element of this.elements) {
-      var value = element.evaluate(scope);
-      if (value instanceof Symbol || value instanceof Power) {
-        symbols.push(value);
-      } else if (value instanceof Sum) {
-        sums.push(value);
+  simplify(scope) {
+    var evaluables = [];
+    var nonEvaluables = [];
+    for (var element of this.getElements()) {
+      var value = element.simplify(scope);
+      if (value.isEvaluable(scope)) {
+        evaluables.push(value);
       } else {
-        result = result.mulNumber(value);
-        countConst++;
+        nonEvaluables.push(value);
       }
     }
-
-    // WIP: klammern auflösen...
-    // sum times sum
-    if (sums.length > 0) {
-      // multiply sums with each others
-      console.log("sumslength",sums.length);
-      while (sums.length > 1) {
-
-      }
+    var result = new Product(this.getSign(), this.getMulSign());
+    if (evaluables.length > 0) {
+      var value = new Product();
+      value.setElements(evaluables);
+      result.push(value.evaluate(scope));
     }
-
-
-
-
-
-
-    if (symbols.length == 0) {
-      result.setMulSign(this.getMulSign());
-      result.applySign(this.getSign());
-      return result;
-    } else {
-      var node = new Product(this.getSign(), this.getMulSign());
-      if (countConst > 0) {
-        node.push(result);
-      }
-      for (var symbol of symbols) {
-        node.push(symbol);
-      }
-      return node;
+    if (nonEvaluables.length > 0) {
+      result.setElements(result.getElements().concat(nonEvaluables));
     }
-  }*/
+    return result;
+  }
 
   serialize() {
     var output = "";
