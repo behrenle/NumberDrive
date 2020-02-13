@@ -61,7 +61,7 @@ class AbstractNode {
   }
 
   getMulSignString() {
-    return this.mulSign.equals(new Decimal(-1)) ? "-" : "+";
+    return this.mulSign.equals(new Decimal(-1)) ? "/" : "*";
   }
 
   setSign(s) {

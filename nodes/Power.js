@@ -8,7 +8,17 @@ class Power extends AbstractNode {
   }
 
   evaluate(scope) {
-    var result = this.elements[0].evaluate(scope).power(this.elements[1].evaluate(scope));
+    var base = this.getBase().evaluate(scope);
+    var exp  = this.getExponent().evaluate(scope);
+
+    var result;
+    if (base instanceof Number && exp instanceof Number) {
+      result = base.power(exp);
+    } else {
+      result = new Power();
+      result.push(base);
+      result.push(exp);
+    }
     result.setMulSign(this.getMulSign());
     result.applySign(this.getSign());
     return result;
