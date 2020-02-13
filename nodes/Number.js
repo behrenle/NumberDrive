@@ -41,6 +41,14 @@ class Number extends AbstractNode {
   serialize() {
     return this.getValue().toString();
   }
+
+  equals(node) {
+    return node instanceof Number ?
+           this.getValue().equals(node.getValue())
+           && this.getSign().equals(node.getSign())
+           && this.getMulSign().equals(node.getMulSign())
+           : false;
+  }
 }
 
 module.exports = Number;

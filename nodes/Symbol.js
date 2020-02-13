@@ -30,6 +30,10 @@ class Symbol extends AbstractNode {
   serialize() {
     return this.getName();
   }
+
+  equals(node) {
+    return node instanceof Symbol ? this.getName() == node.getName() : false;
+  }
 }
 
 module.exports = Symbol;
