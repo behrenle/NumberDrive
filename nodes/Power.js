@@ -11,7 +11,11 @@ class Power extends AbstractNode {
     var base = this.getBase().evaluate(scope);
     var exp  = this.getExponent().evaluate(scope);
 
-    var result;
+    if (base.getType() == "number" && exp.getType() == "number") {
+      return base.power(exp);
+    }
+  }
+    /*var result;
     if (base instanceof Number && exp instanceof Number) {
       result = base.power(exp);
     } else {
@@ -22,7 +26,7 @@ class Power extends AbstractNode {
     result.setMulSign(this.getMulSign());
     result.applySign(this.getSign());
     return result;
-  }
+  }*/
 
   getBase() {
     return this.elements[0];

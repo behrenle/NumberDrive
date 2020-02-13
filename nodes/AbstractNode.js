@@ -10,6 +10,10 @@ class AbstractNode {
     this.setMulSign(mulSign);
   }
 
+  getType() {
+    return this.type;
+  }
+
   push(element) {
     this.elements.push(element);
   }

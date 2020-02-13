@@ -1,5 +1,6 @@
 const Parser = require('@behrenle/number-drive-parser');
 const TreeBuilder = require("./TreeBuilder.js");
+const FailedParsingException = require("./exceptions/FailedParsingException");
 
 const NumberDrive = {
   builder: new TreeBuilder,
@@ -10,25 +11,31 @@ const NumberDrive = {
 };
 
 NumberDrive.evalString = function(str, scope = {}) {
-  var parseTree = Parser.parse(str);
-  var tree      = this.builder.build(parseTree);
-  var result    = tree.evaluate(scope);
   if (this.outputInput) {
     console.log("Input:");
     console.log(str + "\n");
   }
-  if (this.outputParseTree) {
-    console.log("ParseTree:");
-    console.log(JSON.stringify(parseTree, 0, 2) + "\n");
+
+  try {
+    var parseTree = Parser.parse(str);
+    if (this.outputParseTree) {
+      console.log("ParseTree:");
+      console.log(JSON.stringify(parseTree, 0, 2) + "\n");
+    }
+  } catch (e) {
+    throw new FailedParsingException(e);
   }
+
+  var tree      = this.builder.build(parseTree);
   if (this.outputTree) {
     console.log("Tree:");
     tree.output();
     console.log();
   }
+
+  var result    = tree.evaluate(scope);
   if (this.outputResult) {
     console.log("Result:");
-    //result.output();
     console.log(result.serialize());
   }
   return result;

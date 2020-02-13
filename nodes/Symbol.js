@@ -1,4 +1,5 @@
 const AbstractNode = require("./AbstractNode");
+const UnknownSymbolException = require("../exceptions/UnknownSymbolException");
 
 class Symbol extends AbstractNode {
   constructor(name, sign, mulSign) {
@@ -8,13 +9,18 @@ class Symbol extends AbstractNode {
   }
 
   evaluate(scope) {
-    if (scope[this.getName()]) {
+    if (
+      scope[this.getName()]
+      && typeof scope[this.getName()] == "object"
+      && scope[this.getName()].getType() == "number"
+    ) {
       var value = scope[this.getName()].clone();
       value.applySign(this.getSign());
       value.setMulSign(this.getMulSign());
       return value;
+    } else {
+      throw new UnknownSymbolException(this);
     }
-    return this;
   }
 
   getName() {

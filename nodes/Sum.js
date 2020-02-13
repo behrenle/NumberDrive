@@ -1,8 +1,8 @@
 const AbstractNode = require("./AbstractNode");
 const Number = require("./Number");
-const Symbol = require("./Symbol");
-const Product = require("./Product");
-const Power = require("./Power");
+//const Symbol = require("./Symbol");
+//const Product = require("./Product");
+//const Power = require("./Power");
 
 class Sum extends AbstractNode {
   constructor(sign, mulSign) {
@@ -12,16 +12,27 @@ class Sum extends AbstractNode {
 
   evaluate(scope) {
     var result = new Number(0);
+    for (var element of this.elements) {
+      var value = element.evaluate(scope);
+      if (value.getType() == "number") {
+        result.addNumber(value);
+      }
+    }
+    return result;
+  }
+
+  /*evaluate(scope) {
+    var result = new Number(0);
     var symbols = [];
     var countConst = 0;
     for (var element of this.elements) {
       var value = element.evaluate(scope);
-      if (value instanceof Symbol ||
-          value instanceof Product ||
-          value instanceof Power
+      if (value.getType() == "symbol" ||
+          value.getType() == "product" ||
+          value.getType() == "power"
         ) {
         symbols.push(value);
-      } else {
+      } else if() {
         result = result.addNumber(value);
         countConst++;
       }
@@ -40,7 +51,7 @@ class Sum extends AbstractNode {
       }
       return node;
     }
-  }
+  }*/
 
   serialize() {
     var output = "";
