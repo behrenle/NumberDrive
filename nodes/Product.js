@@ -41,10 +41,11 @@ class Product extends AbstractNode {
   serialize() {
     var output = "";
     for (var i = 0; i < this.elements.length; i++) {
-      if (!(this.elements[i].getMulSignString() == "*")) {
-        output += " " + this.elements[i].getMulSignString() + " ";
-      }
+      output += this.elements[i].getMulSignString() == "*" ? "" : "/ ";
       output += this.elements[i].serialize();
+      if (i < this.elements.length - 1) {
+        output += " ";
+      }
     }
     return output;
   }
