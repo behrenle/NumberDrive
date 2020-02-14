@@ -64,7 +64,7 @@ class Sum extends AbstractContainer {
     }
     for (var rawElement of this.getElements()) {
       rawElement.applySign(this.getSign());
-      var element = rawElement.breakDown(scope);
+      var element = rawElement.breakDown();
       if (element.getType() == "sum") {
         for (var subElement of element.getElements()) {
           subElement.applySign(element.getSign());

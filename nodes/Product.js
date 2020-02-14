@@ -31,25 +31,22 @@ class Product extends AbstractContainer {
 
   isMultipleOf(node) {
     if (node.type == "product") {
+      this.squashSigns();
+      node.squashSigns();
       var thisNonEvaluables = this.new("Product");
       var nodeNonEvaluables = this.new("Product");
       thisNonEvaluables.setElements(this.getNonEvaluables());
       nodeNonEvaluables.setElements(node.getNonEvaluables());
-
-      // replace with break down-------------------
-      var thisSimplified = thisNonEvaluables.simplify();
-      var nodeSimplified = nodeNonEvaluables.simplify();
-      // ------------------------------------------
-
-      thisSimplified.squashSigns();
-      nodeSimplified.squashSigns();
-      thisSimplified.output();
-      nodeSimplified.output();
-      if (thisSimplified.equals(nodeSimplified)) {
+      var thisBrokeDown = thisNonEvaluables.breakDown();
+      var nodeBrokeDown = nodeNonEvaluables.breakDown();
+      thisBrokeDown.output();
+      nodeBrokeDown.output();
+      if (thisBrokeDown.equals(nodeBrokeDown)) {
         return true;
       }
     } else if (node.type == "symbol") {
-      var nonEvaluables = this.getNonEvaluables(scope);
+      console.log("Symbol:::")
+      var nonEvaluables = this.getNonEvaluables();
       if (nonEvaluables.length == 1) {
         if (nonEvaluables[0].getType() == "symbol") {
           if (nonEvaluables[0].getName() == node.getName()) {
