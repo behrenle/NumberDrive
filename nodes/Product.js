@@ -90,18 +90,18 @@ class Product extends AbstractContainer {
       result = sums[0];
       sums.splice(0, 1); // remove first element
       for (var sum of sums) {
-        result = result.mulSum(sum, Product, scope);
+        result = result.mulSum(sum);
       }
     }
     if (newElements.length > 1) {
       this.setElements(newElements);
       if (result) {
-        return result.mulNonSum(this, Product);
+        return result.mulNonSum(this);
       }
       return this;
     } else if (newElements.length == 1){
       if (result) {
-        return result.mulNonSum(newElements[0], Product);
+        return result.mulNonSum(newElements[0]);
       }
       return newElements[0];
     } else {

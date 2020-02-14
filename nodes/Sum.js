@@ -41,7 +41,7 @@ class Sum extends AbstractContainer {
     this.normSign();
     var result = this.new("Sum");
     for (var element of this.getElements()) {
-      var summand = new this.new("Product");
+      var summand = this.new("Product");
       summand.applySign(node.getSign());
       summand.applySign(element.getSign());
       node.resetSign();
