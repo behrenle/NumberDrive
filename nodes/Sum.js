@@ -83,6 +83,111 @@ class Sum extends AbstractContainer {
     }
   }
 
+  summarize() {
+    this.normSign();
+    var result = this.new("Sum", this.getSign(), this.getMulSign());
+    var evals = this.getEvaluables();
+    var nEvals = this.getNonEvaluables();
+
+    // combine evals
+    if (evals.length > 0) {
+      var value = this.new("Sum");
+      value.setElements(evals);
+      result.push(value.evaluate());
+    }
+
+    // combine nEvals
+    if (nEvals.length > 0) {
+      var summarized;
+      var summands;
+      do {
+        summarized = false;
+        summands = [];
+        for (var i = 0; i < nEvals.length; i++) {
+          if (!summarized) {
+            for (var k = 0; k < nEvals.length; k++) {
+              var node1 = nEvals[i],
+                  node2 = nEvals[k];
+              var c1 = node1.getCoefficient(),
+                  c2 = node2.getCoefficient();
+
+              if (
+                i != k && node1.getType() == "product"
+                && (
+                  node2.getType() == "product"
+                  || node2.getType() == "symbol"
+                )
+              ) {
+                if (node1.isMultipleOf(node2)) {
+                  var nEvals1 = node1.getNonEvaluables();
+                  var coeff = this.new("Sum");
+                  var comb = this.new("Product");
+                  coeff.push(c1);
+                  coeff.push(c2);
+                  coeff = coeff.evaluate();
+                  comb.setElements(
+                    [coeff].concat(nEvals1)
+                  );
+                  comb.squashSigns();
+
+                  for (var j = 0; j < nEvals.length; j++) {
+                    if (j != i && j != k) {
+                      summands.push(nEvals[j]);
+                    }
+                    if (j == i && !coeff.getValue().equals(0)) {
+                      summands.push(comb);
+                    }
+                  }
+
+                  nEvals = summands;
+                  summarized = true;
+                  break;
+                }
+              } else if (
+                i != k
+                && node1.getType() == "symbol"
+                && node2.getType() == "symbol"
+              ) {
+                if (node1.getName() == node2.getName()) {
+                  console.log(node1.getName(), node2.getName());
+                  for (var j = 0; j < nEvals.length; j++) {
+                    if (j != i && j != k) {
+                      summands.push(nEvals[j]);
+                    }
+                    if (j == i) {
+                      if (node1.getSignString() == node2.getSignString()) {
+                        var c1 = node1.getCoefficient(),
+                            c2 = node2.getCoefficient();
+                        var coeff = this.new("Sum");
+                        coeff.push(c1);
+                        coeff.push(c2);
+                        var comb = this.new("Product");
+                        comb.push(coeff.evaluate());
+                        comb.push(this.new("Symbol", node1.getName()));
+                        comb.squashSigns()
+                        summands.push(comb);
+                      }
+                    }
+                  }
+
+                  nEvals = summands;
+                  summarized = true;
+                  break;
+                }
+              }
+            }
+          } else {
+            break;
+          }
+        }
+      } while (summarized);
+      result.setElements(
+        result.getElements().concat(nEvals)
+      )
+    }
+    return result;
+  }
+
   getSerializeSeperator(element, first) {
     var seperator = element.getSignString();
     if (first) {

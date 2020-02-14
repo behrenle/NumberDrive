@@ -19,6 +19,7 @@ class Product extends AbstractContainer {
         result = result.mulNumber(value);
       }
     }
+    result.applySign(this.getSign());
     return result;
   }
 
@@ -46,8 +47,6 @@ class Product extends AbstractContainer {
       nodeNonEvaluables.setElements(node.getNonEvaluables());
       var thisBrokeDown = thisNonEvaluables.breakDown();
       var nodeBrokeDown = nodeNonEvaluables.breakDown();
-      thisBrokeDown.output();
-      nodeBrokeDown.output();
       if (thisBrokeDown.equals(nodeBrokeDown)) {
         return true;
       }
