@@ -29,6 +29,13 @@ class Product extends AbstractContainer {
     }
   }
 
+  getCoefficient() {
+    var evaluables = this.new("Product", this.getSign(), this.getMulSign());
+    evaluables.setElements(this.getEvaluables());
+    evaluables.squashSigns();
+    return evaluables.evaluate();
+  }
+
   isMultipleOf(node) {
     if (node.type == "product") {
       this.squashSigns();
@@ -45,7 +52,6 @@ class Product extends AbstractContainer {
         return true;
       }
     } else if (node.type == "symbol") {
-      console.log("Symbol:::")
       var nonEvaluables = this.getNonEvaluables();
       if (nonEvaluables.length == 1) {
         if (nonEvaluables[0].getType() == "symbol") {

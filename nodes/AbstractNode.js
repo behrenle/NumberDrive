@@ -13,6 +13,10 @@ class AbstractNode {
     this.setMulSign(mulSign);
   }
 
+  getCoefficient() {
+    return this.new("Number", this.getSign());
+  }
+
   setStack(stack) {
     this.stack = stack;
   }
