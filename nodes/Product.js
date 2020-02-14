@@ -9,7 +9,7 @@ class Product extends AbstractContainer {
   }
 
   evaluate(scope) {
-    var result = new this.constructors.Number(this.constructors, 1);
+    var result = this.new("Number", 1);
     for (var element of this.getElements()) {
       var value = element.evaluate(scope);
       if (value.getType() == "number") {
@@ -31,8 +31,8 @@ class Product extends AbstractContainer {
 
   isMultipleOf(node, scope) {
     if (node.type == "product") {
-      var thisNonEvaluables = new this.constructors.Product(this.constructors);
-      var nodeNonEvaluables = new this.constructors.Product(this.constructors);
+      var thisNonEvaluables = this.new("Product");
+      var nodeNonEvaluables = this.new("Product");
       thisNonEvaluables.setElements(this.getNonEvaluables(scope));
       nodeNonEvaluables.setElements(node.getNonEvaluables(scope));
       var thisSimplified = thisNonEvaluables.simplify(scope);

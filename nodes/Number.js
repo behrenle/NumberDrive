@@ -5,20 +5,20 @@ class Number extends AbstractNode {
     super(constructors, sign, mulSign);
     this.constructors.Decimal.precision = 64;
     this.type = "number";
-    var rawValue = new this.constructors.Decimal(value);
+    var rawValue = this.new("Decimal", value);
     this.applySign(this.constructors.Decimal.sign(rawValue));
     this.setValue(rawValue.abs());
   }
 
   addNumber(number) {
-    return new Number(this.constructors, this.constructors.Decimal.add(
+    return this.new("Number", this.constructors.Decimal.add(
       this.constructors.Decimal.mul(this.getValue(), this.getSign()),
       this.constructors.Decimal.mul(number.getValue(), number.getSign())
     ));
   }
 
   mulNumber(number) {
-    return new Number(this.constructors, this.constructors.Decimal.mul(
+    return this.new("Number", this.constructors.Decimal.mul(
       this.constructors.Decimal.mul(this.getSign(), number.getSign()),
       this.constructors.Decimal.mul(
         this.constructors.Decimal.pow(this.getValue(), this.getMulSign()),
@@ -28,7 +28,7 @@ class Number extends AbstractNode {
   }
 
   power(number) {
-    return new Number(this.constructors, this.constructors.Decimal.pow(
+    return this.new("Number", this.constructors.Decimal.pow(
       this.getValue(), number.getValue()
     ));
   }

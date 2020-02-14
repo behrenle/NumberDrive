@@ -8,7 +8,7 @@ class Sum extends AbstractContainer {
   }
 
   evaluate(scope) {
-    var result = new this.constructors.Number(this.constructors, 0);
+    var result = this.new("Number", 0);
     for (var element of this.elements) {
       var value = element.evaluate(scope);
       if (value.getType() == "number") {
@@ -57,21 +57,21 @@ class Sum extends AbstractContainer {
     }
   }
 
-  mulSum(node, Product, scope) {
+  mulSum(node, scope) {
     this.normSign();
     node.normSign();
-    var result = new this.constructors.Sum(this.constructors);
+    var result = this.new("Sum");
     for (var element of node.getElements()) {
-      result.push(this.mulNonSum(element, Product));
+      result.push(this.mulNonSum(element));
     }
     return result.breakDown(scope);
   }
 
-  mulNonSum(node, Product) {
+  mulNonSum(node) {
     this.normSign();
-    var result = new this.constructors.Sum(this.constructors);
+    var result = this.new("Sum");
     for (var element of this.getElements()) {
-      var summand = new this.constructors.Product(this.constructors);//node.getSign(), node.getMulSign());
+      var summand = new this.new("Product"); 
       summand.applySign(node.getSign());
       summand.applySign(element.getSign());
       node.resetSign();
