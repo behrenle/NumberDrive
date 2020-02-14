@@ -1,14 +1,32 @@
 const IllegalArgumentException = require("../exceptions/IllegalArgumentException");
 const UnknownConstructorException = require("../exceptions/UnknownConstructorException");
+const Stack = require("../scope/Stack.js");
 
 class AbstractNode {
   constructor(constructors, sign, mulSign) {
     this.constructors = constructors;
     this.type = "AbstractNode";
+    this.stack = new Stack();
     this.sign = new this.constructors.Decimal(1);
     this.mulSign = new this.constructors.Decimal(1);
     this.setSign(sign);
     this.setMulSign(mulSign);
+  }
+
+  setStack(stack) {
+    this.stack = stack;
+  }
+
+  getStack() {
+    return this.stack;
+  }
+
+  pushScope(scope) {
+    this.getStack().push(scope);
+  }
+
+  popScope() {
+    this.getStack().pop();
   }
 
   new(type, ...args) {
@@ -19,10 +37,12 @@ class AbstractNode {
             return new this.constructors.Decimal(...args);
 
           default:
-            return new this.constructors[type](
+            var node =  new this.constructors[type](
               this.constructors,
               ...args
             );
+            node.setStack(this.getStack());
+            return node;
         }
       } else {
         throw new UnknownConstructorException(type);

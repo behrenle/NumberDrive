@@ -8,30 +8,28 @@ class Symbol extends AbstractNode {
     this.name = name;
   }
 
-  isEvaluable(scope) {
-    if (scope[this.getName()]) {
-      return true;
-    }
-    return false;
+  isEvaluable() {
+    return this.hasValue();
   }
 
-  evaluate(scope) {
-    if (this.hasValue(scope)) {
-      var value = this.getValue(scope);
+  evaluate() {
+    if (this.hasValue()) {
+      var value = this.getValue();
       value.applySign(this.getSign());
       value.setMulSign(this.getMulSign());
+      value.setStack(this.getStack());
       return value;
     } else {
       throw new UnknownSymbolException(this);
     }
   }
 
-  hasValue(scope) {
-    return scope[this.getName()] instanceof AbstractNode;
+  hasValue() {
+    return this.getStack().getValue(this.getName()) instanceof AbstractNode;
   }
 
-  getValue(scope) {
-    return scope[this.getName()].clone();
+  getValue() {
+    return this.getStack().getValue(this.getName());
   }
 
   getName() {

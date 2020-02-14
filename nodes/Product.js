@@ -8,12 +8,12 @@ class Product extends AbstractContainer {
     this.connectionStrength = 2;
   }
 
-  evaluate(scope) {
+  evaluate() {
     var result = this.new("Number", 1);
     for (var element of this.getElements()) {
-      var value = element.evaluate(scope);
+      var value = element.evaluate();
       if (value.getType() == "number") {
-        if (value.getValue().equals(0)) {
+        if (value.getValue().equals(0) && value.getMulSign().equals(-1)) {
           throw new DevideByZeroException();
         }
         result = result.mulNumber(value);
@@ -29,14 +29,18 @@ class Product extends AbstractContainer {
     }
   }
 
-  isMultipleOf(node, scope) {
+  isMultipleOf(node) {
     if (node.type == "product") {
       var thisNonEvaluables = this.new("Product");
       var nodeNonEvaluables = this.new("Product");
-      thisNonEvaluables.setElements(this.getNonEvaluables(scope));
-      nodeNonEvaluables.setElements(node.getNonEvaluables(scope));
-      var thisSimplified = thisNonEvaluables.simplify(scope);
-      var nodeSimplified = nodeNonEvaluables.simplify(scope);
+      thisNonEvaluables.setElements(this.getNonEvaluables());
+      nodeNonEvaluables.setElements(node.getNonEvaluables());
+
+      // replace with break down-------------------
+      var thisSimplified = thisNonEvaluables.simplify();
+      var nodeSimplified = nodeNonEvaluables.simplify();
+      // ------------------------------------------
+
       thisSimplified.squashSigns();
       nodeSimplified.squashSigns();
       thisSimplified.output();
@@ -57,15 +61,15 @@ class Product extends AbstractContainer {
     return false;
   }
 
-  breakDown(scope) {
+  breakDown() {
     var newElements = [];
     var sums = [];
-    if (this.isEvaluable(scope)) {
-      return this.evaluate(scope);
+    if (this.isEvaluable()) {
+      return this.evaluate();
     }
     for (var rawElement of this.getElements()) {
       rawElement.applyMulSign(this.getMulSign());
-      var element = rawElement.breakDown(scope);
+      var element = rawElement.breakDown();
       if (element.getType() == "product") {
         for (var subElement of element.getElements()) {
           subElement.applyMulSign(element.getMulSign());

@@ -8,9 +8,9 @@ class Power extends AbstractContainer {
     this.connectionStrength = 3;
   }
 
-  evaluate(scope) {
-    var base = this.getBase().evaluate(scope);
-    var exp  = this.getExponent().evaluate(scope);
+  evaluate() {
+    var base = this.getBase().evaluate();
+    var exp  = this.getExponent().evaluate();
 
     if (base.getType() == "number" && exp.getType() == "number") {
       return base.power(exp);

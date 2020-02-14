@@ -7,10 +7,10 @@ class Sum extends AbstractContainer {
     this.connectionStrength = 1;
   }
 
-  evaluate(scope) {
+  evaluate() {
     var result = this.new("Number", 0);
     for (var element of this.elements) {
-      var value = element.evaluate(scope);
+      var value = element.evaluate();
       if (value.getType() == "number") {
         result = result.addNumber(value);
       }
@@ -27,14 +27,14 @@ class Sum extends AbstractContainer {
     }
   }
 
-  mulSum(node, scope) {
+  mulSum(node) {
     this.normSign();
     node.normSign();
     var result = this.new("Sum");
     for (var element of node.getElements()) {
       result.push(this.mulNonSum(element));
     }
-    return result.breakDown(scope);
+    return result.breakDown();
   }
 
   mulNonSum(node) {
@@ -57,10 +57,10 @@ class Sum extends AbstractContainer {
     return result;
   }
 
-  breakDown(scope) {
+  breakDown() {
     var newElements = [];
-    if (this.isEvaluable(scope)) {
-      return this.evaluate(scope);
+    if (this.isEvaluable()) {
+      return this.evaluate();
     }
     for (var rawElement of this.getElements()) {
       rawElement.applySign(this.getSign());

@@ -8,29 +8,36 @@ class AbstractContainer extends AbstractNode {
     this.connectionStrength = 0;
   }
 
-  isEvaluable(scope) {
+  setStack(stack) {
+    this.stack = stack;
     for (var element of this.getElements()) {
-      if (!element.isEvaluable(scope)) {
+      element.setStack(stack);
+    }
+  }
+
+  isEvaluable() {
+    for (var element of this.getElements()) {
+      if (!element.isEvaluable()) {
         return false;
       }
     }
     return true;
   }
 
-  getEvaluables(scope) {
+  getEvaluables() {
     var result = [];
     for (var element of this.getElements()) {
-      if (element.isEvaluable(scope)) {
+      if (element.isEvaluable()) {
         result.push(element);
       }
     }
     return result;
   }
 
-  getNonEvaluables(scope) {
+  getNonEvaluables() {
     var result = [];
     for (var element of this.getElements()) {
-      if (!element.isEvaluable(scope)) {
+      if (!element.isEvaluable()) {
         result.push(element);
       }
     }

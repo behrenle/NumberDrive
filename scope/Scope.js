@@ -12,7 +12,7 @@ class Scope {
   }
 
   setValue(name, value) {
-    this.values[name] = name;
+    this.values[name] = value;
   }
 }
 
