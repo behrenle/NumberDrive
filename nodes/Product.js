@@ -6,6 +6,7 @@ class Product extends AbstractContainer {
   constructor(sign, mulSign) {
     super([], sign, mulSign);
     this.type = "product";
+    this.connectionStrength = 1;
   }
 
   evaluate(scope) {

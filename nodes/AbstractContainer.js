@@ -5,6 +5,7 @@ class AbstractContainer extends AbstractNode {
     super(sign, mulSign);
     this.setElements(elements);
     this.type = "AbstractContainer";
+    this.connectionStrength = 0;
   }
 
   isEvaluable(scope) {

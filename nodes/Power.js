@@ -5,6 +5,7 @@ class Power extends AbstractContainer {
   constructor(sign, mulSign) {
     super([], sign, mulSign);
     this.type = "power";
+    this.connectionStrength = 1;
   }
 
   evaluate(scope) {

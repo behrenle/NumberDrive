@@ -5,6 +5,7 @@ class Sum extends AbstractContainer {
   constructor(sign, mulSign) {
     super([], sign, mulSign);
     this.type = "sum";
+    this.connectionStrength = 1;
   }
 
   evaluate(scope) {
