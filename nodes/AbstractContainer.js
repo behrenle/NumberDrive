@@ -1,8 +1,8 @@
 const AbstractNode = require("./AbstractNode");
 
 class AbstractContainer extends AbstractNode {
-  constructor(elements, sign, mulSign) {
-    super(sign, mulSign);
+  constructor(constructors, elements, sign, mulSign) {
+    super(constructors, sign, mulSign);
     this.setElements(elements);
     this.type = "AbstractContainer";
     this.connectionStrength = 0;

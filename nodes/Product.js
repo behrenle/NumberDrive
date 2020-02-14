@@ -1,16 +1,15 @@
 const AbstractContainer = require("./AbstractContainer");
-const Number = require("./Number");
 const DevideByZeroException = require("../exceptions/DivideByZeroException");
 
 class Product extends AbstractContainer {
-  constructor(sign, mulSign) {
-    super([], sign, mulSign);
+  constructor(constructors, sign, mulSign) {
+    super(constructors, [], sign, mulSign);
     this.type = "product";
     this.connectionStrength = 2;
   }
 
   evaluate(scope) {
-    var result = new Number(1);
+    var result = new this.constructors.Number(this.constructors, 1);
     for (var element of this.getElements()) {
       var value = element.evaluate(scope);
       if (value.getType() == "number") {
@@ -32,8 +31,8 @@ class Product extends AbstractContainer {
 
   isMultipleOf(node, scope) {
     if (node.type == "product") {
-      var thisNonEvaluables = new Product();
-      var nodeNonEvaluables = new Product();
+      var thisNonEvaluables = new this.constructors.Product(this.constructors);
+      var nodeNonEvaluables = new this.constructors.Product(this.constructors);
       thisNonEvaluables.setElements(this.getNonEvaluables(scope));
       nodeNonEvaluables.setElements(node.getNonEvaluables(scope));
       var thisSimplified = thisNonEvaluables.simplify(scope);
@@ -103,7 +102,7 @@ class Product extends AbstractContainer {
     }
   }
 
-  simplify(scope) {
+  /*simplify(scope) {
     var evaluables = this.getEvaluables(scope);
     var nonEvaluables = this.getNonEvaluables(scope);
     var result = new Product(this.getSign(), this.getMulSign());
@@ -116,7 +115,7 @@ class Product extends AbstractContainer {
       result.setElements(result.getElements().concat(nonEvaluables));
     }
     return result;
-  }
+  }*/
 
   getSerializeSeperator(element, first) {
     var seperator = element.getMulSignString();

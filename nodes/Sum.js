@@ -1,15 +1,14 @@
 const AbstractContainer = require("./AbstractContainer");
-const Number = require("./Number");
 
 class Sum extends AbstractContainer {
-  constructor(sign, mulSign) {
-    super([], sign, mulSign);
+  constructor(constructors, sign, mulSign) {
+    super(constructors, [], sign, mulSign);
     this.type = "sum";
     this.connectionStrength = 1;
   }
 
   evaluate(scope) {
-    var result = new Number(0);
+    var result = new this.constructors.Number(this.constructors, 0);
     for (var element of this.elements) {
       var value = element.evaluate(scope);
       if (value.getType() == "number") {
@@ -19,7 +18,7 @@ class Sum extends AbstractContainer {
     return result;
   }
 
-  simplify(scope) {
+  /*simplify(scope) {
     var evaluables = [];
     var nonEvaluables = [];
     for (var element of this.getElements()) {
@@ -47,7 +46,7 @@ class Sum extends AbstractContainer {
       result.setElements(result.getElements().concat(nonEvaluables));
     }
     return result;
-  }
+  }*/
 
   normSign() {
     if (this.isNegative()) {
@@ -61,7 +60,7 @@ class Sum extends AbstractContainer {
   mulSum(node, Product, scope) {
     this.normSign();
     node.normSign();
-    var result = new Sum();
+    var result = new this.constructors.Sum(this.constructors);
     for (var element of node.getElements()) {
       result.push(this.mulNonSum(element, Product));
     }
@@ -70,9 +69,9 @@ class Sum extends AbstractContainer {
 
   mulNonSum(node, Product) {
     this.normSign();
-    var result = new Sum();
+    var result = new this.constructors.Sum(this.constructors);
     for (var element of this.getElements()) {
-      var summand = new Product();//node.getSign(), node.getMulSign());
+      var summand = new this.constructors.Product(this.constructors);//node.getSign(), node.getMulSign());
       summand.applySign(node.getSign());
       summand.applySign(element.getSign());
       node.resetSign();

@@ -2,8 +2,8 @@ const AbstractContainer = require("./AbstractContainer");
 const Number = require("./Number");
 
 class Power extends AbstractContainer {
-  constructor(sign, mulSign) {
-    super([], sign, mulSign);
+  constructor(constructors, sign, mulSign) {
+    super(constructors, [], sign, mulSign);
     this.type = "power";
     this.connectionStrength = 3;
   }

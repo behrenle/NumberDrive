@@ -1,17 +1,25 @@
-const Decimal = require('decimal.js');
-const Number = require("./nodes/Number");
-const Sum = require("./nodes/Sum");
-const Product = require("./nodes/Product");
-const Power = require("./nodes/Power");
-const Symbol = require("./nodes/Symbol");
+const constructors = {
+  AbstractNode:      require("./nodes/AbstractNode"),
+  AbstractContainer: require("./nodes/AbstractContainer"),
+  Decimal:           require('decimal.js'),
+  Number:            require("./nodes/Number"),
+  Symbol:            require("./nodes/Symbol"),
+  Sum:               require("./nodes/Sum"),
+  Product:           require("./nodes/Product"),
+  Power:             require("./nodes/Power"),
+};
 
 class TreeBuilder {
   getSign(parseTreeNode) {
-    return parseTreeNode.sign == "-" ? new Decimal(-1) : new Decimal(1);
+    return parseTreeNode.sign == "-"
+      ? new constructors.Decimal(-1)
+      : new constructors.Decimal(1);
   }
 
   getMulSign(parseTreeNode) {
-    return parseTreeNode.mulSign == "/" ? new Decimal(-1) : new Decimal(1);
+    return parseTreeNode.mulSign == "/"
+      ? new constructors.Decimal(-1)
+      : new constructors.Decimal(1);
   }
 
   build(parseTreeNode) {
@@ -34,7 +42,8 @@ class TreeBuilder {
   }
 
   buildNumber(parseTreeNode) {
-    return new Number(
+    return new constructors.Number(
+      constructors,
       parseTreeNode.value,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
@@ -42,7 +51,8 @@ class TreeBuilder {
   }
 
   buildSum(parseTreeNode) {
-    var node = new Sum(
+    var node = new constructors.Sum(
+      constructors,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
@@ -53,7 +63,8 @@ class TreeBuilder {
   }
 
   buildProduct(parseTreeNode) {
-    var node = new Product(
+    var node = new constructors.Product(
+      constructors,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
@@ -64,7 +75,8 @@ class TreeBuilder {
   }
 
   buildPower(parseTreeNode) {
-    var node = new Power(
+    var node = new constructors.Power(
+      constructors,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
@@ -74,7 +86,8 @@ class TreeBuilder {
   }
 
   buildSymbol(parseTreeNode) {
-    return new Symbol(
+    return new constructors.Symbol(
+      constructors,
       parseTreeNode.value,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)

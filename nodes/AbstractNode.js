@@ -1,10 +1,9 @@
-const Decimal = require("decimal.js");
-
 class AbstractNode {
-  constructor(sign, mulSign) {
+  constructor(constructors, sign, mulSign) {
+    this.constructors = constructors;
     this.type = "AbstractNode";
-    this.sign = new Decimal(1);
-    this.mulSign = new Decimal(1);
+    this.sign = new this.constructors.Decimal(1);
+    this.mulSign = new this.constructors.Decimal(1);
     this.setSign(sign);
     this.setMulSign(mulSign);
   }
@@ -53,7 +52,7 @@ class AbstractNode {
   }
 
   getSignString() {
-    return this.sign.equals(new Decimal(-1)) ? "-" : "+";
+    return this.sign.equals(new this.constructors.Decimal(-1)) ? "-" : "+";
   }
 
   resetSign() {
@@ -61,7 +60,7 @@ class AbstractNode {
   }
 
   isNegative() {
-    return this.getSign().equals(new Decimal(-1));
+    return this.getSign().equals(new this.constructors.Decimal(-1));
   }
 
   getMulSign() {
@@ -73,37 +72,43 @@ class AbstractNode {
   }
 
   getMulSignString() {
-    return this.mulSign.equals(new Decimal(-1)) ? "/" : "*";
+    return this.mulSign.equals(new this.constructors.Decimal(-1)) ? "/" : "*";
   }
 
   setSign(s) {
     if (s) {
-      if (new Decimal(1).equals(s) || new Decimal(-1).equals(s)) {
-        this.sign = new Decimal(s);
+      if (
+        new this.constructors.Decimal(1).equals(s)
+        || new this.constructors.Decimal(-1).equals(s)
+      ) {
+        this.sign = new this.constructors.Decimal(s);
         return;
       }
     }
-    this.setSign(new Decimal(1));
+    this.setSign(new this.constructors.Decimal(1));
   }
 
   setMulSign(s) {
     if (s) {
-      if (new Decimal(1).equals(s) || new Decimal(-1).equals(s)) {
-        this.mulSign = new Decimal(s);
+      if (
+          new this.constructors.Decimal(1).equals(s)
+          || new this.constructors.Decimal(-1).equals(s)
+        ) {
+        this.mulSign = new this.constructors.Decimal(s);
         return;
       }
     }
-    this.setSign(new Decimal(1));
+    this.setSign(new this.constructors.Decimal(1));
   }
 
   applySign(s) {
-    this.setSign(Decimal.mul(
+    this.setSign(this.constructors.Decimal.mul(
       this.getSign(), s
     ));
   }
 
   applyMulSign(s) {
-    this.setMulSign(Decimal.mul(
+    this.setMulSign(this.constructors.Decimal.mul(
       this.getMulSign(), s
     ));
   }

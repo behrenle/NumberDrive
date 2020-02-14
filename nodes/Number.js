@@ -1,35 +1,34 @@
 const AbstractNode = require("./AbstractNode");
-const Decimal = require('decimal.js');
-Decimal.precision = 64;
 
 class Number extends AbstractNode {
-  constructor(value = 0, sign, mulSign) {
-    super(sign, mulSign);
+  constructor(constructors, value = 0, sign, mulSign) {
+    super(constructors, sign, mulSign);
+    this.constructors.Decimal.precision = 64;
     this.type = "number";
-    var rawValue = new Decimal(value);
-    this.applySign(Decimal.sign(rawValue));
+    var rawValue = new this.constructors.Decimal(value);
+    this.applySign(this.constructors.Decimal.sign(rawValue));
     this.setValue(rawValue.abs());
   }
 
   addNumber(number) {
-    return new Number(Decimal.add(
-      Decimal.mul(this.getValue(), this.getSign()),
-      Decimal.mul(number.getValue(), number.getSign())
+    return new Number(this.constructors, this.constructors.Decimal.add(
+      this.constructors.Decimal.mul(this.getValue(), this.getSign()),
+      this.constructors.Decimal.mul(number.getValue(), number.getSign())
     ));
   }
 
   mulNumber(number) {
-    return new Number(Decimal.mul(
-      Decimal.mul(this.getSign(), number.getSign()),
-      Decimal.mul(
-        Decimal.pow(this.getValue(), this.getMulSign()),
-        Decimal.pow(number.getValue(), number.getMulSign())
+    return new Number(this.constructors, this.constructors.Decimal.mul(
+      this.constructors.Decimal.mul(this.getSign(), number.getSign()),
+      this.constructors.Decimal.mul(
+        this.constructors.Decimal.pow(this.getValue(), this.getMulSign()),
+        this.constructors.Decimal.pow(number.getValue(), number.getMulSign())
       )
     ));
   }
 
   power(number) {
-    return new Number(Decimal.pow(
+    return new Number(this.constructors, this.constructors.Decimal.pow(
       this.getValue(), number.getValue()
     ));
   }
