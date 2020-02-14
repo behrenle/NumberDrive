@@ -5,7 +5,7 @@ class Power extends AbstractContainer {
   constructor(sign, mulSign) {
     super([], sign, mulSign);
     this.type = "power";
-    this.connectionStrength = 1;
+    this.connectionStrength = 3;
   }
 
   evaluate(scope) {
@@ -25,8 +25,8 @@ class Power extends AbstractContainer {
     return this.getElement(1);
   }
 
-  serialize() {
-    return this.getBase().serialize() + "^" + this.getExponent().serialize();
+  getSerializeSeperator(element, first) {
+    return first ? "" : "^";
   }
 }
 

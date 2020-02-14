@@ -75,18 +75,15 @@ class Sum extends AbstractContainer {
     }
   }
 
-  serialize() {
-    var output = "";
-    for (var i = 0; i < this.elements.length; i++) {
-      if (!(i == 0 && this.elements[i].getSignString() == "+")) {
-        output += this.elements[i].getSignString() + " ";
+  getSerializeSeperator(element, first) {
+    var seperator = element.getSignString();
+    if (first) {
+      if (seperator == "+") {
+        return "";
       }
-      output += this.elements[i].serialize();
-      if (i < this.elements.length - 1) {
-        output += " ";
-      }
+      return seperator + " ";
     }
-    return output;
+    return " " + seperator + " ";
   }
 }
 

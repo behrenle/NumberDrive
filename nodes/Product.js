@@ -6,7 +6,7 @@ class Product extends AbstractContainer {
   constructor(sign, mulSign) {
     super([], sign, mulSign);
     this.type = "product";
-    this.connectionStrength = 1;
+    this.connectionStrength = 2;
   }
 
   evaluate(scope) {
@@ -99,16 +99,18 @@ class Product extends AbstractContainer {
     return result;
   }
 
-  serialize() {
-    var output = "";
-    for (var i = 0; i < this.getLength(); i++) {
-      output += this.getElement(i).getMulSignString() == "*" ? "" : "/ ";
-      output += this.getElement(i).serialize();
-      if (i < this.getLength() - 1) {
-        output += " ";
+  getSerializeSeperator(element, first) {
+    var seperator = element.getMulSignString();
+    if (seperator == "/") {
+      if (first) {
+        return seperator + " ";
       }
+      return " " + seperator + " ";
     }
-    return output;
+    if (!first) {
+      return " ";
+    }
+    return "";
   }
 }
 

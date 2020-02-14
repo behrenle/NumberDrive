@@ -99,6 +99,32 @@ class AbstractContainer extends AbstractNode {
     }
     return lines;
   }
+
+  getConnectionStrength() {
+    return this.connectionStrength;
+  }
+
+  serialize() {
+    var str = "";
+    for (var i = 0; i < this.getLength(); i++) {
+      var element = this.getElement(i);
+      var seperator = this.getSerializeSeperator(element, i == 0);
+      if (element instanceof AbstractContainer) {
+        if (element.getConnectionStrength() <= this.getConnectionStrength()) {
+          str += seperator + "(" + element.serialize() + ")";
+        } else {
+          str += seperator + element.serialize();
+        }
+      } else {
+        str += seperator + element.serialize();
+      }
+    }
+    return str;
+  }
+
+  getSerializeSeperator(element, first) {
+    return "";
+  }
 }
 
 module.exports = AbstractContainer;
