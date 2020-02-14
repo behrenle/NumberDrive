@@ -67,7 +67,7 @@ class AbstractContainer extends AbstractNode {
           for (var i = 0; i < this.getLength(); i++) {
             var isEqual = false;
             for (var k = 0; k < node.getLength(); k++) {
-              if (this.getElement(i).equals(node.getElement(k)) && compared[k]) {
+              if (this.getElement(i).equals(node.getElement(k)) && !compared[k]) {
                 compared[k] = true;
                 isEqual = true;
                 break;
