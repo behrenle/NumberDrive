@@ -49,6 +49,45 @@ class Sum extends AbstractContainer {
     return result;
   }
 
+  normSign() {
+    if (this.isNegative()) {
+      for (var element of this.getElements()) {
+        element.applySign(this.getSign());
+      }
+      this.applySign(this.getSign());
+    }
+  }
+
+  mulSum(node, Product, scope) {
+    this.normSign();
+    node.normSign();
+    var result = new Sum();
+    for (var element of node.getElements()) {
+      result.push(this.mulNonSum(element, Product));
+    }
+    return result.breakDown(scope);
+  }
+
+  mulNonSum(node, Product) {
+    this.normSign();
+    var result = new Sum();
+    for (var element of this.getElements()) {
+      var summand = new Product();//node.getSign(), node.getMulSign());
+      summand.applySign(node.getSign());
+      summand.applySign(element.getSign());
+      node.resetSign();
+      element.resetSign();
+      if (node.type == "product") {
+        summand.setElements(node.getElements());
+      } else {
+        summand.push(node);
+      }
+      summand.push(element);
+      result.push(summand);
+    }
+    return result;
+  }
+
   breakDown(scope) {
     var newElements = [];
     if (this.isEvaluable(scope)) {

@@ -60,6 +60,7 @@ class Product extends AbstractContainer {
 
   breakDown(scope) {
     var newElements = [];
+    var sums = [];
     if (this.isEvaluable(scope)) {
       return this.evaluate(scope);
     }
@@ -71,16 +72,34 @@ class Product extends AbstractContainer {
           subElement.applyMulSign(element.getMulSign());
           newElements.push(subElement);
         }
+      } else if (element.getType() == "sum") {
+        sums.push(element);
       } else {
         newElements.push(element)
       }
     }
-    this.setMulSign(1);
+    this.resetMulSign();
+    var result;
+    if (sums.length > 0) {
+      result = sums[0];
+      sums.splice(0, 1); // remove first element
+      for (var sum of sums) {
+        result = result.mulSum(sum, Product, scope);
+      }
+    }
     if (newElements.length > 1) {
       this.setElements(newElements);
+      if (result) {
+        return result.mulNonSum(this, Product);
+      }
       return this;
-    } else {
+    } else if (newElements.length == 1){
+      if (result) {
+        return result.mulNonSum(newElements[0], Product);
+      }
       return newElements[0];
+    } else {
+      return result;
     }
   }
 

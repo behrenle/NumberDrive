@@ -56,8 +56,20 @@ class AbstractNode {
     return this.sign.equals(new Decimal(-1)) ? "-" : "+";
   }
 
+  resetSign() {
+    this.applySign(this.getSign());
+  }
+
+  isNegative() {
+    return this.getSign().equals(new Decimal(-1));
+  }
+
   getMulSign() {
     return this.mulSign;
+  }
+
+  resetMulSign() {
+    this.applyMulSign(this.getMulSign());
   }
 
   getMulSignString() {
