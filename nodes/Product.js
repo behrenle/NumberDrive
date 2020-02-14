@@ -57,6 +57,32 @@ class Product extends AbstractContainer {
     return false;
   }
 
+  breakDown(scope) {
+    var newElements = [];
+    if (this.isEvaluable(scope)) {
+      return this.evaluate(scope);
+    }
+    for (var rawElement of this.getElements()) {
+      rawElement.applyMulSign(this.getMulSign());
+      var element = rawElement.breakDown(scope);
+      if (element.getType() == "product") {
+        for (var subElement of element.getElements()) {
+          subElement.applyMulSign(element.getMulSign());
+          newElements.push(subElement);
+        }
+      } else {
+        newElements.push(element)
+      }
+    }
+    this.setMulSign(1);
+    if (newElements.length > 1) {
+      this.setElements(newElements);
+      return this;
+    } else {
+      return newElements[0];
+    }
+  }
+
   simplify(scope) {
     var evaluables = this.getEvaluables(scope);
     var nonEvaluables = this.getNonEvaluables(scope);

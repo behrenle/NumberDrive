@@ -77,7 +77,7 @@ class AbstractNode {
   setMulSign(s) {
     if (s) {
       if (new Decimal(1).equals(s) || new Decimal(-1).equals(s)) {
-        this.mulSign = s;
+        this.mulSign = new Decimal(s);
         return;
       }
     }
@@ -87,6 +87,12 @@ class AbstractNode {
   applySign(s) {
     this.setSign(Decimal.mul(
       this.getSign(), s
+    ));
+  }
+
+  applyMulSign(s) {
+    this.setMulSign(Decimal.mul(
+      this.getMulSign(), s
     ));
   }
 
