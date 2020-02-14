@@ -1,3 +1,6 @@
+const IllegalArgumentException = require("../exceptions/IllegalArgumentException");
+const UnknownConstructorException = require("../exceptions/UnknownConstructorException");
+
 class AbstractNode {
   constructor(constructors, sign, mulSign) {
     this.constructors = constructors;
@@ -6,6 +9,27 @@ class AbstractNode {
     this.mulSign = new this.constructors.Decimal(1);
     this.setSign(sign);
     this.setMulSign(mulSign);
+  }
+
+  new(type, ...args) {
+    if (typeof type == "string") {
+      if (this.constructors[type]) {
+        switch (type) {
+          case "Decimal":
+            return new this.constructors.Decimal(args);
+
+          default:
+            return new this.constructors[type](
+              this.constructors,
+              ...args
+            );
+        }
+      } else {
+        throw new UnknownConstructorException(type);
+      }
+    } else {
+      throw new IllegalArgumentException("string", type);
+    }
   }
 
   simplify(scope) {
