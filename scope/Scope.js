@@ -1,4 +1,4 @@
-class scope {
+class Scope {
   constructor(values) {
     this.values = typeof values == "object" ? values : {};
   }
@@ -15,3 +15,5 @@ class scope {
     this.values[name] = name;
   }
 }
+
+module.exports = Scope;
