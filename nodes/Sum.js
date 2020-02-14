@@ -50,6 +50,9 @@ class Sum extends AbstractContainer {
 
   breakDown(scope) {
     var newElements = [];
+    if (this.isEvaluable(scope)) {
+      return this.evaluate(scope);
+    }
     for (var rawElement of this.getElements()) {
       var element = rawElement.breakDown(scope);
       element.applySign(this.getSign());
