@@ -1,8 +1,7 @@
 const Decimal = require("decimal.js");
 
 class AbstractNode {
-  constructor(elements = [], sign, mulSign) {
-    this.elements = elements;
+  constructor(sign, mulSign) {
     this.type = "AbstractNode";
     this.sign = new Decimal(1);
     this.mulSign = new Decimal(1);
@@ -12,6 +11,14 @@ class AbstractNode {
 
   simplify(scope) {
     return this;
+  }
+
+  breakDown(scope) {
+    return this.simplify(scope);
+  }
+
+  summarize(scope) {
+    return this.simplify(scope);
   }
 
   isEvaluable(scope) {
@@ -60,7 +67,7 @@ class AbstractNode {
   setSign(s) {
     if (s) {
       if (new Decimal(1).equals(s) || new Decimal(-1).equals(s)) {
-        this.sign = s;
+        this.sign = new Decimal(s);
         return;
       }
     }

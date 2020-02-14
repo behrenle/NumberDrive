@@ -22,6 +22,41 @@ class Product extends AbstractContainer {
     return result;
   }
 
+  squashSigns() {
+    for (var element of this.getElements()) {
+      this.applySign(element.getSign());
+      element.setSign(1);
+    }
+  }
+
+  isMultipleOf(node, scope) {
+    if (node.type == "product") {
+      var thisNonEvaluables = new Product();
+      var nodeNonEvaluables = new Product();
+      thisNonEvaluables.setElements(this.getNonEvaluables(scope));
+      nodeNonEvaluables.setElements(node.getNonEvaluables(scope));
+      var thisSimplified = thisNonEvaluables.simplify(scope);
+      var nodeSimplified = nodeNonEvaluables.simplify(scope);
+      thisSimplified.squashSigns();
+      nodeSimplified.squashSigns();
+      thisSimplified.output();
+      nodeSimplified.output();
+      if (thisSimplified.equals(nodeSimplified)) {
+        return true;
+      }
+    } else if (node.type == "symbol") {
+      var nonEvaluables = this.getNonEvaluables(scope);
+      if (nonEvaluables.length == 1) {
+        if (nonEvaluables[0].getType() == "symbol") {
+          if (nonEvaluables[0].getName() == node.getName()) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
   simplify(scope) {
     var evaluables = this.getEvaluables(scope);
     var nonEvaluables = this.getNonEvaluables(scope);

@@ -4,7 +4,7 @@ Decimal.precision = 64;
 
 class Number extends AbstractNode {
   constructor(value = 0, sign, mulSign) {
-    super([], sign, mulSign);
+    super(sign, mulSign);
     this.type = "number";
     var rawValue = new Decimal(value);
     this.applySign(Decimal.sign(rawValue));

@@ -3,7 +3,7 @@ const UnknownSymbolException = require("../exceptions/UnknownSymbolException");
 
 class Symbol extends AbstractNode {
   constructor(name, sign, mulSign) {
-    super([], sign, mulSign);
+    super(sign, mulSign);
     this.type = "symbol";
     this.name = name;
   }
