@@ -16,7 +16,7 @@ class AbstractNode {
       if (this.constructors[type]) {
         switch (type) {
           case "Decimal":
-            return new this.constructors.Decimal(args);
+            return new this.constructors.Decimal(...args);
 
           default:
             return new this.constructors[type](
