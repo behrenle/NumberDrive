@@ -102,21 +102,6 @@ class Product extends AbstractContainer {
     }
   }
 
-  /*simplify(scope) {
-    var evaluables = this.getEvaluables(scope);
-    var nonEvaluables = this.getNonEvaluables(scope);
-    var result = new Product(this.getSign(), this.getMulSign());
-    if (evaluables.length > 0) {
-      var value = new Product();
-      value.setElements(evaluables);
-      result.push(value.evaluate(scope));
-    }
-    if (nonEvaluables.length > 0) {
-      result.setElements(result.getElements().concat(nonEvaluables));
-    }
-    return result;
-  }*/
-
   getSerializeSeperator(element, first) {
     var seperator = element.getMulSignString();
     if (seperator == "/") {

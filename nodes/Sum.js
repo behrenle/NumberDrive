@@ -18,36 +18,6 @@ class Sum extends AbstractContainer {
     return result;
   }
 
-  /*simplify(scope) {
-    var evaluables = [];
-    var nonEvaluables = [];
-    for (var element of this.getElements()) {
-      var value = element.simplify(scope);
-      if (value.isEvaluable(scope)) {
-        evaluables.push(value);
-      } else {
-        nonEvaluables.push(value);
-      }
-    }
-    var result = new Sum(this.getSign(), this.getMulSign());
-    if (evaluables.length > 0) {
-      var value = new Sum();
-      value.setElements(evaluables);
-      if (nonEvaluables.length > 0) {
-        result.push(value.evaluate(scope));
-      } else {
-        return value.evaluate(scope);
-      }
-    }
-    if (nonEvaluables.length > 0) {
-      if (nonEvaluables.length == 1 && evaluables.length == 0) {
-        return nonEvaluables[0];
-      }
-      result.setElements(result.getElements().concat(nonEvaluables));
-    }
-    return result;
-  }*/
-
   normSign() {
     if (this.isNegative()) {
       for (var element of this.getElements()) {
@@ -71,7 +41,7 @@ class Sum extends AbstractContainer {
     this.normSign();
     var result = this.new("Sum");
     for (var element of this.getElements()) {
-      var summand = new this.new("Product"); 
+      var summand = new this.new("Product");
       summand.applySign(node.getSign());
       summand.applySign(element.getSign());
       node.resetSign();
