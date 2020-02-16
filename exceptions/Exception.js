@@ -4,10 +4,12 @@ class Exception {
     this.message = message;
   }
 
+  stringify() {
+    return this.type + (this.message ? ": " + this.message : "");
+  }
+
   print() {
-    console.log(
-      this.type + (this.message ? ": " + this.message : "")
-    );
+    console.log(this.stringify());
   }
 
   getType() {

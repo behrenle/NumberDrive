@@ -9,7 +9,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "node ./test/testAll.js"
+    "test": "bash ./test/rm_dumps.sh && node ./test/runTests.js"
   },
   "repository": {
     "type": "git",
