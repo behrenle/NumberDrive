@@ -136,7 +136,6 @@ class Product extends AbstractContainer {
               } else if (node1.getType() == "power" && node2.getType() == "symbol") {
                 // ++/-- power exponent by one if exponent is evaluable
               } else if (node1.getType() == "symbol" && node2.getType() == "symbol") {
-                // x / x -> 1, x * x -> x^2
                 if (node1.getName() == node2.getName()) {
                   if (node1.getMulSign().equals(node2.getMulSign())) {
                     var cmb = this.new("Power");
@@ -173,15 +172,10 @@ class Product extends AbstractContainer {
             }
           }
           if (simplified) {
-            // handle if nextNEvals has no elements
-            //   if evals.length == 0 then
-            //     evals.push( new number 1)
-            //     -> do not return empty product
             nEvals = nextNEvals;
             break;
           }
         }
-        // overwrite
       } while(simplified);
       result.setElements(result.getElements().concat(nEvals));
     }
@@ -195,7 +189,6 @@ class Product extends AbstractContainer {
       }
     }
     if (result.getElements().length == 1) {
-      //console.log("ELSEEEEEEEEEE")
       var element = result.getElement(0);
       element.applySign(result.getSign());
       element.applyMulSign(result.getMulSign());
