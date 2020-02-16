@@ -42,7 +42,11 @@ class Number extends AbstractNode {
   }
 
   serialize() {
-    return this.getValue().toString();
+    if (this.getSign().equals(1)) {
+      return this.getValue().toString();
+    } else {
+      return "(-" + this.getValue().toString() + ")";
+    }
   }
 
   equals(node) {

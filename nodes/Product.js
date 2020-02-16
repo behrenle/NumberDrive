@@ -114,11 +114,9 @@ class Product extends AbstractContainer {
     var nEvals = this.getNonEvaluables();
 
     // combine evals
-    if (evals.length > 0) {
-      var comb = this.new("Product");
-      comb.setElements(evals);
-      result.push(comb.evaluate());
-    }
+    var comb = this.new("Product");
+    comb.setElements(evals);
+    result.push(comb.evaluate());
 
     // combine nEvals
     if (nEvals.length > 0) {
@@ -145,12 +143,26 @@ class Product extends AbstractContainer {
                     cmb.applySign(node1.getSign());
                     cmb.applySign(node2.getSign());
                     cmb.setBase(this.new("Symbol", node1.getName()));
-                    cmb.setExponent(this.new("Number", 2));
+                    if (node1.getMulSign().equals(1)) {
+                      cmb.setExponent(this.new("Number", 2));
+                    } else {
+                      cmb.setExponent(this.new("Number", -2));
+                    }
                     for (var j = 0; j < nEvals.length; j++) {
                       if (j != i && j != k) {
                         nextNEvals.push(nEvals[j]);
                       } else if (j == i) {
                         nextNEvals.push(cmb);
+                      }
+                    }
+                    simplified = true;
+                    break;
+                  } else {
+                    result.getElement(0).applySign(node1.getSign());
+                    result.getElement(0).applySign(node2.getSign());
+                    for (var j = 0; j < nEvals.length; j++) {
+                      if (j != i & j != k) {
+                        nextNEvals.push(nEvals[j]);
                       }
                     }
                     simplified = true;
@@ -173,8 +185,23 @@ class Product extends AbstractContainer {
       } while(simplified);
       result.setElements(result.getElements().concat(nEvals));
     }
-
     result.squashSigns();
+    if (result.getElements().length > 1) {
+      if (result.getElement(0).getValue().equals(1)) {
+        result.applySign(result.getElement(0).getSign());
+        result.setElements(
+          result.getElements().slice(1, result.getElements().length)
+        );
+      }
+    }
+    if (result.getElements().length == 1) {
+      //console.log("ELSEEEEEEEEEE")
+      var element = result.getElement(0);
+      element.applySign(result.getSign());
+      element.applyMulSign(result.getMulSign());
+      return element;
+    }
+
     return result;
   }
 

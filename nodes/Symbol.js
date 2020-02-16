@@ -37,7 +37,11 @@ class Symbol extends AbstractNode {
   }
 
   serialize() {
-    return this.getName();
+    if (this.getSign().equals(1)) {
+      return this.getName();
+    } else {
+      return "(-" + this.getName() + ")";
+    }
   }
 
   equals(node) {

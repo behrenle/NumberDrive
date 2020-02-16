@@ -79,7 +79,10 @@ class Sum extends AbstractContainer {
       this.setElements(newElements);
       return this;
     } else {
-      return newElements[0];
+      var element = newElements[0];
+      element.applySign(this.getSign());
+      element.applyMulSign(this.getMulSign());
+      return element;
     }
   }
 
