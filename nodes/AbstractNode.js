@@ -13,6 +13,8 @@ class AbstractNode {
     this.setMulSign(mulSign);
   }
 
+  squashSigns() {}
+
   getCoefficient() {
     return this.new("Number", this.getSign());
   }

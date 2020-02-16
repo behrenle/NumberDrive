@@ -87,7 +87,7 @@ class Sum extends AbstractContainer {
     this.normSign();
     var result = this.new("Sum", this.getSign(), this.getMulSign());
     var evals = this.getEvaluables();
-    var nEvals = this.getNonEvaluables();
+    var nEvals = this.getNonEvaluables().map( x => x.summarize());
 
     // combine evals
     if (evals.length > 0) {

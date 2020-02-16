@@ -108,6 +108,76 @@ class Product extends AbstractContainer {
     }
   }
 
+  summarize() {
+    var result = this.new("Product", this.getSign(), this.getMulSign());
+    var evals = this.getEvaluables();
+    var nEvals = this.getNonEvaluables();
+
+    // combine evals
+    if (evals.length > 0) {
+      var comb = this.new("Product");
+      comb.setElements(evals);
+      result.push(comb.evaluate());
+    }
+
+    // combine nEvals
+    if (nEvals.length > 0) {
+      // ... handle while condition
+      var simplified, nextNEvals;
+      do {
+        simplified = false;
+        nextNEvals = [];
+        for (var i = 0; i < nEvals.length; i++) {
+          for (var k = 0; k < nEvals.length; k++) {
+            if (i != k) {
+              var node1 = nEvals[i];
+              var node2 = nEvals[k];
+              if (node1.getType() == "power" && node2.getType() == "power") {
+                // if base1 == base2 && exp1.evaluable && exp2.evaluable
+                // new exp --> exp1 +/- exp2
+              } else if (node1.getType() == "power" && node2.getType() == "symbol") {
+                // ++/-- power exponent by one if exponent is evaluable
+              } else if (node1.getType() == "symbol" && node2.getType() == "symbol") {
+                // x / x -> 1, x * x -> x^2
+                if (node1.getName() == node2.getName()) {
+                  if (node1.getMulSign().equals(node2.getMulSign())) {
+                    var cmb = this.new("Power");
+                    cmb.applySign(node1.getSign());
+                    cmb.applySign(node2.getSign());
+                    cmb.setBase(this.new("Symbol", node1.getName()));
+                    cmb.setExponent(this.new("Number", 2));
+                    for (var j = 0; j < nEvals.length; j++) {
+                      if (j != i && j != k) {
+                        nextNEvals.push(nEvals[j]);
+                      } else if (j == i) {
+                        nextNEvals.push(cmb);
+                      }
+                    }
+                    simplified = true;
+                    break;
+                  }
+                }
+              }
+            }
+          }
+          if (simplified) {
+            // handle if nextNEvals has no elements
+            //   if evals.length == 0 then
+            //     evals.push( new number 1)
+            //     -> do not return empty product
+            nEvals = nextNEvals;
+            break;
+          }
+        }
+        // overwrite
+      } while(simplified);
+      result.setElements(result.getElements().concat(nEvals));
+    }
+
+    result.squashSigns();
+    return result;
+  }
+
   getSerializeSeperator(element, first) {
     var seperator = element.getMulSignString();
     if (seperator == "/") {

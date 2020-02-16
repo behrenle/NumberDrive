@@ -24,8 +24,16 @@ class Power extends AbstractContainer {
     return this.getElement(0);
   }
 
+  setBase(base) {
+    this.setElement(0, base);
+  }
+
   getExponent() {
     return this.getElement(1);
+  }
+
+  setExponent(exp) {
+    this.setElement(1, exp);
   }
 
   getSerializeSeperator(element, first) {

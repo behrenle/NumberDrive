@@ -56,6 +56,10 @@ class AbstractContainer extends AbstractNode {
     return this.elements[i];
   }
 
+  setElement(i, value) {
+    this.elements[i] = value;
+  }
+
   push(e) {
     this.getElements().push(e);
   }
