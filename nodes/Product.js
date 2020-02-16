@@ -128,11 +128,37 @@ class Product extends AbstractContainer {
         for (var i = 0; i < nEvals.length; i++) {
           for (var k = 0; k < nEvals.length; k++) {
             if (i != k) {
-              var node1 = nEvals[i];
-              var node2 = nEvals[k];
+              var node1 = nEvals[i],
+                  node2 = nEvals[k];
               if (node1.getType() == "power" && node2.getType() == "power") {
-                // if base1 == base2 && exp1.evaluable && exp2.evaluable
-                // new exp --> exp1 +/- exp2
+                var base1 = node1.getBase(),
+                    base2 = node2.getBase();
+                if (base1.getType() == "symbol" && base1.equals(base2)) {
+                  var exp1 = node1.getExponent(),
+                      exp2 = node2.getExponent();
+                  if (exp1.isEvaluable() && exp2.isEvaluable()) {
+                    var newExp = this.new("Sum");
+                    exp1.applySign(node1.getMulSign());
+                    exp2.applySign(node2.getMulSign());
+                    newExp.push(exp1);
+                    newExp.push(exp2);
+                    newExp = newExp.evaluate();
+                    var comb = this.new("Power");
+                    comb.setBase(this.new("Symbol", base1.getName()));
+                    comb.setExponent(newExp);
+                    for (var j = 0; j < nEvals.length; j++) {
+                      if (i != j && k != j) {
+                        nextNEvals.push(nEvals[j]);
+                      } else if (i == j) {
+                        if (!newExp.getValue().equals(0)) {
+                          nextNEvals.push(comb);
+                        }
+                      }
+                    }
+                    simplified = true;
+                    break;
+                  }
+                }
               } else if (node1.getType() == "power" && node2.getType() == "symbol") {
                 // ++/-- power exponent by one if exponent is evaluable
               } else if (node1.getType() == "symbol" && node2.getType() == "symbol") {
