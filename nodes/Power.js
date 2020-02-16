@@ -13,7 +13,10 @@ class Power extends AbstractContainer {
     var exp  = this.getExponent().evaluate();
 
     if (base.getType() == "number" && exp.getType() == "number") {
-      return base.power(exp);
+      var result = base.power(exp);
+      result.applySign(this.getSign());
+      result.setMulSign(this.getMulSign());
+      return result;
     }
   }
 
