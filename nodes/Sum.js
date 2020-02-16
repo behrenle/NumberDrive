@@ -38,20 +38,20 @@ class Sum extends AbstractContainer {
   }
 
   mulNonSum(node) {
-    this.normSign();
     var result = this.new("Sum");
     for (var element of this.getElements()) {
       var summand = this.new("Product");
-      summand.applySign(node.getSign());
-      summand.applySign(element.getSign());
-      node.resetSign();
-      element.resetSign();
-      if (node.type == "product") {
-        summand.setElements(node.getElements());
+      var e1 = element.clone();
+      var e2 = node.clone();
+      e1.applySign(this.getSign());
+      if (e1 instanceof this.constructors.AbstractContainer) {
+        summand.applySign(e1.getSign());
+        summand.setElements(e1.getElements());
       } else {
-        summand.push(node);
+        summand.push(e1);
       }
-      summand.push(element);
+      summand.push(e2);
+      summand.squashSigns();
       result.push(summand);
     }
     return result;

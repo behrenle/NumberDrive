@@ -25,10 +25,14 @@ console.log("Running " + tests.length + " tests...");
 var failed = 0;
 
 for (var test of tests) {
-  test.test();
-  if (!test.succeeded) {
+  if (!test.parseError) {
+    test.test();
+    if (!test.succeeded) {
+      test.dump();
+      failed++;
+    }
+  } else {
     test.dump();
-    failed++;
   }
 }
 
