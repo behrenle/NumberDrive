@@ -146,11 +146,19 @@ class Product extends AbstractContainer {
                     var comb = this.new("Power");
                     comb.setBase(this.new("Symbol", base1.getName()));
                     comb.setExponent(newExp);
+                    comb.applySign(node1.getSign());
+                    comb.applySign(node2.getSign());
                     for (var j = 0; j < nEvals.length; j++) {
                       if (i != j && k != j) {
                         nextNEvals.push(nEvals[j]);
                       } else if (i == j) {
-                        if (!newExp.getValue().equals(0)) {
+                        if (newExp.getValue() == 1) {
+                          var nComb = comb.getBase();
+                          nComb.applySign(comb.getSign());
+                          nComb.applyMulSign(newExp.getSign());
+                          nComb.applyMulSign(comb.getMulSign());
+                          nextNEvals.push(nComb);
+                        } else if (!newExp.getValue().equals(0)) {
                           nextNEvals.push(comb);
                         }
                       }
@@ -161,6 +169,41 @@ class Product extends AbstractContainer {
                 }
               } else if (node1.getType() == "power" && node2.getType() == "symbol") {
                 // ++/-- power exponent by one if exponent is evaluable
+                var base = node1.getBase();
+                if (base.getType() == "symbol" && base.getSign().equals(1)) {
+                  if (base.getName() == node2.getName()) {
+                    var exp = node1.getExponent();
+                    if (exp.isEvaluable()) {
+                      var newExp = this.new("Sum");
+                      exp.applySign(node1.getMulSign());
+                      newExp.push(exp);
+                      newExp.push(this.new("Number", node2.getMulSign()));
+                      newExp = newExp.evaluate();
+                      var comb = this.new("Power");
+                      comb.setBase(base);
+                      comb.setExponent(newExp);
+                      comb.applySign(node1.getSign());
+                      comb.applySign(node2.getSign());
+                      for (var j = 0; j < nEvals.length; j++) {
+                        if (i != j && k != j) {
+                          nextNEvals.push(nEvals[j]);
+                        } else if (i == j) {
+                          if (newExp.getValue() == 1) {
+                            var nComb = comb.getBase();
+                            nComb.applySign(comb.getSign());
+                            nComb.applyMulSign(newExp.getSign());
+                            nComb.applyMulSign(comb.getMulSign());
+                            nextNEvals.push(nComb);
+                          } else if (!newExp.getValue().equals(0)) {
+                            nextNEvals.push(comb);
+                          }
+                        }
+                      }
+                      simplified = true;
+                      break;
+                    }
+                  }
+                }
               } else if (node1.getType() == "symbol" && node2.getType() == "symbol") {
                 if (node1.getName() == node2.getName()) {
                   if (node1.getMulSign().equals(node2.getMulSign())) {
