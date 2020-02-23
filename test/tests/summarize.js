@@ -33,6 +33,7 @@ module.exports = {
       "x^3 / x^2", "x",
       "x^2 x^4", "x^6",
       "a + c + 2a", "3a + c",
+      "2a - 5a + c", "-3a + c",
     ];
 
     for (var i = 0; i < testData.length; i += 2) {
