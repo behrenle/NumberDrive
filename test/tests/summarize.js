@@ -34,6 +34,10 @@ module.exports = {
       "x^2 x^4", "x^6",
       "a + c + 2a", "3a + c",
       "2a - 5a + c", "-3a + c",
+      "(a b)^2", "a^2 b^2",
+      "(a / b)^2", "a^2 / b^2",
+      "(a b)^(c d)", "a^(c d) b^(c d)",
+      "(a^b)^c", "a^(b c)",
     ];
 
     for (var i = 0; i < testData.length; i += 2) {

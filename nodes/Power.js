@@ -20,6 +20,33 @@ class Power extends AbstractContainer {
     }
   }
 
+  breakDown() {
+    this.setBase(this.getBase().breakDown());
+    this.setExponent(this.getExponent().breakDown());
+    if (this.getBase().getType() == "product") {
+      var result = this.new("Product", this.getSign(), this.getMulSign());
+      for (var element of this.getBase().getElements()) {
+        var p = this.new("Power", 1, element.getMulSign());
+        element.setMulSign(1);
+        p.setBase(element);
+        p.setExponent(this.getExponent());
+        result.push(p);
+      }
+      return result;
+    } else if (this.getBase().getType() == "power") {
+      if (this.getBase().getSign().equals(1)) {
+        var result = this.new("Power");
+        var newExp = this.new("Product");
+        newExp.push(this.getBase().getExponent());
+        newExp.push(this.getExponent());
+        result.setBase(this.getBase().getBase());
+        result.setExponent(newExp);
+        return result;
+      }
+    }
+    return this;
+  }
+
   getBase() {
     return this.getElement(0);
   }
