@@ -1,4 +1,5 @@
 const UnknownNodeException = require("./exceptions/UnknownNodeException");
+const InvalidTensorFormatException = require("./exceptions/InvalidTensorFormatException");
 
 const constructors = {
   AbstractNode:      require("./nodes/AbstractNode"),
@@ -10,6 +11,34 @@ const constructors = {
   Product:           require("./nodes/Product"),
   Power:             require("./nodes/Power"),
 };
+
+function dimEquals(dims1, dims2) {
+  if (dims1 instanceof Array && dims2 instanceof Array) {
+    if (dims1.length == dims2.length) {
+      for (var i = 0; i < dims1.length; i++) {
+        if (dims1[i] != dims2[i]) {
+          return false;
+        }
+      }
+      return true;
+    }
+  }
+  return false;
+}
+
+function getDims(listNode) {
+  if (listNode.type != "list" || listNode.elements.length == 0) {
+    return [];
+  }
+  var dim = [listNode.elements.length],
+      cDim = getDims(listNode.elements[0]);
+  for (var i = 1; i < listNode.elements.length; i++) {
+    if (!dimEquals(cDim, getDims(listNode.elements[i]))) {
+      throw new InvalidTensorFormatException;
+    }
+  }
+  return cDim.concat(dim); // column-major order
+}
 
 class TreeBuilder {
   getSign(parseTreeNode) {
@@ -40,6 +69,9 @@ class TreeBuilder {
 
       case "symbol":
         return this.buildSymbol(parseTreeNode);
+
+      case "list":
+        return this.buildTensor(parseTreeNode);
 
       default:
         throw new UnknownNodeException(parseTreeNode);
@@ -97,6 +129,12 @@ class TreeBuilder {
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
+  }
+
+  buildTensor(parseTreeNode) {
+    var dims = getDims(parseTreeNode);
+    console.log(dims);
+    
   }
 }
 
