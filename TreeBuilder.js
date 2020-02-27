@@ -1,3 +1,5 @@
+const UnknownNodeException = require("./exceptions/UnknownNodeException");
+
 const constructors = {
   AbstractNode:      require("./nodes/AbstractNode"),
   AbstractContainer: require("./nodes/AbstractContainer"),
@@ -38,6 +40,9 @@ class TreeBuilder {
 
       case "symbol":
         return this.buildSymbol(parseTreeNode);
+
+      default:
+        throw new UnknownNodeException(parseTreeNode);
     }
   }
 
