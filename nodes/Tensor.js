@@ -12,6 +12,14 @@ class Tensor extends AbstractContainer {
     }
     this.elements = new Array(this.length);
   }
+
+  coords2Index(coords) {
+
+  }
+
+  index2Coords(index) {
+    
+  }
 }
 
 module.exports = Tensor;
