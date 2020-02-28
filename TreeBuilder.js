@@ -10,6 +10,7 @@ const constructors = {
   Sum:               require("./nodes/Sum"),
   Product:           require("./nodes/Product"),
   Power:             require("./nodes/Power"),
+  Tensor:            require("./nodes/Tensor"),
 };
 
 function dimEquals(dims1, dims2) {
@@ -133,8 +134,13 @@ class TreeBuilder {
 
   buildTensor(parseTreeNode) {
     var dims = getDims(parseTreeNode);
-    console.log(dims);
-    
+    var node = new constructors.Tensor(
+      constructors,
+      dims,
+      this.getSign(parseTreeNode),
+      this.getMulSign(parseTreeNode)
+    );
+    node.output();
   }
 }
 
