@@ -141,6 +141,7 @@ class TreeBuilder {
       this.getMulSign(parseTreeNode)
     );
     node.output();
+    return node;
   }
 }
 
