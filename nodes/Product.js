@@ -267,18 +267,28 @@ class Product extends AbstractContainer {
     return result;
   }
 
-  getSerializeSeperator(element, first) {
-    var seperator = element.getMulSignString();
-    if (seperator == "/") {
-      if (first) {
-        return seperator + " ";
+  serialize() {
+    console.log("product serialize");
+    var str = "";
+    for (var i = 0; i < this.getElements().length; i++) {
+      var element = this.getElement(i);
+      if (element.getMulSignString() == "*" && i > 0) {
+        str += " * ";
       }
-      return " " + seperator + " ";
+      if (element.getMulSignString() == "/") {
+        if (i == 0) {
+          str += "/ ";
+        } else {
+          str += " / ";
+        }
+      }
+      if (element.connectionStrength <= this.connectionStrength || element.getSignString() == "-") {
+        str += "(" + (element.getSignString() == "-" ? "-" : "") + element.serialize(true) + ")";
+      } else {
+        str += element.serialize(true);
+      }
     }
-    if (!first) {
-      return " ";
-    }
-    return "";
+    return str;
   }
 }
 

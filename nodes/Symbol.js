@@ -36,11 +36,11 @@ class Symbol extends AbstractNode {
     return this.name;
   }
 
-  serialize() {
-    if (this.getSign().equals(1)) {
-      return this.getName();
+  serialize(mode) {
+    if (!mode && this.getSign().equals(-1)) {
+      return "-" + this.getName();
     } else {
-      return "(-" + this.getName() + ")";
+      return this.getName();
     }
   }
 

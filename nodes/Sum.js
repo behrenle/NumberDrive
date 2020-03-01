@@ -8,13 +8,6 @@ class Sum extends AbstractContainer {
   }
 
   evaluate() {
-    //var result = this.new("Number", 0);
-    /*for (var element of this.elements) {
-      var value = element.evaluate();
-      if (value.getType() == "number") {
-        result = result.addNumber(value);
-      }
-    }*/
     var result = this.getElement(0).evaluate();
     for (var i = 1; i < this.elements.length; i++) {
       var element = this.getElement(i).evaluate();
@@ -204,15 +197,27 @@ class Sum extends AbstractContainer {
     return result;
   }
 
-  getSerializeSeperator(element, first) {
-    var seperator = element.getSignString();
-    if (first) {
-      if (seperator == "+") {
-        return "";
+  serialize() {
+    var str = "";
+    for (var i = 0; i < this.getElements().length; i++) {
+      var element = this.getElement(i);
+      if (element.getSignString() == "+" && i > 0) {
+        str += " + ";
       }
-      return seperator + " ";
+      if (element.getSignString() == "-") {
+        if (i == 0) {
+          str += "-";
+        } else {
+          str += " - ";
+        }
+      }
+      if (element.connectionStrength <= this.connectionStrength) {
+        str += "(" + element.serialize(true) + ")";
+      } else {
+        str += element.serialize(true);
+      }
     }
-    return " " + seperator + " ";
+    return str;
   }
 }
 

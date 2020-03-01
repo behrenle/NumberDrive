@@ -113,6 +113,17 @@ class Tensor extends AbstractContainer {
     }
     throw "incompatible dimensions";
   }
+
+  serialize() {
+    var str = "[";
+    for (var i = 0; i < this.getElements().length; i++) {
+      if (i > 0)
+        str += ", ";
+      str += this.getElement(i).serialize();
+    }
+    str += "]";
+    return str;
+  }
 }
 
 module.exports = Tensor;

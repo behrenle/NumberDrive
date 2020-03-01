@@ -41,11 +41,11 @@ class Number extends AbstractNode {
     this.value = value;
   }
 
-  serialize() {
-    if (this.getSign().equals(1)) {
-      return this.getValue().toString();
+  serialize(mode) {
+    if (!mode && this.getSign().equals(-1)) {
+      return "-" + this.getValue().toString();
     } else {
-      return "(-" + this.getValue().toString() + ")";
+      return this.getValue().toString();
     }
   }
 

@@ -63,8 +63,26 @@ class Power extends AbstractContainer {
     this.setElement(1, exp);
   }
 
-  getSerializeSeperator(element, first) {
-    return first ? "" : "^";
+  serialize() {
+    var str = "";
+    if (this.getBase() instanceof AbstractContainer || this.getBase().getSignString() == "-") {
+      str += "(";
+      str += this.getBase().getSignString() == "-" ? "-" : "";
+      str += this.getBase().serialize(true);
+      str += ")";
+    } else {
+      str += this.getBase().serialize(true);
+    }
+    str += "^";
+    if (this.getExponent() instanceof AbstractContainer || this.getExponent().getSignString() == "-") {
+      str += "(";
+      str += this.getExponent().getSignString() == "-" ? "-" : "";
+      str += this.getExponent().serialize(true);
+      str += ")";
+    } else {
+      str += this.getExponent().serialize(true);
+    }
+    return str;
   }
 }
 
