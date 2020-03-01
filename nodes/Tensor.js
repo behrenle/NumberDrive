@@ -65,6 +65,14 @@ class Tensor extends AbstractContainer {
     }
     return indices;
   }
+
+  getDimensions() {
+    return this.dims;
+  }
+
+  getRank() {
+    return this.getDimensions().length;
+  }
 }
 
 module.exports = Tensor;
