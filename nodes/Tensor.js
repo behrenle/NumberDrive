@@ -45,11 +45,17 @@ class Tensor extends AbstractContainer {
   }
 
   setElement(coords, value) {
-    this.elements[this.coords2Index(coords)] = value;
+    var index = coords instanceof Array
+                ? this.coords2Index(coords)
+                : coords;
+    this.elements[index] = value;
   }
 
   getElement(coords) {
-    return this.elements[this.coords2Index(coords)];
+    var index = coords instanceof Array
+                ? this.coords2Index(coords)
+                : coords;
+    return this.elements[index];
   }
 
   getIndeces() {

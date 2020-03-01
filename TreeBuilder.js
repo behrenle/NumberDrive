@@ -152,7 +152,6 @@ class TreeBuilder {
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
-    //node.output();
     node.elements = getTensorElements(parseTreeNode).map(
       n => this.build(n)
     );
