@@ -175,17 +175,62 @@ class Tensor extends AbstractContainer {
     return result;
   }
 
+  reshape(newDims) {
+    if (newDims.reduce((a, v) => a * v) == this.getElements().length) {
+      this.dims = newDims;
+    } else {
+      throw "unable to reshape: incompatible dimensions";
+    }
+  }
+
+  transpose() {
+    if (this.getRank() > 1) {
+      var revDims = this.getDimensions().slice(0, this.getDimensions().length).reverse();
+      var result = this.new("Tensor", revDims, this.getSign(), this.getMulSign());
+      for (var i = 0; i < this.getElements().length; i++) {
+        var coords = this.index2Coords(i);
+        var rCoords = this.index2Coords(i);
+        rCoords.reverse();
+        result.setElement(rCoords, this.getElement(coords));
+      }
+      return result;
+    } else {
+      this.reshape([1, this.getElements().length]);
+      return this;
+    }
+  }
+
   serialize(mode) {
     var str = "";
     if (!mode)
       str += this.getSignString() == "-" ? "-" : "";
-    str += "[";
+
+    str += "[".repeat(this.getDimensions().length);
+    var lastIndex = new Array(this.getDimensions().length -1).fill(0),
+        first     = true,
+        index;
+
     for (var i = 0; i < this.getElements().length; i++) {
-      if (i > 0)
+      index = this.index2Coords(i);
+      for (var j = lastIndex.length - 1; j >= 0 ; j--) {
+        if (lastIndex[j] != index[j + 1]) {
+          first = true;
+          str  += "]".repeat(j + 1);
+          str  += ", ";
+          str  += "[".repeat(j + 1);
+          break;
+        }
+      }
+
+      if (!first)
         str += ", ";
+      first = false;
       str += this.getElement(i).serialize();
+
+      lastIndex = index.slice(1, index.length);
     }
-    str += "]";
+
+    str += "]".repeat(this.getDimensions().length);
     return str;
   }
 }
