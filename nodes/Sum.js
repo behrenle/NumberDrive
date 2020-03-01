@@ -9,7 +9,7 @@ class Sum extends AbstractContainer {
 
   evaluate() {
     var result = this.getElement(0).evaluate();
-    for (var i = 1; i < this.elements.length; i++) {
+    for (var i = 1; i < this.getElements().length; i++) {
       var element = this.getElement(i).evaluate();
       if (result.getType() == "number" && element.getType() == "number") {
         result = result.addNumber(element);
@@ -158,7 +158,6 @@ class Sum extends AbstractContainer {
                 && node2.getType() == "symbol"
               ) {
                 if (node1.getName() == node2.getName()) {
-                  console.log(node1.getName(), node2.getName());
                   for (var j = 0; j < nEvals.length; j++) {
                     if (j != i && j != k) {
                       summands.push(nEvals[j]);

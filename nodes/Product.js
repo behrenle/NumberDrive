@@ -12,11 +12,17 @@ class Product extends AbstractContainer {
     var result = this.new("Number", 1);
     for (var element of this.getElements()) {
       var value = element.evaluate();
-      if (value.getType() == "number") {
+      if (value.getType() == "number" && result.getType() == "number") {
         if (value.getValue().equals(0) && value.getMulSign().equals(-1)) {
           throw new DevideByZeroException();
         }
         result = result.mulNumber(value);
+      } else if (value.getType() == "tensor" && result.getType() == "number") {
+        result = value.mulNumber(result).evaluate();
+      } else if (value.getType() == "number" && result.getType() == "tensor") {
+        result = result.mulNumber(value).evaluate();
+      } else if (value.getType() == "tensor" && result.getType() == "tensor") {
+        result = result.mulTensor(value).evaluate();
       }
     }
     result.applySign(this.getSign());
@@ -268,7 +274,6 @@ class Product extends AbstractContainer {
   }
 
   serialize() {
-    console.log("product serialize");
     var str = "";
     for (var i = 0; i < this.getElements().length; i++) {
       var element = this.getElement(i);

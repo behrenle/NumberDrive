@@ -114,8 +114,49 @@ class Tensor extends AbstractContainer {
     throw "incompatible dimensions";
   }
 
-  serialize() {
-    var str = "[";
+  mulTensor(tensor) {
+    if (this.getMulSign().equals(-1) || tensor.getMulSign().equals(-1)) {
+      throw "undefined operation: tensor division";
+    }
+    if (this.getRank() == 1 && tensor.getRank() == 1 && this.dimEquals(tensor.getDimensions())) {
+      var result = this.new("Sum");
+      for (var i = 0; i < this.getElements().length; i++) {
+        var summand = this.new("Product");
+        var value1 = this.getElement(i);
+        var value2 = tensor.getElement(i);
+        value1.applySign(this.getSign());
+        value2.applySign(tensor.getSign());
+        summand.push(value1);
+        summand.push(value2);
+        result.push(summand);
+      }
+      return result;
+    }
+    throw "incompatible dimensions";
+  }
+
+  mulNumber(number) {
+    if (this.getMulSign().equals(-1)) {
+      throw "undefined operation: tensor division";
+    }
+    var result = this.new("Tensor", this.getDimensions());
+    for (var i = 0; i < this.getElements().length; i++) {
+      var element = this.new("Product"),
+          value1  = this.getElement(i);
+
+      value1.applySign(this.getSign());
+      element.push(value1);
+      element.push(number);
+      result.setElement(i, element);
+    }
+    return result;
+  }
+
+  serialize(mode) {
+    var str = "";
+    if (!mode)
+      str += this.getSignString() == "-" ? "-" : "";
+    str += "[";
     for (var i = 0; i < this.getElements().length; i++) {
       if (i > 0)
         str += ", ";
