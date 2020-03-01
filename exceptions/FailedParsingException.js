@@ -5,3 +5,5 @@ class FailedParsingException extends Exception {
     super(e.name, e.message);
   }
 }
+
+module.exports = FailedParsingException;

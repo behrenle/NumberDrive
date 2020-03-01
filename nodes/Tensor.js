@@ -131,6 +131,29 @@ class Tensor extends AbstractContainer {
         result.push(summand);
       }
       return result;
+    } else if (this.getRank() == 2 && tensor.getRank() == 2) {
+      if (this.getDimensions()[0] == tensor.getDimensions()[1]) {
+        var width  = tensor.getDimensions()[0],
+            height = this.getDimensions()[1],
+            result = this.new("Tensor", [width, height]);
+
+        for (var x = 0; x < width; x++) {
+          for (var y = 0; y < height; y++) {
+            var element = this.new("Sum");
+            for (var i = 0; i < this.getDimensions()[0]; i++) {
+              var summand = this.new("Product");
+              summand.applySign(this.getSign());
+              summand.applySign(tensor.getSign());
+              summand.push(this.getElement([i, y]));
+              summand.push(tensor.getElement([x, i]));
+              element.push(summand);
+            }
+            result.setElement([x, y], element);
+          }
+        }
+
+        return result;
+      }
     }
     throw "incompatible dimensions";
   }
