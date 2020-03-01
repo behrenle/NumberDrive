@@ -10,7 +10,15 @@ class Tensor extends AbstractContainer {
     for (var dim of dims) {
       this.length *= dim;
     }
-    this.elements = new Array(this.length);
+    this.elements = new Array(this.length).fill(this.new("Number", 0));
+  }
+
+  evaluate() {
+    var result = this.new("Tensor", this.getDimensions(), this.getSign(), this.getMulSign());
+    for (var i = 0; i < this.getElements().length; i++) {
+      result.setElement(i, this.getElement(i).evaluate());
+    }
+    return result;
   }
 
   coords2Index(coords) {
@@ -70,8 +78,40 @@ class Tensor extends AbstractContainer {
     return this.dims;
   }
 
+  dimEquals(dims) {
+    if (dims.length == this.getDimensions().length) {
+      for (var i = 0; i < dims.length; i++) {
+        if (dims[i] != this.getDimensions()[i])
+          return false;
+      }
+      return true;
+    }
+    return false;
+  }
+
   getRank() {
     return this.getDimensions().length;
+  }
+
+  addTensor(tensor) {
+    if (this.dimEquals(tensor.getDimensions())) {
+      var result = this.new("Tensor", this.getDimensions());
+      for (var i = 0; i < this.getElements().length; i++) {
+        var element = this.new("Sum"),
+            value1  = this.getElement(i),
+            value2  = tensor.getElement(i);
+
+        value1.applySign(this.getSign());
+        value2.applySign(tensor.getSign());
+
+        element.push(value1);
+        element.push(value2);
+
+        result.setElement(i, element);
+      }
+      return result;
+    }
+    throw "incompatible dimensions";
   }
 }
 

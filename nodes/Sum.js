@@ -8,13 +8,26 @@ class Sum extends AbstractContainer {
   }
 
   evaluate() {
-    var result = this.new("Number", 0);
-    for (var element of this.elements) {
+    //var result = this.new("Number", 0);
+    /*for (var element of this.elements) {
       var value = element.evaluate();
       if (value.getType() == "number") {
         result = result.addNumber(value);
       }
+    }*/
+    var result = this.getElement(0).evaluate();
+    for (var i = 1; i < this.elements.length; i++) {
+      var element = this.getElement(i).evaluate();
+      if (result.getType() == "number" && element.getType() == "number") {
+        result = result.addNumber(element);
+      } else if (result.getType() == "tensor" && element.getType() == "tensor") {
+        result = result.addTensor(element);
+        result = result.evaluate();
+      } else {
+        throw "undefined operation";
+      }
     }
+
     return result;
   }
 
