@@ -38,7 +38,19 @@ function getDims(listNode) {
       throw new InvalidTensorFormatException;
     }
   }
-  return cDim.concat(dim); // column-major order
+  return cDim.concat(dim);
+}
+
+function getTensorElements(listNode) {
+  if (listNode.elements[0].type == "list") {
+    var elements = [];
+    for (var element of listNode.elements) {
+      var subElements = getTensorElements(element);
+      elements = elements.concat(subElements);
+    }
+    return elements;
+  }
+  return listNode.elements;
 }
 
 class TreeBuilder {
@@ -140,7 +152,10 @@ class TreeBuilder {
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
-    node.output();
+    //node.output();
+    node.elements = getTensorElements(parseTreeNode).map(
+      n => this.build(n)
+    );
     return node;
   }
 }
