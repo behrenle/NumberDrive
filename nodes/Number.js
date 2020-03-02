@@ -29,7 +29,7 @@ class Number extends AbstractNode {
 
   power(number) {
     return this.new("Number", this.constructors.Decimal.pow(
-      this.getValue(), number.getValue()
+      this.getValue(), this.constructors.Decimal.mul(number.getValue(), number.getSign())
     ));
   }
 

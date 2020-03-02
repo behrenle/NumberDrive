@@ -7,6 +7,15 @@ class Stack {
     this.scopes = [];
   }
 
+  exists(name) {
+    for (var i = this.scopes.length - 1; i >= 0; i--) {
+      if (this.scopes[i].exists(name)) {        
+        return true;
+      }
+    }
+    return false;
+  }
+
   getValue(name) {
     for (var i = this.scopes.length - 1; i >= 0; i--) {
       var scope = this.scopes[i];

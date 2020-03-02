@@ -11,6 +11,8 @@ const constructors = {
   Product:           require("./nodes/Product"),
   Power:             require("./nodes/Power"),
   Tensor:            require("./nodes/Tensor"),
+  Function:          require("./nodes/Function"),
+  FunctionCall:      require("./nodes/FunctionCall"),
 };
 
 function dimEquals(dims1, dims2) {
@@ -86,6 +88,9 @@ class TreeBuilder {
       case "list":
         return this.buildTensor(parseTreeNode);
 
+      case "function":
+        return this.buildFunctionCall(parseTreeNode);
+
       default:
         throw new UnknownNodeException(parseTreeNode);
     }
@@ -155,6 +160,19 @@ class TreeBuilder {
     node.elements = getTensorElements(parseTreeNode).map(
       n => this.build(n)
     );
+    return node;
+  }
+
+  buildFunctionCall(parseTreeNode) {
+    var node = new constructors.FunctionCall(
+      constructors,
+      parseTreeNode.name,
+      this.getSign(parseTreeNode),
+      this.getMulSign(parseTreeNode)
+    );
+    node.setElements(parseTreeNode.elements.map(
+      n => this.build(n)
+    ));
     return node;
   }
 }
