@@ -158,13 +158,13 @@ class Tensor extends AbstractContainer {
       var length = tensor.getDimensions().reduce((a, c) => a * c);
       tensor.reshape([1, length]);
       var result = this.mulTensor(tensor)
-      result.reshape([length]);
+      result.reshape([result.getElements().length]);
       return result;
     } else if (this.getRank() == 1 && tensor.getRank() == 2) {
       var length = this.getDimensions().reduce((a, c) => a * c);
       this.reshape([length, 1]);
       var result = this.mulTensor(tensor);
-      result.reshape([length]);
+      result.reshape([result.getElements().length]);
       return result;
     }
     throw "incompatible dimensions";
