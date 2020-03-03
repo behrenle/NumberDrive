@@ -12,7 +12,15 @@ class Definition extends AbstractContainer {
       this.getStack().setValue(this.getLabel().getName(), value);
       return value;
     } else if (this.getLabel().getType() == "functionCall") {
-
+      this.getStack().setValue(
+        this.getLabel().getName(),
+        this.new(
+          "Function",
+          this.getLabel().getElements(),
+          this.getValue()
+        )
+      );
+      return this;
     }
     throw "Definition: invalid label";
   }
@@ -31,6 +39,14 @@ class Definition extends AbstractContainer {
 
   getValue() {
     return this.getElement(1);
+  }
+
+  serialize() {
+    var str = "";
+    str += this.getLabel().serialize();
+    str += " := ";
+    str += this.getValue().serialize();
+    return str;
   }
 }
 

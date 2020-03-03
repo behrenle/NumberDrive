@@ -21,6 +21,19 @@ class FunctionCall extends AbstractContainer {
     }
     throw this.getName() + " does not exist";
   }
+
+  serialize() {
+    var str = "";
+    str += this.getName() + "(";
+    for (var i = 0; i < this.getElements().length; i++) {
+      str += this.getElement(i).serialize();
+      if (i < this.getElements().length - 1) {
+        str += ", ";
+      }
+    }
+    str += ")";
+    return str;
+  }
 }
 
 module.exports = FunctionCall;
