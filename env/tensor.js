@@ -36,4 +36,9 @@ module.exports = {
 
     return dest.getElement(realCoords);
   },
+
+  det: function(parameters, stack) {
+    var param = gFuncTools.paramCheck(parameters, ["tensor"])[0];
+    return param.det().evaluate();
+  }
 }

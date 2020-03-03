@@ -26,6 +26,7 @@ const conf = {
   dimensions: true,
   get:        true,
   set:        true,
+  det:        true,
 }
 
 const funcs = {
