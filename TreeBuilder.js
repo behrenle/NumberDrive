@@ -14,6 +14,7 @@ const constructors = {
   Function:          require("./nodes/Function"),
   FunctionCall:      require("./nodes/FunctionCall"),
   Definition:        require("./nodes/Definition"),
+  Equation:          require("./nodes/Equation"),
 };
 
 function dimEquals(dims1, dims2) {
@@ -95,8 +96,10 @@ class TreeBuilder {
       case "definition":
         return this.buildDefinition(parseTreeNode);
 
+      case "equation":
+        return this.buildEquation(parseTreeNode);
+
       default:
-        console.log(JSON.stringify(parseTreeNode, null, 2));
         throw new UnknownNodeException(parseTreeNode);
     }
   }
@@ -183,6 +186,14 @@ class TreeBuilder {
 
   buildDefinition(parseTreeNode) {
     var node = new constructors.Definition(constructors);
+    node.setElements(parseTreeNode.elements.map(
+      n => this.build(n)
+    ));
+    return node;
+  }
+
+  buildEquation(parseTreeNode) {
+    var node = new constructors.Equation(constructors);
     node.setElements(parseTreeNode.elements.map(
       n => this.build(n)
     ));
