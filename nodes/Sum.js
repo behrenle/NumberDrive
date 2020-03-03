@@ -21,6 +21,8 @@ class Sum extends AbstractContainer {
       }
     }
 
+    result.applySign(this.getSign());
+    result.applyMulSign(this.getMulSign());
     return result;
   }
 

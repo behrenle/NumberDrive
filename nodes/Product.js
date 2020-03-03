@@ -26,6 +26,7 @@ class Product extends AbstractContainer {
       }
     }
     result.applySign(this.getSign());
+    result.applyMulSign(this.getMulSign());
     return result;
   }
 
