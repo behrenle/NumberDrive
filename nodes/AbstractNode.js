@@ -165,19 +165,17 @@ class AbstractNode {
 
   clone() {
     var cloneOBJ = new this.constructor(this.constructors);
-    cloneOBJ.setSign(this.getSign());
-    cloneOBJ.setMulSign(this.getMulSign());
     for (var key of Object.keys(this)) {
       if (key == "elements") {
         for (var subElement of this.getElements()) {
           cloneOBJ.push(subElement.clone());
         }
       } else {
-        if (!cloneOBJ[key]) {
-          cloneOBJ[key] = this[key];
-        }
+        cloneOBJ[key] = this[key];
       }
     }
+    cloneOBJ.setSign(this.getSign());
+    cloneOBJ.setMulSign(this.getMulSign());
     return cloneOBJ;
   }
 

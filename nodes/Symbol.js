@@ -14,10 +14,9 @@ class Symbol extends AbstractNode {
 
   evaluate() {
     if (this.hasValue()) {
-      var value = this.getValue();
+      var value = this.getValue().clone();
       value.applySign(this.getSign());
       value.setMulSign(this.getMulSign());
-      value.setStack(this.getStack());
       return value;
     } else {
       throw new UnknownSymbolException(this);
