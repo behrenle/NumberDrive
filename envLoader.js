@@ -21,10 +21,16 @@ const conf = {
   asinh: true,
   acosh: true,
   atanh: true,
+
+  // tensor functions
+  dimensions: true,
+  get:        true,
+  set:        true,
 }
 
 const funcs = {
   ...require("./env/trigonometry"),
+  ...require("./env/tensor"),
 }
 
 const consts = {
