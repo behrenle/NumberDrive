@@ -13,6 +13,7 @@ const constructors = {
   Tensor:            require("./nodes/Tensor"),
   Function:          require("./nodes/Function"),
   FunctionCall:      require("./nodes/FunctionCall"),
+  Definition:        require("./nodes/Definition"),
 };
 
 function dimEquals(dims1, dims2) {
@@ -91,7 +92,11 @@ class TreeBuilder {
       case "function":
         return this.buildFunctionCall(parseTreeNode);
 
+      case "definition":
+        return this.buildDefinition(parseTreeNode);
+
       default:
+        console.log(JSON.stringify(parseTreeNode, null, 2));
         throw new UnknownNodeException(parseTreeNode);
     }
   }
@@ -170,6 +175,14 @@ class TreeBuilder {
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
+    node.setElements(parseTreeNode.elements.map(
+      n => this.build(n)
+    ));
+    return node;
+  }
+
+  buildDefinition(parseTreeNode) {
+    var node = new constructors.Definition(constructors);
     node.setElements(parseTreeNode.elements.map(
       n => this.build(n)
     ));
