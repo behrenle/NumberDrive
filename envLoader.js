@@ -4,10 +4,23 @@ const GenericFunction = require("./nodes/GenericFunction");
 const constructors = require("./constructors");
 
 const conf = {
-  sin: true,
-  cos: true,
+  // constants
   pi:  true,
   e:   true,
+
+  // trigonometric functions
+  sin: true,
+  cos: true,
+  tan: true,
+  sinh: true,
+  cosh: true,
+  tanh: true,
+  asin: true,
+  acos: true,
+  atan: true,
+  asinh: true,
+  acosh: true,
+  atanh: true,
 }
 
 const funcs = {
