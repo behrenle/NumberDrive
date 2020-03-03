@@ -245,6 +245,60 @@ class Tensor extends AbstractContainer {
     str += "]".repeat(this.getDimensions().length);
     return str;
   }
+
+  det() {
+    if (this.getRank() == 2) {
+      var dims = this.getDimensions();
+      if (dims[0] == dims[1]) {
+        if (dims[0] > 0) {
+          if (dims[0] == 1) {
+            return this.getElement(0);
+          } else {
+            var result = this.new("Sum");
+            var j = 0;
+
+            for (var i = 0; i < dims[0]; i++) {
+              var summand = this.new("Product");
+              var s       = this.new("Power");
+              var sE      = this.new("Sum");
+
+              // sign
+              s.push(this.new("Number", -1));
+              sE.push(this.new("Number", i));
+              sE.push(this.new("Number", j));
+              sE.push(this.new("Number", 2)); // correct js index offset
+              s.push(sE);
+              summand.push(s);
+
+              // current element
+              summand.push(this.getElement([i, j]));
+
+              // create sub-matrix
+              var subTensor = this.new("Tensor", [dims[0] - 1, dims[0] - 1]);
+              for (var k = 0; k < this.getElements().length; k++) {
+                var coords = this.index2Coords(k);
+                if (coords[0] != i && coords[1] != j) {
+                  var realCoords = [
+                    coords[0] < i ? coords[0] : coords[0] - 1,
+                    coords[1] < j ? coords[1] : coords[1] - 1
+                  ];
+                  subTensor.setElement(realCoords, this.getElement(k));
+                }
+              }
+
+              // insert sub det
+              summand.push(subTensor.det());
+              result.push(summand);
+            }
+            return result;
+          }
+        }
+        throw "det: det of empty matrix is undefined";
+      }
+      throw "det: not a square matrix";
+    }
+    throw "det: not a matrix";
+  }
 }
 
 module.exports = Tensor;
