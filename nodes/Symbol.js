@@ -14,6 +14,10 @@ class Symbol extends AbstractNode {
 
   evaluate() {
     if (this.hasValue()) {
+      var type = this.getValue().getType();
+      if (type == "genericFunction" || type == "function") {
+        throw "attempt to evaluate function field";
+      }
       var value = this.getValue().clone();
       value.applySign(this.getSign());
       value.setMulSign(this.getMulSign());

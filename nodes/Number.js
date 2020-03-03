@@ -42,10 +42,11 @@ class Number extends AbstractNode {
   }
 
   serialize(mode) {
+    var valStr = this.getValue().toDecimalPlaces(32).toString()
     if (!mode && this.getSign().equals(-1)) {
-      return "-" + this.getValue().toString();
+      return "-" + valStr;
     } else {
-      return this.getValue().toString();
+      return valStr;
     }
   }
 
