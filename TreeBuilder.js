@@ -1,21 +1,7 @@
 const UnknownNodeException = require("./exceptions/UnknownNodeException");
 const InvalidTensorFormatException = require("./exceptions/InvalidTensorFormatException");
 
-const constructors = {
-  AbstractNode:      require("./nodes/AbstractNode"),
-  AbstractContainer: require("./nodes/AbstractContainer"),
-  Decimal:           require('decimal.js'),
-  Number:            require("./nodes/Number"),
-  Symbol:            require("./nodes/Symbol"),
-  Sum:               require("./nodes/Sum"),
-  Product:           require("./nodes/Product"),
-  Power:             require("./nodes/Power"),
-  Tensor:            require("./nodes/Tensor"),
-  Function:          require("./nodes/Function"),
-  FunctionCall:      require("./nodes/FunctionCall"),
-  Definition:        require("./nodes/Definition"),
-  Equation:          require("./nodes/Equation"),
-};
+const constructors = require("./constructors");
 
 function dimEquals(dims1, dims2) {
   if (dims1 instanceof Array && dims2 instanceof Array) {
