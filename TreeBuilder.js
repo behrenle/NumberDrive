@@ -58,6 +58,10 @@ function getTensorElements(listNode) {
 }
 
 class TreeBuilder {
+  constructor() {
+    this.constructors = constructors;
+  }
+
   getSign(parseTreeNode) {
     return parseTreeNode.sign == "-"
       ? new constructors.Decimal(-1)

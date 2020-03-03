@@ -3,7 +3,7 @@ const TreeBuilder = require("./TreeBuilder.js");
 const FailedParsingException = require("./exceptions/FailedParsingException");
 
 const NumberDrive = {
-  builder: new TreeBuilder,
+  builder: new TreeBuilder(),
   outputInput: false,
   outputParseTree: false,
   outputTree: false,
