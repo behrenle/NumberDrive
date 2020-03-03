@@ -28,9 +28,18 @@ class Number extends AbstractNode {
   }
 
   power(number) {
-    return this.new("Number", this.constructors.Decimal.pow(
-      this.getValue(), this.constructors.Decimal.mul(number.getValue(), number.getSign())
-    ));
+    return this.new("Number",
+      this.constructors.Decimal.pow(
+        this.constructors.Decimal.mul(
+          this.getSign(),
+          this.getValue() 
+        ),
+        this.constructors.Decimal.mul(
+          number.getValue(),
+          number.getSign()
+        )
+      )
+    );
   }
 
   getValue() {
