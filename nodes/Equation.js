@@ -57,9 +57,6 @@ class Equation extends AbstractContainer {
         number.applySign(-1);
         sEqn.setElement(1, number);
         sEqn.getElement(0).setElements(elems.slice(1, elems.length));
-
-        //sEqn.setElement(1, sEqn.getElement(0).getElement(0));
-
       }
     }
 
