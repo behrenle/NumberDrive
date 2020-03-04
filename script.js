@@ -5,6 +5,7 @@ const TreeBuilderC = require("./TreeBuilder.js");
 const TreeBuilder  = new TreeBuilderC();
 const Parser       = require('@behrenle/number-drive-parser');
 const FailedParsingException = require("./exceptions/FailedParsingException");
+const Exception = require("./exceptions/Exception");
 
 
 class Script {
@@ -50,10 +51,10 @@ class Script {
     try {
       outputStr = node.evaluate().serialize();
     } catch (e) {
-      if (typeof e == "string") {
-        outputStr = e;
-      } else {
+      if (e instanceof Exception) {
         outputStr = e.stringify();
+      } else {
+        outputStr = e;
       }
     }
 
