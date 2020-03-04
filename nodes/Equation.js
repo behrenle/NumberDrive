@@ -46,12 +46,11 @@ class Equation extends AbstractContainer {
   }
 
   norm() {
-    var sEqn = this.breakDown().summarize();
+    var sEqn = this.breakDown().summarize().breakDown().summarize(); // a bit scatchy...
 
     if (sEqn.getElement(0) instanceof AbstractContainer) {
 
       if (sEqn.getElement(0).getElement(0).getType() == "number") {
-        console.log("number");
         var number = sEqn.getElement(0).getElement(0);
         var elems  = sEqn.getElement(0).getElements();
         number.applySign(-1);

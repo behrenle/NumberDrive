@@ -1,7 +1,7 @@
 const AbstractContainer = require("./AbstractContainer");
 
 class Tensor extends AbstractContainer {
-  constructor(constructors, dims, sign, mulSign) {
+  constructor(constructors, dims = [0], sign, mulSign) {
     super(constructors, [], sign, mulSign);
     this.type = "tensor";
     this.connectionStrength = 4;

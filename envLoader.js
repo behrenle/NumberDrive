@@ -27,11 +27,15 @@ const conf = {
   get:        true,
   set:        true,
   det:        true,
+
+  // advanced functions
+  solve: true,
 }
 
 const funcs = {
   ...require("./env/trigonometry"),
   ...require("./env/tensor"),
+  ...require("./env/linearSolve"),
 }
 
 const consts = {
