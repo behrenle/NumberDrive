@@ -32,7 +32,7 @@ class Number extends AbstractNode {
       this.constructors.Decimal.pow(
         this.constructors.Decimal.mul(
           this.getSign(),
-          this.getValue() 
+          this.getValue()
         ),
         this.constructors.Decimal.mul(
           number.getValue(),
@@ -44,6 +44,13 @@ class Number extends AbstractNode {
 
   getValue() {
     return this.value;
+  }
+
+  getDecimalValue() {
+    return this.constructors.Decimal.mul(
+      this.getSign(),
+      this.getValue()
+    );
   }
 
   setValue(value) {
