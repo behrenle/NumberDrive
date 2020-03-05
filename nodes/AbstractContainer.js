@@ -8,6 +8,21 @@ class AbstractContainer extends AbstractNode {
     this.connectionStrength = 0;
   }
 
+  getSymbolNames() {
+    var symNames = [];
+
+    for (var e of this.getElements()) {
+      var subSymNames = e.getSymbolNames();
+      for (var symbol of subSymNames) {
+        if (!symNames.includes(symbol)) {
+          symNames.push(symbol)
+        }
+      }
+    }
+
+    return symNames;
+  }
+
   setStack(stack) {
     this.stack = stack;
     for (var element of this.getElements()) {

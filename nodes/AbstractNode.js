@@ -15,6 +15,10 @@ class AbstractNode {
 
   squashSigns() {}
 
+  getSymbolNames() {
+    return [];
+  }
+
   getCoefficient() {
     return this.new("Number", this.getSign());
   }

@@ -12,6 +12,13 @@ class Symbol extends AbstractNode {
     return this.hasValue();
   }
 
+  getSymbolNames() {
+    if (!this.hasValue()) {
+      return [this.getName()];
+    }
+    return [];
+  }
+
   evaluate() {
     if (this.hasValue()) {
       var type = this.getValue().getType();
