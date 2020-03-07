@@ -3,7 +3,7 @@ const gFuncTools   = require("./gFuncTools");
 const Decimal      = constructors.Decimal;
 const Scope        = require("../scope/Scope");
 
-const h = new Decimal("10e-50");
+const h = new Decimal("10e-6");
 
 module.exports = {
   nderive: function(parameters, stack, grade) {
@@ -41,10 +41,14 @@ module.exports = {
         eValue, rValue;
 
     for (var i = 0; i <= grade; i++) {
-      var c1 = new constructors.Decimal(-1).pow(i + grade),
+      var c1 = new constructors.Decimal(-1).pow(i),
           c2 = gFuncTools.binco(grade, i);
 
-      eValue = pos.add(h.mul(i));
+      eValue = pos.add(
+        new Decimal(grade).
+        sub(
+          new Decimal(2 * i)
+        ).mul(h));
       value.setSign(Decimal.sign(eValue));
       value.setValue(eValue.abs());
       rValue = expr.evaluate().getDecimalValue();
@@ -52,6 +56,6 @@ module.exports = {
       result = result.add(rValue.mul(c1.mul(c2)));
     }
 
-    return new constructors.Number(constructors, result.div(h.pow(grade)));
+    return new constructors.Number(constructors, result.div(h.mul(2).pow(grade)));
   }
 }
