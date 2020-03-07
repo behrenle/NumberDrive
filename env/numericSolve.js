@@ -52,6 +52,26 @@ function filterSignFlips(points) {
   return flips;
 }
 
+function filterAbsDips(points) {
+  var dips = [];
+
+  for (var i = 1; i < points.length - 1; i++) {
+    if (
+      (points[i][1].gte(0) && (
+        !points[i][1].gte(points[i - 1][1])
+        && !points[i][1].gte(points[i + 1][1])
+      )) || (!points[i][1].gte(0) && (
+        points[i][1].gt(points[i - 1][1])
+        && points[i][1].gt(points[i + 1][1])
+      ))
+    ) {
+      dips.push([points[i - 1][0], points[i + 1][0]]);
+    }
+  }
+
+  return dips;
+}
+
 module.exports = {
   nsolve: function(parameters, stack) {
     var params   = gFuncTools.paramCheck(parameters, ["equation", "number", "number"]),
@@ -79,9 +99,11 @@ module.exports = {
 
     console.log(expr.serialize());
 
-    var points = scan(expr, leftLimit, rightLimit, varName);
+    var points = scan(expr, leftLimit, rightLimit, varName),
+        flips  = filterSignFlips(points),
+        dips   = filterAbsDips(points);
 
-    console.log("flips:")
-    console.log(filterSignFlips(points).map(x => [x[0].toString(), x[1].toString()]));
+
+    
   }
 };
