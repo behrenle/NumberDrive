@@ -59,13 +59,8 @@ function evalSignFlip(expr, varName, flip) {
       value      = new constructors.Number(constructors),
       result, nextLimit, leftValue, rightValue, nextValue;
 
-  /*if (leftLimit.equals(0)) {
-    return leftLimit;
-  } else if (rightLimit.equals(0)) {
-    return rightLimit;
-  }*/
-
   expr.getStack().setValue(varName, value);
+  
   // calculate leftValue
   value.setSign(Decimal.sign(leftLimit));
   value.setValue(Decimal.abs(leftLimit));
