@@ -1,23 +1,29 @@
 module.exports = {
   paramCheck: function(params, expectedTypes) {
-    var eParams = this.paramEval(params);
-    if (eParams.length == expectedTypes.length) {
-      for (var i = 0; i < eParams.length; i++) {
-        if (eParams[i].getType() != expectedTypes[i]) {
-          throw "invalid argument type";
+    var eParams = [];
+    if (params.length == expectedTypes.length) {
+      for (var i = 0; i < params.length; i++) {
+        if (expectedTypes[i] == "term") {
+          if (
+            params[i].getType() == "equation"
+            || params[i].getType() == "definition"
+            || params[i].getType() == "tensor"
+          ) {
+            throw "invalid argument type";
+          }
+          eParams.push(params[i]);
+
+        } else {
+          var value = params[i].evaluate();
+          if (value.getType() != expectedTypes[i]) {
+            throw "invalid argument type";
+          }
+          eParams.push(value)
         }
       }
       return eParams;
     }
     throw "invalid number of arguments";
-  },
-
-  paramEval: function(params) {
-    var eParams = [];
-    for (var i = 0; i < params.length; i++) {
-      eParams.push(params[i].evaluate());
-    }
-    return eParams;
   },
 
   indexCheck: function(tensor, coords) {

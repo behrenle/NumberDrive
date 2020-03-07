@@ -31,19 +31,11 @@ function scan(expr, start, stop, varName) {
 
 module.exports = {
 
-  // uses simpson's rule to approx 
+  // uses simpson's rule to approx
   nintegral: function(parameters, stack) {
-    var params   = gFuncTools.paramCheck(parameters, ["equation", "number", "number"]),
-        rExpr    = params[0].new("Sum"),
-        subExpr1 = params[0].getElement(0).clone(),
-        subExpr2 = params[0].getElement(1).clone();
-
-    // build expression
-    subExpr2.applySign(-1);
-    rExpr.push(subExpr1);
-    rExpr.push(subExpr2);
-    var expr = rExpr.breakDown().summarize();
-
+    var params = gFuncTools.paramCheck(parameters, ["term", "number", "number"]),
+        expr   = params[0].breakDown().summarize();
+    console.log("test");
     // limits
     var leftLimit  = Decimal.min(params[1].getDecimalValue(), params[2].getDecimalValue()),
         rightLimit = Decimal.max(params[1].getDecimalValue(), params[2].getDecimalValue());
