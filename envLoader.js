@@ -30,12 +30,14 @@ const conf = {
 
   // advanced functions
   solve: true,
+  nsolve: true,
 }
 
 const funcs = {
   ...require("./env/trigonometry"),
   ...require("./env/tensor"),
   ...require("./env/linearSolve"),
+  ...require("./env/numericSolve"),
 }
 
 const consts = {
