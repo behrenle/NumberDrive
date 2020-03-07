@@ -4,8 +4,9 @@ const Decimal      = constructors.Decimal;
 const Scope        = require("../scope/Scope");
 
 // config stuff
-const scanN     = Math.pow(10, 4);
-const closeZero = new constructors.Decimal("10e-40");
+const scanN         = Math.pow(10, 4);
+const closeZero     = new constructors.Decimal("10e-32");
+const maxIterations = 128;
 
 function scan(expr, start, stop, varName) {
   var increment = Decimal.div(
@@ -50,6 +51,53 @@ function filterSignFlips(points) {
   }
 
   return flips;
+}
+
+function evalSignFlip(expr, varName, flip) {
+  var leftLimit  = flip[0],
+      rightLimit = flip[1],
+      value      = new constructors.Number(constructors),
+      result, nextLimit, leftValue, rightValue, nextValue;
+
+  /*if (leftLimit.equals(0)) {
+    return leftLimit;
+  } else if (rightLimit.equals(0)) {
+    return rightLimit;
+  }*/
+
+  expr.getStack().setValue(varName, value);
+  // calculate leftValue
+  value.setSign(Decimal.sign(leftLimit));
+  value.setValue(Decimal.abs(leftLimit));
+  leftValue = expr.evaluate().getDecimalValue();
+
+  // calculate rightValue
+  value.setSign(Decimal.sign(rightLimit));
+  value.setValue(Decimal.abs(rightLimit));
+  rightValue = expr.evaluate().getDecimalValue();
+
+  for (var i = 0; i < maxIterations; i++) {
+    // return if zero
+    if (!Decimal.abs(rightValue).gt(closeZero)) {
+      return rightLimit;
+    } else if (!Decimal.abs(leftValue).gt(closeZero)) {
+      return leftLimit;
+    }
+
+    // new limits for next iteration
+    nextLimit = Decimal.div(leftLimit.plus(rightLimit), 2);
+    value.setSign(Decimal.sign(nextLimit));
+    value.setValue(Decimal.abs(nextLimit));
+    nextValue = expr.evaluate().getDecimalValue();
+
+    if (Decimal.sign(nextValue) == Decimal.sign(leftValue)) {
+      leftLimit = nextLimit;
+      leftValue = nextValue;
+    } else {
+      rightLimit = nextLimit;
+      rightValue = nextValue;
+    }
+  }
 }
 
 function filterAbsDips(points) {
@@ -99,11 +147,17 @@ module.exports = {
 
     console.log(expr.serialize());
 
-    var points = scan(expr, leftLimit, rightLimit, varName),
-        flips  = filterSignFlips(points),
-        dips   = filterAbsDips(points);
+    var points  = scan(expr, leftLimit, rightLimit, varName),
+        flips   = filterSignFlips(points),
+        dips    = filterAbsDips(points),
+        results = [];
 
+    // evaluate sign flips
+    for (var flip of flips) {
+      result = evalSignFlip(expr, varName, flip);
+      results.push(result);
+    }
 
-    
+    results.map(x => console.log("sol",x.toString()));
   }
 };
