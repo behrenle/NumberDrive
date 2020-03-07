@@ -4,7 +4,7 @@ const Decimal      = constructors.Decimal;
 const Scope        = require("../scope/Scope");
 
 // config stuff
-const scanN         = Math.pow(10, 4);
+const scanN         = Math.pow(10, 3);
 const closeZero     = new constructors.Decimal("10e-32");
 const maxIterations = 128;
 
@@ -53,14 +53,14 @@ function filterSignFlips(points) {
   return flips;
 }
 
-function evalSignFlip(expr, varName, flip) {
+function analyzeInterval(expr, varName, flip, mode) {
   var leftLimit  = flip[0],
       rightLimit = flip[1],
       value      = new constructors.Number(constructors),
       result, nextLimit, leftValue, rightValue, nextValue;
 
   expr.getStack().setValue(varName, value);
-  
+
   // calculate leftValue
   value.setSign(Decimal.sign(leftLimit));
   value.setValue(Decimal.abs(leftLimit));
@@ -85,12 +85,28 @@ function evalSignFlip(expr, varName, flip) {
     value.setValue(Decimal.abs(nextLimit));
     nextValue = expr.evaluate().getDecimalValue();
 
-    if (Decimal.sign(nextValue) == Decimal.sign(leftValue)) {
-      leftLimit = nextLimit;
-      leftValue = nextValue;
+    if (mode) {
+
+      // sign flip mode
+      if (Decimal.sign(nextValue) == Decimal.sign(leftValue)) {
+        leftLimit = nextLimit;
+        leftValue = nextValue;
+      } else {
+        rightLimit = nextLimit;
+        rightValue = nextValue;
+      }
+
     } else {
-      rightLimit = nextLimit;
-      rightValue = nextValue;
+
+      // abs dip mode
+      if (Decimal.abs(leftValue).gte(Decimal.abs(rightValue))) {
+        leftLimit = nextLimit;
+        leftValue = nextValue;
+      } else {
+        rightLimit = nextLimit;
+        rightValue = nextValue;
+      }
+
     }
   }
 }
@@ -140,8 +156,6 @@ module.exports = {
       throw "invalid variable count";
     }
 
-    console.log(expr.serialize());
-
     var points  = scan(expr, leftLimit, rightLimit, varName),
         flips   = filterSignFlips(points),
         dips    = filterAbsDips(points),
@@ -149,10 +163,25 @@ module.exports = {
 
     // evaluate sign flips
     for (var flip of flips) {
-      result = evalSignFlip(expr, varName, flip);
-      results.push(result);
+      result = analyzeInterval(expr, varName, flip, true);
+      if (result)
+        results.push(result);
     }
 
-    results.map(x => console.log("sol",x.toString()));
+    // evaluate sign flips
+    for (var dip of dips) {
+      result = analyzeInterval(expr, varName, dip, false);
+      if (result)
+        results.push(result);
+    }
+
+    // create results vector
+    resultVec = new constructors.Tensor(constructors, [results.length]);
+    for (var i = 0; i < results.length; i++) {
+      resultVec.setElement(i, new constructors.Number(
+        constructors, results[i]
+      ));
+    }
+    return resultVec;
   }
 };
