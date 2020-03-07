@@ -35,7 +35,7 @@ module.exports = {
   nintegral: function(parameters, stack) {
     var params = gFuncTools.paramCheck(parameters, ["term", "number", "number"]),
         expr   = params[0].breakDown().summarize();
-    console.log("test");
+
     // limits
     var leftLimit  = Decimal.min(params[1].getDecimalValue(), params[2].getDecimalValue()),
         rightLimit = Decimal.max(params[1].getDecimalValue(), params[2].getDecimalValue());

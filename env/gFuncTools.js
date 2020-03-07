@@ -26,6 +26,18 @@ module.exports = {
     throw "invalid number of arguments";
   },
 
+  binco: function(n, k) {
+     var result = 1;
+     if (n < k) {
+       throw "invalid input: n < k!";
+     }
+     while (k > 0) {
+       result *= n / k;
+       n--; k--;
+     }
+     return Math.round(result);
+  },
+
   indexCheck: function(tensor, coords) {
     var realCoords = [];
 
