@@ -20,7 +20,7 @@ function transformEnglish2German(str) {
 }
 
 class Script {
-  constructor() {
+  constructor(lang) {
     // setup script environment
     this.ENV = new Stack();
     for (var scope of ENV.scopes) {
@@ -28,7 +28,7 @@ class Script {
     }
 
     // language
-    this.lang = "english";
+    this.lang = lang ? lang : "english";
 
     // setup user scope
     this.ENV.push(new Scope());
