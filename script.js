@@ -78,6 +78,7 @@ class Script {
       throw "index out of bounds";
     }
     return {
+      index: index,
       input: this.getInput(index),
       output: this.getOutput(index)
     };
@@ -98,7 +99,6 @@ class Script {
   push(node) {
     var inputStr, outputStr;
 
-    //inputStr = node.serialize();
     node.setStack(this.getENV());
 
     try {
@@ -111,7 +111,6 @@ class Script {
       }
     }
 
-    //this.inputs.push(inputStr);
     this.outputs.push(outputStr);
   }
 
