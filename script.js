@@ -7,6 +7,17 @@ const Parser       = require('@behrenle/number-drive-parser');
 const FailedParsingException = require("./exceptions/FailedParsingException");
 const Exception = require("./exceptions/Exception");
 
+function transformGerman2English(str) {
+  return str
+    .replace(/,/g, ".")
+    .replace(/;/g, ",");
+}
+
+function transformEnglish2German(str) {
+  return str
+    .replace(/,/g, ";")
+    .replace(/\./g, ",");
+}
 
 class Script {
   constructor() {
@@ -15,6 +26,9 @@ class Script {
     for (var scope of ENV.scopes) {
       this.ENV.push(scope);
     }
+
+    // language
+    this.lang = "english";
 
     // setup user scope
     this.ENV.push(new Scope());
@@ -28,6 +42,10 @@ class Script {
     return this.ENV;
   }
 
+  setLanguage(lang) {
+    this.lang = lang == "german" ? "german" : "english";
+  }
+
   getLength() {
     return this.inputs.length;
   }
@@ -37,9 +55,21 @@ class Script {
       throw "index out of bounds";
     }
     return {
-      input: this.inputs[index],
-      output: this.outputs[index]
+      input: this.getInput(index),
+      output: this.getOutput(index)
     };
+  }
+
+  getInput(index) {
+    return this.lang == "german"
+      ? transformEnglish2German(this.inputs[index])
+      : this.inputs[index];
+  }
+
+  getOutput(index) {
+    return this.lang == "german"
+      ? transformEnglish2German(this.outputs[index])
+      : this.outputs[index];
   }
 
   push(node) {
@@ -62,8 +92,9 @@ class Script {
     this.outputs.push(outputStr);
   }
 
-  pushString(str) {
+  pushString(rawStr) {
     try {
+      var str = this.lang == "english" ? rawStr : transformGerman2English(rawStr);
       var parseTreeNode = Parser.parse(str),
           astNode       = TreeBuilder.build(parseTreeNode);
 
@@ -78,7 +109,7 @@ class Script {
     for (var i = 0; i < this.getLength(); i++) {
       console.log(
         "#" + i + ": " +
-        this.inputs[i] + "\n> " + this.outputs[i] + "\n"
+        this.getInput(i) + "\n> " + this.getOutput(i) + "\n"
       );
     }
   }
