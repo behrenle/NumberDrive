@@ -65,6 +65,14 @@ class Script {
     return this.inputs.length;
   }
 
+  getItems() {
+    var items = [];
+    for (var i = 0; i < this.inputs.length; i++) {
+      items.push(this.getItem(i));
+    }
+    return items;
+  }
+
   getItem(index) {
     if (!this.inputs[index]) {
       throw "index out of bounds";
@@ -90,7 +98,7 @@ class Script {
   push(node) {
     var inputStr, outputStr;
 
-    inputStr = node.serialize();
+    //inputStr = node.serialize();
     node.setStack(this.getENV());
 
     try {
@@ -103,7 +111,7 @@ class Script {
       }
     }
 
-    this.inputs.push(inputStr);
+    //this.inputs.push(inputStr);
     this.outputs.push(outputStr);
   }
 
@@ -113,6 +121,7 @@ class Script {
       var parseTreeNode = Parser.parse(str),
           astNode       = TreeBuilder.build(parseTreeNode);
 
+      this.inputs.push(str);
       this.push(astNode);
     } catch (e) {
       this.inputs.push(str);
