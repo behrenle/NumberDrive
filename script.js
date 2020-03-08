@@ -42,6 +42,21 @@ class Script {
     return this.ENV;
   }
 
+  clearUserScope() {
+    this.ENV.pop();
+    this.ENV.push(new Scope());
+  }
+
+  clearHistory() {
+    this.inputs = [];
+    this.outputs = [];
+  }
+
+  clearAll() {
+    this.clearUserScope();
+    this.clearHistory();
+  }
+
   setLanguage(lang) {
     this.lang = lang == "german" ? "german" : "english";
   }
