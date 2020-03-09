@@ -56,6 +56,9 @@ module.exports = {
       result = result.add(rValue.mul(c1.mul(c2)));
     }
 
+    // remove scope
+    expr.getStack().pop();
+
     return new constructors.Number(constructors, result.div(h.mul(2).pow(grade)));
   }
 }

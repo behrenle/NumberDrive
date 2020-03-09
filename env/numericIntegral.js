@@ -26,6 +26,9 @@ function scan(expr, start, stop, varName) {
     );
   }
 
+  // remove vScope
+  expr.getStack().pop();
+
   return points;
 }
 

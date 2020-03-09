@@ -182,6 +182,11 @@ module.exports = {
         constructors, results[i]
       ));
     }
+
+    // remove evaluation scope
+    expr.getStack().pop();
+
+    // return results haha
     return resultVec;
   }
 };
