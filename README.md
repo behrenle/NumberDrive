@@ -1,2 +1,2 @@
 # NumberDrive
-NumberDrive is an interpreter for a simple math expressions.
+NumberDrive is an interpreter for simple math expressions.
