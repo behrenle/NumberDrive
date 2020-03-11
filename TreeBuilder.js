@@ -133,8 +133,8 @@ class TreeBuilder {
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
-    node.push(this.build(parseTreeNode.base));
-    node.push(this.build(parseTreeNode.exp));
+    node.push(this.build(parseTreeNode.elements[0]));
+    node.push(this.build(parseTreeNode.elements[1]));
     return node;
   }
 

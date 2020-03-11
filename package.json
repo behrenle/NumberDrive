@@ -4,7 +4,7 @@
   "description": "Interpreter for math expressions.",
   "main": "numberDrive.js",
   "dependencies": {
-    "@behrenle/number-drive-parser": "^1.0.1",
+    "@behrenle/number-drive-parser": "^3.0.1",
     "decimal.js": "^10.2.0"
   },
   "devDependencies": {},
