@@ -3,7 +3,7 @@ const gFuncTools   = require("./gFuncTools");
 const Decimal      = constructors.Decimal;
 const Scope        = require("../scope/Scope");
 
-const sectionsN    = 2*Math.pow(10, 4);
+const sectionsN    = 8*Math.pow(10, 3);
 
 function scan(expr, start, stop, varName) {
   var increment = Decimal.div(
@@ -51,10 +51,12 @@ module.exports = {
       throw "invalid variable count";
     }
 
+    console.log("scanning...")
     var points  = scan(expr, leftLimit, rightLimit, varName),
         h       = rightLimit.minus(leftLimit).div(sectionsN),
         r       = new Decimal(0);
 
+    console.log("adding...")
     r.add(points[0]);
     r.add(points[points.length - 1]);
 

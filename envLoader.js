@@ -33,6 +33,9 @@ const conf = {
   nsolve: true,
   nintegral: true,
   nderive: true,
+
+  // misc
+  exp: true,
 }
 
 const funcs = {
@@ -42,6 +45,7 @@ const funcs = {
   ...require("./env/numericSolve"),
   ...require("./env/numericIntegral"),
   ...require("./env/numericDerivative"),
+  ...require("./env/misc"),
 }
 
 const consts = {

@@ -3,7 +3,7 @@ const AbstractNode = require("./AbstractNode");
 class Number extends AbstractNode {
   constructor(constructors, value = 0, sign, mulSign) {
     super(constructors, sign, mulSign);
-    this.constructors.Decimal.precision = 64;
+    this.constructors.Decimal.precision = 20;
     this.type = "number";
     var rawValue = this.new("Decimal", value);
     this.applySign(this.constructors.Decimal.sign(rawValue));
@@ -58,7 +58,7 @@ class Number extends AbstractNode {
   }
 
   serialize(mode) {
-    var valStr = this.getValue().toDecimalPlaces(32).toString()
+    var valStr = this.getValue().toDecimalPlaces(16).toString()
     if (!mode && this.getSign().equals(-1)) {
       return "-" + valStr;
     } else {
