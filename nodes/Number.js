@@ -3,7 +3,6 @@ const AbstractNode = require("./AbstractNode");
 class Number extends AbstractNode {
   constructor(constructors, value = 0, sign, mulSign) {
     super(constructors, sign, mulSign);
-    this.constructors.Decimal.precision = 19;
     this.type = "number";
     var rawValue = this.new("Decimal", value);
     this.applySign(this.constructors.Decimal.sign(rawValue));

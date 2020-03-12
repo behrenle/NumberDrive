@@ -3,10 +3,8 @@ const gFuncTools   = require("./gFuncTools");
 const Decimal      = constructors.Decimal;
 const Scope        = require("../scope/Scope");
 
-const sectionsN    = 8*Math.pow(10, 3);
-
 // conf
-const splitSections = 2;
+const splitSections = 150;
 
 // data for Gauß-Kronrod-Quadratur
 // see https://de.wikipedia.org/wiki/Gau%C3%9F-Quadratur#Adaptive_Gau%C3%9F-Kronrod-Quadratur
@@ -67,36 +65,37 @@ function splitInterval(a, b) {
   return intervals;
 }
 
-function scan(expr, start, stop, varName) {
-  var increment = Decimal.div(
-    Decimal.sub(stop, start),
-    sectionsN * 2 + 1
-  );
-
-  var points = [],
-      vScope = new Scope,
-      value  = new constructors.Number(constructors);
+function integrate(expr, a, b, varName) {
+  var vScope = new Scope,
+      value  = new constructors.Number(constructors),
+      result = new Decimal(0);
 
   vScope.setValue(varName, value);
   expr.getStack().push(vScope);
 
-  for (var currX = new Decimal(start); !currX.gt(stop); currX = currX.plus(increment)) {
-    value.setSign(Decimal.sign(currX));
-    value.setValue(currX.abs());
-    points.push(
-      expr.evaluate().getDecimalValue()
-    );
+  // split intervals
+  var splits = splitInterval(a, b);
+
+  // calculate positions and weights
+  var wpPairs = [];
+  for (var i = 0; i < splits.length; i++) {
+    wpPairs = wpPairs.concat(transformPairValues(splits[i][0], splits[i][1]));
   }
 
-  // remove vScope
+  //wpPairs.map(x => console.log(x[0].toString(), x[1].toString()));
+
+  // evaluate expr
+  for (var i = 0; i < wpPairs.length; i++) {
+    value.setSign(Decimal.sign(wpPairs[i][0]));
+    value.setValue(wpPairs[i][0].abs());
+    result = result.plus(expr.evaluate().getDecimalValue().mul(wpPairs[i][1]));
+  }
   expr.getStack().pop();
 
-  return points;
+  return result;
 }
 
 module.exports = {
-
-  // uses simpson's rule to approx
   nintegral: function(parameters, stack) {
     var params = gFuncTools.paramCheck(parameters, ["term", "number", "number"]),
         expr   = params[0].breakDown().summarize();
@@ -113,22 +112,6 @@ module.exports = {
       throw "invalid variable count";
     }
 
-    console.log("scanning...")
-    var points  = scan(expr, leftLimit, rightLimit, varName),
-        h       = rightLimit.minus(leftLimit).div(sectionsN),
-        r       = new Decimal(0);
-
-    console.log("adding...")
-    r.add(points[0]);
-    r.add(points[points.length - 1]);
-
-    for (var n = 1; n <= sectionsN; n++) {
-      if (n < sectionsN) {
-        r = r.add(points[2 * n + 1].mul(2));
-      }
-      r = r.add(points[2 * n].mul(4));
-    }
-
-    return new constructors.Number(constructors, h.mul(r).div(6));
+    return new constructors.Number(constructors, integrate(expr, leftLimit, rightLimit, varName));
   }
 }

@@ -1,7 +1,11 @@
+const Decimal = require('decimal.js');
+
+Decimal.precision = 20;
+
 module.exports = {
   AbstractNode:      require("./nodes/AbstractNode"),
   AbstractContainer: require("./nodes/AbstractContainer"),
-  Decimal:           require('decimal.js'),
+  Decimal:           Decimal,
   Number:            require("./nodes/Number"),
   Symbol:            require("./nodes/Symbol"),
   Sum:               require("./nodes/Sum"),
