@@ -82,8 +82,6 @@ function integrate(expr, a, b, varName) {
     wpPairs = wpPairs.concat(transformPairValues(splits[i][0], splits[i][1]));
   }
 
-  //wpPairs.map(x => console.log(x[0].toString(), x[1].toString()));
-
   // evaluate expr
   for (var i = 0; i < wpPairs.length; i++) {
     value.setSign(Decimal.sign(wpPairs[i][0]));

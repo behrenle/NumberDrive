@@ -7,7 +7,7 @@ const trigMaxPrecision = 32;
 module.exports = {
   sin: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -17,7 +17,7 @@ module.exports = {
 
   cos: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -27,7 +27,8 @@ module.exports = {
 
   tan: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
+
 
     return param.new(
       "Number",
@@ -37,7 +38,7 @@ module.exports = {
 
   sinh: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -47,7 +48,7 @@ module.exports = {
 
   cosh: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -57,7 +58,7 @@ module.exports = {
 
   tanh: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -68,7 +69,7 @@ module.exports = {
   // inverse functions
   asin: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -78,7 +79,7 @@ module.exports = {
 
   acos: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -88,7 +89,7 @@ module.exports = {
 
   atan: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -98,7 +99,7 @@ module.exports = {
 
   asinh: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -108,7 +109,7 @@ module.exports = {
 
   acosh: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
@@ -118,7 +119,7 @@ module.exports = {
 
   atanh: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
-        value = Decimal.mul(param.getSign(), param.getValue());
+        value = param.getDecimalValue();
 
     return param.new(
       "Number",
