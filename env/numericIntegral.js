@@ -5,6 +5,9 @@ const Scope        = require("../scope/Scope");
 
 const sectionsN    = 8*Math.pow(10, 3);
 
+// conf
+const splitSections = 2;
+
 // data for Gauß-Kronrod-Quadratur
 // see https://de.wikipedia.org/wiki/Gau%C3%9F-Quadratur#Adaptive_Gau%C3%9F-Kronrod-Quadratur
 const weightPosPairs    = [],
@@ -34,6 +37,35 @@ for (var i = 1; i < weightPosPairStrs.length; i += 2) {
   ]);
 }
 
+// transformation from [-1, 1] -> [a, b]
+function transformPairValues(a, b) {
+  var v1 = b.minus(a).div(2),
+      v2 = a.plus(b).div(2);
+
+  var newPairs = [];
+  for (var i = 0; i < weightPosPairs.length; i++) {
+    newPairs.push([
+      weightPosPairs[i][0].mul(v1).plus(v2),
+      weightPosPairs[i][1].mul(v1)
+    ]);
+  }
+  return newPairs;
+}
+
+// split integration interval into smaller ones for improved accuracy
+function splitInterval(a, b) {
+  var intervals = [],
+      iLength   = b.minus(a).div(splitSections);
+
+  for (var i = 0; i < splitSections; i++) {
+    intervals.push([
+      iLength.mul(i).plus(a),
+      iLength.mul(i + 1).plus(a)
+    ]);
+  }
+
+  return intervals;
+}
 
 function scan(expr, start, stop, varName) {
   var increment = Decimal.div(
