@@ -1,6 +1,6 @@
 {
   "name": "@behrenle/number-drive",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "Interpreter for math expressions.",
   "main": "numberDrive.js",
   "dependencies": {
