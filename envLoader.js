@@ -36,6 +36,8 @@ const conf = {
 
   // misc
   exp: true,
+  ln:  true,
+  log: true,
 }
 
 const funcs = {
