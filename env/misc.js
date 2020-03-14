@@ -42,11 +42,25 @@ module.exports = {
         min    = values[0];
 
     for (var i = 1; i < values.length; i++) {
-      if (min.gte(values[i])) {
+      if (min.gt(values[i])) {
         min = values[i];
       }
     }
 
     return new constructors.Number(constructors, min);
+  },
+
+  max: function(parameters, stack) {
+    var params = gFuncTools.paramCheckSingleType(parameters, "number"),
+        values = params.map(x => x.getDecimalValue()),
+        max    = values[0];
+
+    for (var i = 1; i < values.length; i++) {
+      if (!max.gte(values[i])) {
+        max = values[i];
+      }
+    }
+
+    return new constructors.Number(constructors, max);
   }
 }

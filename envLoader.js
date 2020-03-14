@@ -39,7 +39,7 @@ const conf = {
   ln:  true,
   log: true,
   min: true,
-  
+  max: true,
 }
 
 const funcs = {
