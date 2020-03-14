@@ -17,7 +17,14 @@ class Power extends AbstractContainer {
       result.applySign(this.getSign());
       result.setMulSign(this.getMulSign());
       return result;
+    } else if (base.getType() == "tensor" && exp.getType() == "number") {
+      var result = this.new("Product", this.getSign(), this.getMulSign());
+      result.push(base);
+      result.push(base);
+      return result.evaluate();
     }
+
+    throw "Power: incompatible types";
   }
 
   breakDown() {
