@@ -34,5 +34,19 @@ module.exports = {
       "Number",
       value.log(base)
     );
+  },
+
+  min: function(parameters, stack) {
+    var params = gFuncTools.paramCheckSingleType(parameters, "number"),
+        values = params.map(x => x.getDecimalValue()),
+        min    = values[0];
+
+    for (var i = 1; i < values.length; i++) {
+      if (min.gte(values[i])) {
+        min = values[i];
+      }
+    }
+
+    return new constructors.Number(constructors, min);
   }
 }

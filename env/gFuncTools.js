@@ -26,6 +26,17 @@ module.exports = {
     throw "invalid number of arguments";
   },
 
+  paramCheckSingleType(params, expectedType) {
+    var eParams = [];
+    for (var i = 0; i < params.length; i++) {
+      eParams.push(params[i].evaluate());
+      if (eParams[i].getType() != expectedType) {
+        throw "invalid argument type";
+      }
+    }
+    return eParams;
+  },
+
   binco: function(n, k) {
      var result = 1;
      if (n < k) {

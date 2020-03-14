@@ -38,6 +38,8 @@ const conf = {
   exp: true,
   ln:  true,
   log: true,
+  min: true,
+  
 }
 
 const funcs = {
