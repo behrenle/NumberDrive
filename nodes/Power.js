@@ -19,8 +19,13 @@ class Power extends AbstractContainer {
       return result;
     } else if (base.getType() == "tensor" && exp.getType() == "number") {
       var result = this.new("Product", this.getSign(), this.getMulSign());
-      result.push(base);
-      result.push(base);
+      var expVal = exp.getDecimalValue().toNumber();
+      if (expVal < 0 || expVal % 1 != 0) {
+        throw "Power: illegal exponent";
+      }
+      for (var i = 0; i < expVal; i++) {
+        result.push(base);
+      }
       return result.evaluate();
     }
 
