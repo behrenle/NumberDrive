@@ -34,12 +34,16 @@ const conf = {
   nintegral: true,
   nderive: true,
 
+  // table
+  table: true,
+
   // misc
   exp: true,
   ln:  true,
   log: true,
   min: true,
   max: true,
+
 }
 
 const funcs = {
@@ -49,6 +53,7 @@ const funcs = {
   ...require("./env/numericSolve"),
   ...require("./env/numericIntegral"),
   ...require("./env/numericDerivative"),
+  ...require("./env/table"),
   ...require("./env/misc"),
 }
 
