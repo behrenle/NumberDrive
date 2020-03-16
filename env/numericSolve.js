@@ -5,7 +5,7 @@ const Scope        = require("../scope/Scope");
 
 // config stuff
 const scanN         = Math.pow(10, 3);
-const closeZero     = new constructors.Decimal("10e-32");
+const closeZero     = new constructors.Decimal("10e-24");
 const maxIterations = 128;
 
 function scan(expr, start, stop, varName) {
@@ -160,6 +160,9 @@ module.exports = {
         flips   = filterSignFlips(points),
         dips    = filterAbsDips(points),
         results = [];
+
+    console.log("dips:", dips.length);
+    console.log("flips:", flips.length);
 
     // evaluate sign flips
     for (var flip of flips) {

@@ -1,6 +1,6 @@
 const Decimal = require('decimal.js');
 
-Decimal.precision = 20;
+Decimal.precision = 25;
 
 module.exports = {
   AbstractNode:      require("./nodes/AbstractNode"),
