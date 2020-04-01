@@ -161,9 +161,6 @@ module.exports = {
         dips    = filterAbsDips(points),
         results = [];
 
-    console.log("dips:", dips.length);
-    console.log("flips:", flips.length);
-
     // evaluate sign flips
     for (var flip of flips) {
       result = analyzeInterval(expr, varName, flip, true);
