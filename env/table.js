@@ -38,7 +38,9 @@ module.exports = {
 
     var result = new constructors.Tensor(constructors);
     var value  = new constructors.Number(constructors, lLimit);
-    expr.getStack().setValue(varName, value);
+    var vScope = new Scope();
+    vScope.setValue(varName, value);
+    expr.getStack().push(vScope);
 
     for (var i = lLimit; !i.gt(uLimit); i = i.plus(stepSize)) {
       value.setSign(Decimal.sign(i));
@@ -48,6 +50,7 @@ module.exports = {
     }
 
     result.reshape([2, result.getElements().length / 2]);
+    expr.getStack().pop();
 
     return result;
   }
