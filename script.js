@@ -9,14 +9,16 @@ const Exception = require("./exceptions/Exception");
 
 function transformGerman2English(str) {
   return str
-    .replace(/(?<=\d)\,(?=\d)/g, ".")
+    //.replace(/(?<=\d)\,(?=\d)/g, ".")
+    .replace(/,/g, ".")
     .replace(/;/g, ",");
 }
 
 function transformEnglish2German(str) {
   return str
     .replace(/,/g, ";")
-    .replace(/(?<=\d)\.(?=\d)/g, ",");
+    .replace(/\./g, ",");
+    //.replace(/(?<=\d)\.(?=\d)/g, ",");
 }
 
 class Script {
