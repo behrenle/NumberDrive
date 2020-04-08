@@ -11,4 +11,8 @@ module.exports = {
     constructors,
     constructors.Decimal.exp(1)
   ),
+  deg: new constructors.Number(
+    constructors,
+    constructors.Decimal(piStr).div(180)
+  ),
 }

@@ -7,6 +7,7 @@ const conf = {
   // constants
   pi:  true,
   e:   true,
+  deg: true,
 
   // trigonometric functions
   sin: true,
