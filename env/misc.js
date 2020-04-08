@@ -62,5 +62,32 @@ module.exports = {
     }
 
     return new constructors.Number(constructors, max);
+  },
+
+  sqrt: function(parameters, stack) {
+    var params = gFuncTools.paramCheck(parameters, ["number"]),
+        value  = params[0].getDecimalValue();
+
+    if (value.isNegative()) {
+      throw "sqrt: invalid parameters";
+    }
+
+    return params[0].new("Number", value.sqrt());
+  },
+
+  root: function(parameters, stack) {
+    var params = gFuncTools.paramCheck(parameters, ["number", "number"]),
+        value  = params[0].getDecimalValue(),
+        grade  = params[1].getDecimalValue();
+
+    var result = value.toPower(
+      grade.toPower(-1)
+    );
+
+    if (result.isNaN()) {
+      throw "root: invalid parameters";
+    }
+
+    return params[0].new("Number", result);
   }
 }

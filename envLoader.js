@@ -43,6 +43,8 @@ const conf = {
   log: true,
   min: true,
   max: true,
+  sqrt: true,
+  root: true
 
 }
 
