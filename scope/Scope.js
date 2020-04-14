@@ -14,6 +14,10 @@ class Scope {
   setValue(name, value) {
     this.values[name] = value;
   }
+
+  deleteValue(name) {
+    delete this.values[name];
+  }
 }
 
 module.exports = Scope;

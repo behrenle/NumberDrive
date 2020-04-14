@@ -50,6 +50,7 @@ const conf = {
   max: true,
   sqrt: true,
   root: true,
+  delete: true,
 }
 
 const funcs = {

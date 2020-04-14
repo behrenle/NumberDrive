@@ -89,5 +89,21 @@ module.exports = {
     }
 
     return params[0].new("Number", result);
+  },
+
+  delete: function(parameters, stack) {
+    if (parameters.length == 1) {
+      if (parameters[0] instanceof constructors.Symbol) {
+        var topScope = stack.getTopScope();
+        var name = parameters[0].getName();
+        if (topScope.getValue(name)) {
+          topScope.deleteValue(name);
+          return new constructors.Number(constructors, 1);
+        }
+        return new constructors.Number(constructors, 0);
+      }
+      throw "invalid argument type";
+    }
+    throw "invalid number of arguments";
   }
 }
