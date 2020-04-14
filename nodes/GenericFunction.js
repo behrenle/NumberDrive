@@ -8,7 +8,9 @@ class GenericFunction extends AbstractContainer {
   }
 
   call(elements, stack) {
-    return this.evalFunc(elements, stack);
+    var result = this.evalFunc(elements, stack);
+    result.setStack(stack);
+    return result;
   }
 }
 

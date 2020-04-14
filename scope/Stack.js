@@ -5,11 +5,22 @@ const IllegalArgumentException = require("../exceptions/IllegalArgumentException
 class Stack {
   constructor() {
     this.scopes = [];
+    this.settings = {
+      sigDigits: 6,
+    };
+  }
+
+  getSetting(name) {
+    return this.settings[name];
+  }
+
+  setSetting(name, value) {
+    this.settings[name] = value;
   }
 
   exists(name) {
     for (var i = this.scopes.length - 1; i >= 0; i--) {
-      if (this.scopes[i].exists(name)) {        
+      if (this.scopes[i].exists(name)) {
         return true;
       }
     }

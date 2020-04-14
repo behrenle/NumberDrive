@@ -57,7 +57,9 @@ class Number extends AbstractNode {
   }
 
   serialize(mode) {
-    var valStr = this.getValue().toSignificantDigits(16).toString()
+    var valStr = this.getValue().toSignificantDigits(
+      this.getStack().getSetting("sigDigits" || 6)
+    ).toString()
     if (!mode && this.getSign().equals(-1)) {
       return "-" + valStr;
     } else {

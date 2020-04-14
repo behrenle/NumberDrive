@@ -40,6 +40,14 @@ class Script {
     this.outputs = [];
   }
 
+  getSetting(...args) {
+    return this.getENV().getSetting(...args);
+  }
+
+  setSetting(...args) {
+    this.getENV().setSetting(...args);
+  }
+
   getENV() {
     return this.ENV;
   }
