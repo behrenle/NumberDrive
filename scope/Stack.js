@@ -10,6 +10,10 @@ class Stack {
     };
   }
 
+  getTopScope() {
+    return this.scopes[this.scopes.length - 1];
+  }
+
   getSetting(name) {
     return this.settings[name];
   }
@@ -28,6 +32,21 @@ class Stack {
   }
 
   getValue(name) {
+    if (name == "memory") {
+      var constructors = this.getValue("pi").constructors;
+      var result   = new constructors.Tensor(constructors);
+      var topScope = this.getTopScope();
+      for (var name of Object.keys(topScope.values)) {
+        if (name == "memory") {
+          continue;
+        }
+        result.push(new constructors.Symbol(constructors, name));
+      }
+      result.reshape([result.getElements().length]);
+      result.setStack(this);
+      return result;
+    }
+
     for (var i = this.scopes.length - 1; i >= 0; i--) {
       var scope = this.scopes[i];
       if (scope.getValue(name)) {

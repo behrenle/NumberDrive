@@ -49,8 +49,7 @@ const conf = {
   min: true,
   max: true,
   sqrt: true,
-  root: true
-
+  root: true,
 }
 
 const funcs = {

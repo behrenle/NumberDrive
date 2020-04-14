@@ -110,9 +110,9 @@ class Script {
     var inputStr, outputStr;
 
     node.setStack(this.getENV());
-
     try {
-      outputStr = node.evaluate().serialize();
+      var result = node.evaluate();
+      outputStr = result.serialize();
     } catch (e) {
       if (e instanceof Exception) {
         outputStr = e.stringify();
