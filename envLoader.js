@@ -2,6 +2,10 @@ const Scope = require("./scope/Scope");
 const Stack = require("./scope/Stack");
 const GenericFunction = require("./nodes/GenericFunction");
 const constructors = require("./constructors");
+const TreeBuilderC = require("./TreeBuilder.js");
+const TreeBuilder  = new TreeBuilderC();
+const Parser       = require('@behrenle/number-drive-parser');
+
 
 const conf = {
   // constants
@@ -87,6 +91,22 @@ for (var name of constKeys) {
   if (conf[name]) {
     stack.setValue(name, consts[name]);
   }
+}
+
+// load inline functions and constants
+stack.push(new Scope());
+var inlineDefs = require("./env/inlineDefs.json");
+
+for (var def of inlineDefs) {
+  for (var dep of def.deps) {
+    if (!conf[dep]) {
+      continue;
+    }
+  }
+  var ptNode  = Parser.parse(def.def);
+  var astNode = TreeBuilder.build(ptNode);
+  astNode.setStack(stack);
+  astNode.evaluate();
 }
 
 module.exports = stack;
