@@ -133,8 +133,17 @@ function filterAbsDips(points) {
 
 module.exports = {
   nsolve: function(parameters, stack) {
-    var params   = gFuncTools.paramCheck(parameters, ["equation", "number", "number"]),
-        rExpr    = params[0].new("Sum"),
+    var params, leftLimitRaw, rightLimitRaw;
+    if (parameters.length == 1) {
+      params        = gFuncTools.paramCheck(parameters, ["equation"]),
+      leftLimitRaw  = new Decimal(-20);
+      rightLimitRaw = new Decimal(20);
+    } else {
+      params        = gFuncTools.paramCheck(parameters, ["equation", "number", "number"]),
+      leftLimitRaw  = params[1].getDecimalValue();
+      rightLimitRaw = params[2].getDecimalValue();
+    }
+    var rExpr    = params[0].new("Sum"),
         subExpr1 = params[0].getElement(0).clone(),
         subExpr2 = params[0].getElement(1).clone();
 
@@ -145,8 +154,8 @@ module.exports = {
     var expr = rExpr.breakDown().summarize();
 
     // limits
-    var leftLimit  = constructors.Decimal.min(params[1].getDecimalValue(), params[2].getDecimalValue()),
-        rightLimit = constructors.Decimal.max(params[1].getDecimalValue(), params[2].getDecimalValue());
+    var leftLimit  = Decimal.min(leftLimitRaw, rightLimitRaw),
+        rightLimit = Decimal.max(leftLimitRaw, rightLimitRaw);
 
     // check var count
     var varName;
