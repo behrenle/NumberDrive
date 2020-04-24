@@ -30,7 +30,7 @@ class Script {
     }
 
     // language
-    this.lang = lang ? lang : "english";
+    this.lang = lang ? lang : "en";
 
     // setup user scope
     this.ENV.push(new Scope());
@@ -68,7 +68,7 @@ class Script {
   }
 
   setLanguage(lang) {
-    this.lang = lang == "german" ? "german" : "english";
+    this.lang = lang == "de" ? "de" : "en";
   }
 
   getLength() {
@@ -95,13 +95,13 @@ class Script {
   }
 
   getInput(index) {
-    return this.lang == "german"
+    return this.lang == "de"
       ? transformEnglish2German(this.inputs[index])
       : this.inputs[index];
   }
 
   getOutput(index) {
-    return this.lang == "german"
+    return this.lang == "de"
       ? transformEnglish2German(this.outputs[index])
       : this.outputs[index];
   }
@@ -126,7 +126,7 @@ class Script {
 
   pushString(rawStr) {
     try {
-      var str = this.lang == "english" ? rawStr : transformGerman2English(rawStr);
+      var str = this.lang == "en" ? rawStr : transformGerman2English(rawStr);
       var parseTreeNode = Parser.parse(str),
           astNode       = TreeBuilder.build(parseTreeNode);
 
