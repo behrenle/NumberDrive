@@ -54,7 +54,9 @@ const conf = {
 
   // probability
   normal: true,
-  binco: true
+  binco: true,
+  binom: true,
+  cbinom: true,
 }
 
 const funcs = {

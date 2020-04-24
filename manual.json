@@ -180,6 +180,16 @@
       "name": "binco",
       "synopsis": "binco(n, k)",
       "description": "Computes n over k (binomial coefficient)."
+    },
+    {
+      "name": "binom",
+      "synopsis": "binom(p, n, k)",
+      "description": "Binomial distribution"
+    },
+    {
+      "name": "cbinom",
+      "synopsis": "cbinom(p, n, k)",
+      "description": "Binomial cumulative distribution"
     }
   ]
 }

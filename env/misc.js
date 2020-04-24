@@ -3,31 +3,72 @@ const gFuncTools   = require("./gFuncTools");
 const Decimal      = constructors.Decimal;
 const trigMaxPrecision = 32;
 
+function binco(n, k) {
+  if (n % 1 != 0 || k % 1 != 0) {
+    throw "binco: invalid parameters";
+  }
+
+  if (n < k) {
+    throw "binco: invalid parameters: n < k";
+  }
+
+  let result;
+  if (k == 0) {
+    result = 1;
+  } else {
+    result = n / k
+  }
+  for (let i = 1; i < k; i++) {
+    result *= (n - i) / (k - i);
+  }
+
+  return result;
+}
+
+function binomial(p, n, k) {
+  return binco(n, k) * Math.pow(p, k) * Math.pow((1 - p), (n - k));
+}
+
+function cBinomial(p, n, k) {
+  return Array(k + 1)
+    .fill()
+    .map((_, i) => binomial(p, n, i))
+    .reduce((acc, inc) => acc += inc);
+}
+
 module.exports = {
+  cbinom: function(parameters, stack) {
+    let params = gFuncTools.paramCheck(parameters, ["number", "number", "number"]),
+        p = params[0].getDecimalValue().toNumber(),
+        n = params[1].getDecimalValue().toNumber(),
+        k = params[2].getDecimalValue().toNumber();
+
+    if (p < 0 || p > 1) {
+      throw "binomial: p out of bounds";
+    }
+
+    return params[0].new("Number", cBinomial(p, n, k));
+  },
+
+  binom: function(parameters, stack) {
+    let params = gFuncTools.paramCheck(parameters, ["number", "number", "number"]),
+        p = params[0].getDecimalValue().toNumber(),
+        n = params[1].getDecimalValue().toNumber(),
+        k = params[2].getDecimalValue().toNumber();
+
+    if (p < 0 || p > 1) {
+      throw "binomial: p out of bounds";
+    }
+
+    return params[0].new("Number", binomial(p, n, k));
+  },
+
   binco: function(parameters, stack) {
     let params = gFuncTools.paramCheck(parameters, ["number", "number"]),
         n = params[0].getDecimalValue().toNumber(),
         k = params[1].getDecimalValue().toNumber();
 
-    if (n % 1 != 0 || k % 1 != 0) {
-      throw "binco: invalid parameters";
-    }
-
-    if (n < k) {
-      throw "binco: invalid parameters: n < k";
-    }
-
-    let result;
-    if (k == 0) {
-      result = 1;
-    } else {
-      result = n / k
-    }
-    for (let i = 1; i < k; i++) {
-      result *= (n - i) / (k - i);
-    }
-
-    return params[0].new("Number", result);
+    return params[0].new("Number", binco(n, k));
   },
 
   exp: function(parameters, stack) {
