@@ -51,7 +51,10 @@ const conf = {
   sqrt: true,
   root: true,
   delete: true,
+
+  // probability
   normal: true,
+  binco: true
 }
 
 const funcs = {

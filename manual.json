@@ -175,6 +175,11 @@
       "name": "normal",
       "synopsis": "normal(mu, sigma, x)",
       "description": "Gaussian distribution <br>mu: expectation <br>sigma: standard deviation <br>x: position"
+    },
+    {
+      "name": "binco",
+      "synopsis": "binco(n, k)",
+      "description": "Computes n over k (binomial coefficient)."
     }
   ]
 }

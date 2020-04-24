@@ -4,6 +4,32 @@ const Decimal      = constructors.Decimal;
 const trigMaxPrecision = 32;
 
 module.exports = {
+  binco: function(parameters, stack) {
+    let params = gFuncTools.paramCheck(parameters, ["number", "number"]),
+        n = params[0].getDecimalValue().toNumber(),
+        k = params[1].getDecimalValue().toNumber();
+
+    if (n % 1 != 0 || k % 1 != 0) {
+      throw "binco: invalid parameters";
+    }
+
+    if (n < k) {
+      throw "binco: invalid parameters: n < k";
+    }
+
+    let result;
+    if (k == 0) {
+      result = 1;
+    } else {
+      result = n / k
+    }
+    for (let i = 1; i < k; i++) {
+      result *= (n - i) / (k - i);
+    }
+
+    return params[0].new("Number", result);
+  },
+
   exp: function(parameters, stack) {
     var param = gFuncTools.paramCheck(parameters, ["number"])[0],
         value = param.getDecimalValue();
