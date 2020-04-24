@@ -2,6 +2,7 @@ const Parser = require('@behrenle/number-drive-parser');
 const TreeBuilder = require("./TreeBuilder.js");
 const FailedParsingException = require("./exceptions/FailedParsingException");
 const Script = require("./script");
+const Manual = require("./manual.json");
 
 const NumberDrive = {
   builder: new TreeBuilder(),
@@ -10,6 +11,7 @@ const NumberDrive = {
   outputTree: false,
   outputResult: false,
   Script: Script,
+  Manual: Manual,
 };
 
 NumberDrive.parse = function(str) {
