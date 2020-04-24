@@ -51,6 +51,7 @@ const conf = {
   sqrt: true,
   root: true,
   delete: true,
+  normal: true,
 }
 
 const funcs = {

@@ -23,5 +23,9 @@
   {
     "def": "atandeg(x):=atan(x)/deg",
     "deps": ["atan", "deg"]
+  },
+  {
+    "def": "normal(mu,sigma,x):=1/(sigma*sqrt(2*pi))*exp((x-mu)^2/(2*sigma))",
+    "deps": ["pi", "exp"]
   }
 ]
