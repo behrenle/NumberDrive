@@ -170,6 +170,11 @@
       "name": "delete",
       "synopsis": "delete(symbol)",
       "description": "Deletes a user defined symbol.<br>Returns 1 if the deletion was successful, otherwise 0."
+    },
+    {
+      "name": "normal",
+      "synopsis": "normal(mu, sigma, x)",
+      "description": "Gaussian distribution <br>mu: expectation <br>sigma: standard deviation <br>x: position"
     }
   ]
 }
