@@ -14,8 +14,16 @@ class FunctionCall extends AbstractContainer {
   evaluate() {
     if (this.getStack().exists(this.getName())) {
       var obj = this.getStack().getValue(this.getName());
-      if (obj.getType() == "function" || obj.getType() == "genericFunction") {
-        return obj.call(this.getElements(), this.getStack());
+      if (obj.getType() == "function") {
+        return obj.call(
+          this.getElements().map(x => x.evaluate()),
+          this.getStack()
+        );
+      } else if (obj.getType() == "genericFunction") {
+        return obj.call(
+          this.getElements(), 
+          this.getStack()
+        );
       }
       throw this.getName() + " is not a function";
     }
