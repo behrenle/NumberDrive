@@ -28,6 +28,7 @@ class FunctionCall extends AbstractContainer {
       }
       if (result) {
         result.applySign(this.getSign());
+        result.applyMulSign(this.getMulSign());
         return result;
       }
       throw this.getName() + " is not a function";
