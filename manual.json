@@ -183,12 +183,12 @@
     },
     {
       "name": "binom",
-      "synopsis": "binom(p, n, k)",
+      "synopsis": "binom(n, p, k)",
       "description": "Binomial distribution"
     },
     {
       "name": "cbinom",
-      "synopsis": "cbinom(p, n, k)",
+      "synopsis": "cbinom(n, p, k)",
       "description": "Binomial cumulative distribution"
     }
   ]

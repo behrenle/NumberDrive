@@ -39,8 +39,8 @@ function cBinomial(p, n, k) {
 module.exports = {
   cbinom: function(parameters, stack) {
     let params = gFuncTools.paramCheck(parameters, ["number", "number", "number"]),
-        p = params[0].getDecimalValue().toNumber(),
-        n = params[1].getDecimalValue().toNumber(),
+        n = params[0].getDecimalValue().toNumber(),
+        p = params[1].getDecimalValue().toNumber(),
         k = params[2].getDecimalValue().toNumber();
 
     if (p < 0 || p > 1) {
@@ -52,8 +52,8 @@ module.exports = {
 
   binom: function(parameters, stack) {
     let params = gFuncTools.paramCheck(parameters, ["number", "number", "number"]),
-        p = params[0].getDecimalValue().toNumber(),
-        n = params[1].getDecimalValue().toNumber(),
+        n = params[0].getDecimalValue().toNumber(),
+        p = params[1].getDecimalValue().toNumber(),
         k = params[2].getDecimalValue().toNumber();
 
     if (p < 0 || p > 1) {
