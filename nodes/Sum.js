@@ -8,21 +8,19 @@ class Sum extends AbstractContainer {
   }
 
   evaluate() {
-    var result = this.getElement(0).evaluate();
-    for (var i = 1; i < this.getElements().length; i++) {
-      var element = this.getElement(i).evaluate();
-      if (result.getType() == "number" && element.getType() == "number") {
-        result = result.addNumber(element);
-      } else if (result.getType() == "tensor" && element.getType() == "tensor") {
-        result = result.addTensor(element);
-        result = result.evaluate();
-      } else {
-        throw "undefined operation";
-      }
-    }
+    let result = this.getElements()
+      .map((element) => element.evaluate())
+      .reduce((acc, value) => {
+        if (acc.getType() == "number" && value.getType() == "number")
+          return acc.addNumber(value);
 
-    result.applySign(this.getSign());
-    result.applyMulSign(this.getMulSign());
+        if (acc.getType() == "tensor" && value.getType() == "tensor")
+          return acc.addTensor(value).evaluate();
+
+        throw "undefined operation";
+      });
+
+    result.applySigns(this);
     return result;
   }
 

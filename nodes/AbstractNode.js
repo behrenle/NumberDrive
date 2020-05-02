@@ -167,6 +167,11 @@ class AbstractNode {
     ));
   }
 
+  applySigns(node) {
+    this.applySign(node.getSign());
+    this.applyMulSign(node.getMulSign());
+  }
+
   clone() {
     var cloneOBJ = new this.constructor(this.constructors);
     for (var key of Object.keys(this)) {
