@@ -9,24 +9,37 @@ class Product extends AbstractContainer {
   }
 
   evaluate() {
-    var result = this.new("Number", 1);
-    for (var element of this.getElements()) {
-      var value = element.evaluate();
-      if (value.getType() == "number" && result.getType() == "number") {
-        if (value.getValue().equals(0) && value.getMulSign().equals(-1)) {
-          throw new DevideByZeroException();
+    let elements = [this.new("Number", 1), ...this.getElements()];
+    let result = elements
+      .map((element) => element.evaluate())
+      .reduce((acc, value) => {
+        if (!value)
+          return acc;
+
+        let leftType = acc.getType(),
+            rightType = value.getType(),
+            devide = value.getMulSign().equals(-1);
+
+        if (leftType == "number" && rightType == "number") {
+          if (value.getValue().equals(0) && devide)
+            throw new DevideByZeroException();
+
+          return acc.mulNumber(value);
         }
-        result = result.mulNumber(value);
-      } else if (value.getType() == "tensor" && result.getType() == "number") {
-        result = value.mulNumber(result).evaluate();
-      } else if (value.getType() == "number" && result.getType() == "tensor") {
-        result = result.mulNumber(value).evaluate();
-      } else if (value.getType() == "tensor" && result.getType() == "tensor") {
-        result = result.mulTensor(value).evaluate();
-      }
-    }
-    result.applySign(this.getSign());
-    result.applyMulSign(this.getMulSign());
+
+        if (leftType == "tensor" && rightType == "number")
+          return acc.mulNumber(value).evaluate();
+
+        if (leftType == "number" && rightType == "tensor" && !devide)
+          return value.mulNumber(acc).evaluate();
+
+        if (leftType == "tensor" && rightType == "tensor" && !devide)
+          return acc.mulTensor(value).evaluate();
+
+        throw "undefined operation";
+      });
+
+    result.applySigns(this);
     return result;
   }
 
