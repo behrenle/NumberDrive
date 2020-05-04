@@ -4,6 +4,7 @@ const piStr = require("./pi.json")[0];
 const eStr = Decimal.exp(1).toString();
 
 module.exports = {
+  name: "core-constants",
   inlineDefinitions: [
     "pi := acos(-1)",
     `e := ${eStr}`,

@@ -115,6 +115,7 @@ const funcs = {
 }
 
 module.exports = {
+  name: "core-nintegral",
   genericFunctions: funcs,
   inlineDefinitions: [],
 };

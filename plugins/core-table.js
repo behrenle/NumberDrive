@@ -57,6 +57,7 @@ const funcs = {
 }
 
 module.exports = {
+  name: "core-table",
   genericFunctions: funcs,
   inlineDefinitions: [],
 };

@@ -44,6 +44,7 @@ const funcs = {
 }
 
 module.exports = {
+  name: "core-tensor",
   genericFunctions: funcs,
   inlineDefinitions: [],
 };

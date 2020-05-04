@@ -102,6 +102,7 @@ const funcs = {
 };
 
 module.exports = {
+  name: "core-solve",
   genericFunctions: funcs,
   inlineDefinitions: [],
 };

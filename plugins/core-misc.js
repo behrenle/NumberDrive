@@ -137,6 +137,7 @@ const funcs = {
 }
 
 module.exports = {
+  name: "core-misc",
   genericFunctions: funcs,
   inlineDefinitions: [
     "normal(mu,sigma,x):=1/(sigma*sqrt(2*pi))*exp((x-mu)^2/(2*sigma))",

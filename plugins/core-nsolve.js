@@ -201,6 +201,7 @@ const funcs = {
 };
 
 module.exports = {
+  name: "core-nsolve",
   genericFunctions: funcs,
   inlineDefinitions: [],
 };

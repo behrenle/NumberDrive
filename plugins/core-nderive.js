@@ -65,6 +65,7 @@ const funcs = {
 }
 
 module.exports = {
+  name: "core-nderive",
   genericFunctions: funcs,
   inlineDefinitions: [],
 };

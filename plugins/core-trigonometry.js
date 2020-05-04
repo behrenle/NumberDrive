@@ -104,6 +104,7 @@ const funcs = {
 }
 
 module.exports = {
+  name: "core-trigonometry",
   genericFunctions: funcs,
   inlineDefinitions: [
     "sindeg(x):=sin(x*deg)",
