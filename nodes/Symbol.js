@@ -48,11 +48,15 @@ class Symbol extends AbstractNode {
   }
 
   serialize(mode) {
-    if (!mode && this.getSign().equals(-1)) {
-      return "-" + this.getName();
-    } else {
-      return this.getName();
-    }
+    let serialStr = "";
+
+    if (!mode && this.getSign().equals(-1))
+      serialStr += "-";
+
+    if (!mode && this.getMulSign().equals(-1))
+      serialStr += "1 / "
+
+    return serialStr + this.getName();
   }
 
   equals(node) {
