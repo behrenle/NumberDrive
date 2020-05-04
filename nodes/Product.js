@@ -9,6 +9,7 @@ class Product extends AbstractContainer {
   }
 
   evaluate() {
+    // added Number(1) to prevent empty product evaluation
     let elements = [this.new("Number", 1), ...this.getElements()];
     let result = elements
       .map((element) => element.evaluate())
