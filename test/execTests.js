@@ -8,32 +8,44 @@ function parse(str) {
   return TreeBuilder.build(Parser.parse(str));
 }
 
-function executeTestBatch(categoryName, testArray, testLambda) {
+function executeTestBatch(categoryName, testArray, lambda) {
   console.group(`${categoryName}: Running ${testArray.length} tests:`);
   testArray.forEach((item, i) => {
     let parsedInput = parse(item[0]),
         parsedOutput = parse(item[1]);
 
+    let result = lambda(parsedInput),
+        expected = lambda(parsedOutput);
+
     try {
-      testLambda(parsedInput, parsedOutput);
+      assert.equal(result.equals(expected), true);
     } catch (e) {
-      console.error(`#${i} test failed: lambda(${parsedInput.serialize()}, ${parsedOutput.serialize()})`);
+      console.group(`\n#${i} test failed:`);
+      console.log(`input: ${item[0]} -> ${result.serialize()}`);
+      console.log(`output: ${item[1]} -> ${expected.serialize()}`);
+      console.groupEnd();
     }
   });
   console.groupEnd();
 }
 
-let evalLambda = (input, output) => {
-  assert.equal(
-    input.evaluate().serialize(),
-    output.evaluate().serialize()
-  );
+let evalTest = (node) => {
+  return node.evaluate();
+}
+
+let summarizeTest = (node) => {
+  let summarized = node.summarize();
+  return node.breakDown().summarize();
 }
 
 const tests = {
   Evaluation: {
-    tests: require("./tests/eval.json"),
-    lambda: evalLambda,
+    tests: require("./tests/evaluate.json"),
+    lambda: evalTest
+  },
+  Summarize: {
+    tests: require("./tests/summarize.json"),
+    lambda: summarizeTest
   }
 };
 
