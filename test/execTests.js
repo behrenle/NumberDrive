@@ -21,8 +21,12 @@ function executeTestBatch(categoryName, testArray, lambda) {
       assert.equal(result.equals(expected), true);
     } catch (e) {
       console.group(`\n#${i} test failed:`);
-      console.log(`input: ${item[0]} -> ${result.serialize()}`);
-      console.log(`output: ${item[1]} -> ${expected.serialize()}`);
+      console.table({
+        input: item[0],
+        output: item[1],
+        ["test(input)"]: result.serialize(),
+        ["test(output)"]: expected.serialize(),
+      });
       console.groupEnd();
     }
   });
