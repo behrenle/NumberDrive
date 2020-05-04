@@ -131,7 +131,7 @@ function filterAbsDips(points) {
   return dips;
 }
 
-module.exports = {
+const funcs = {
   nsolve: function(parameters, stack) {
     let params, leftLimitRaw, rightLimitRaw;
     if (parameters.length == 1) {
@@ -198,4 +198,9 @@ module.exports = {
     // return results haha
     return resultVec;
   }
+};
+
+module.exports = {
+  genericFunctions: funcs,
+  inlineDefinitions: [],
 };

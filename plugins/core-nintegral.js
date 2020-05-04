@@ -93,7 +93,7 @@ function integrate(expr, a, b, varName) {
   return result;
 }
 
-module.exports = {
+const funcs = {
   nintegral: function(parameters, stack) {
     let params = tools.checkParameters(parameters, ["term", "number", "number"]),
         expr   = params[0].breakDown().summarize();
@@ -113,3 +113,8 @@ module.exports = {
     return new constructors.Number(constructors, integrate(expr, leftLimit, rightLimit, varName));
   }
 }
+
+module.exports = {
+  genericFunctions: funcs,
+  inlineDefinitions: [],
+};

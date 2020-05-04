@@ -6,7 +6,7 @@ const Scope = require("../scope/Scope");
 
 const h = new Decimal("10e-6");
 
-module.exports = {
+const funcs = {
   nderive: function(parameters, stack) {
     let params, grade;
     if (parameters.length == 2) {
@@ -63,3 +63,8 @@ module.exports = {
     return new constructors.Number(constructors, result.div(h.mul(2).pow(grade)));
   }
 }
+
+module.exports = {
+  genericFunctions: funcs,
+  inlineDefinitions: [],
+};

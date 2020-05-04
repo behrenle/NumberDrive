@@ -32,7 +32,7 @@ function getCoeffs(node) {
   throw "node is not linear";
 }
 
-module.exports = {
+const funcs = {
   solve: function(parameters, stack) {
     let eqns = tools.checkParameters(parameters, "equation").map(
       (eqn) => eqn.norm()
@@ -99,4 +99,9 @@ module.exports = {
 
     return result;
   }
+};
+
+module.exports = {
+  genericFunctions: funcs,
+  inlineDefinitions: [],
 };

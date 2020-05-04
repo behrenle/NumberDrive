@@ -25,19 +25,7 @@ module.exports = () => {
         let def = parse(defStr);
         def.setStack(stack);
         def.evaluate();
-      })
-
-    if (plugin.specialPrecisionConstants)
-      Object.entries(plugin.specialPrecisionConstants).forEach((entry) => {
-        let name = entry[0],
-            cStr = entry[1];
-
-        stack.setValue(name, new constructors.Number(
-          constructors,
-          constructors.Decimal(cStr)
-        ));
-    })
-  });
+  })});
 
 
   return stack;
