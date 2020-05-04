@@ -3,7 +3,7 @@ const tools = require("../pluginTools");
 const Decimal = constructors.Decimal;
 const Scope = require("../scope/Scope");
 
-module.exports = {
+const funcs = {
   table: function(parameters, stack) {
     let params, expr, lLimit, uLimit, stepSize;
     if (parameters.length == 4) {
@@ -55,3 +55,8 @@ module.exports = {
     return result;
   }
 }
+
+module.exports = {
+  genericFunctions: funcs,
+  inlineDefinitions: [],
+};

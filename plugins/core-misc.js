@@ -1,28 +1,8 @@
 const constructors = require("../constructors");
 const Decimal = constructors.Decimal;
 const tools = require("../pluginTools");
-
-function binco(n, k) {
-  if (n % 1 != 0 || k % 1 != 0) {
-    throw "binco: invalid parameters";
-  }
-
-  if (n < k) {
-    throw "binco: invalid parameters: n < k";
-  }
-
-  let result;
-  if (k == 0) {
-    result = 1;
-  } else {
-    result = n / k
-  }
-  for (let i = 1; i < k; i++) {
-    result *= (n - i) / (k - i);
-  }
-
-  return result;
-}
+const utils = require("../utils");
+const binco = utils.binco;
 
 function binomial(p, n, k) {
   return binco(n, k) * Math.pow(p, k) * Math.pow((1 - p), (n - k));
@@ -35,7 +15,7 @@ function cBinomial(p, n, k) {
     .reduce((acc, inc) => acc += inc);
 }
 
-module.exports = {
+const funcs = {
   cbinom: function(parameters, stack) {
     let params = tools.checkParameters(parameters, ["number", "number", "number"]),
         n = params[0].getDecimalValue().toNumber(),
@@ -155,3 +135,10 @@ module.exports = {
     throw "invalid number of arguments";
   }
 }
+
+module.exports = {
+  genericFunctions: funcs,
+  inlineDefinitions: [
+    "normal(mu,sigma,x):=1/(sigma*sqrt(2*pi))*exp((x-mu)^2/(2*sigma))",
+  ],
+};

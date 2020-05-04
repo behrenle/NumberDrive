@@ -2,7 +2,7 @@ const constructors = require("../constructors");
 const tools = require("../pluginTools");
 const Decimal = constructors.Decimal;
 
-module.exports = {
+const funcs = {
   dimensions: function(parameters, stack) {
     let param  = tools.checkParameters(parameters, ["tensor"])[0],
         result = param.new("Tensor", [param.getDimensions().length]);
@@ -42,3 +42,8 @@ module.exports = {
     return param.det().evaluate();
   }
 }
+
+module.exports = {
+  genericFunctions: funcs,
+  inlineDefinitions: [],
+};

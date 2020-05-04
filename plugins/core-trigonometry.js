@@ -105,5 +105,12 @@ const funcs = {
 
 module.exports = {
   genericFunctions: funcs,
-  inlineDefinitions: [],
+  inlineDefinitions: [
+    "sindeg(x):=sin(x*deg)",
+    "cosdeg(x):=cos(x*deg)",
+    "tandeg(x):=tan(x*deg)",
+    "asindeg(x):=asin(x)/deg",
+    "acosdeg(x):=acos(x)/deg",
+    "atandeg(x):=atan(x)/deg",
+  ],
 };
