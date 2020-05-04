@@ -193,6 +193,11 @@ class Sum extends AbstractContainer {
         result.getElements().concat(nEvals)
       )
     }
+    if (result.getElements().length == 1) {
+      let element = result.getElement(0);
+      element.applySigns(result);
+      return element;
+    }
     return result;
   }
 
