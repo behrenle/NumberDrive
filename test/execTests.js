@@ -1,27 +1,45 @@
 const NumberDrive = require("../numberDrive");
-const tests = require("./tests.json");
-
 const TreeBuilderC = require("../TreeBuilder.js");
 const TreeBuilder  = new TreeBuilderC();
 const Parser       = require('@behrenle/number-drive-parser');
-
 const assert = require("assert");
 
-function eval(str) {
-  return TreeBuilder.build(Parser.parse(str)).evaluate();
+function parse(str) {
+  return TreeBuilder.build(Parser.parse(str));
 }
 
-console.group(`Running ${tests.length} tests:`);
+function executeTestBatch(categoryName, testArray, testLambda) {
+  console.group(`${categoryName}: Running ${testArray.length} tests:`);
+  testArray.forEach((item, i) => {
+    let parsedInput = parse(item[0]),
+        parsedOutput = parse(item[1]);
 
-tests.forEach((item, i) => {
-  let evalInputSerialized = eval(item[0]).serialize(),
-      evalOutputSerialized = eval(item[1]).serialize();
+    try {
+      testLambda(parsedInput, parsedOutput);
+    } catch (e) {
+      console.error(`#${i} test failed: lambda(${parsedInput.serialize()}, ${parsedOutput.serialize()})`);
+    }
+  });
+  console.groupEnd();
+}
 
-  try {
-    assert.equal(evalInputSerialized, evalOutputSerialized);
-  } catch (e) {
-    console.error(`#${i} test failed: ${evalInputSerialized} != ${evalOutputSerialized}`);
+let evalLambda = (input, output) => {
+  assert.equal(
+    input.evaluate().serialize(),
+    output.evaluate().serialize()
+  );
+}
+
+const tests = {
+  Evaluation: {
+    tests: require("./tests/eval.json"),
+    lambda: evalLambda,
   }
-});
+};
 
-console.groupEnd();
+Object.entries(tests).forEach((entry) => {
+  let key = entry[0],
+      value = entry[1];
+
+  executeTestBatch(key, value.tests, value.lambda);
+});
