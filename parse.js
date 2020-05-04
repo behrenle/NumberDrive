@@ -1,4 +1,4 @@
-const AstBuilder = new (require("./TreeBuilder.js"))();
+const AstBuilder = require("./astBuilder.js");
 const Parser = require('@behrenle/number-drive-parser');
 
 module.exports = (string) => {

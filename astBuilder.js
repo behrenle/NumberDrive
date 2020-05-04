@@ -43,7 +43,7 @@ function getTensorElements(listNode) {
   return listNode.elements;
 }
 
-class TreeBuilder {
+class AstBuilder {
   constructor() {
     this.constructors = constructors;
   }
@@ -191,4 +191,4 @@ class TreeBuilder {
   }
 }
 
-module.exports = TreeBuilder;
+module.exports = new AstBuilder();
