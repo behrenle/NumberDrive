@@ -1,7 +1,7 @@
 const NumberDrive = require("../numberDrive");
 const TreeBuilderC = require("../TreeBuilder.js");
-const TreeBuilder  = new TreeBuilderC();
-const Parser       = require('@behrenle/number-drive-parser');
+const TreeBuilder = new TreeBuilderC();
+const Parser = require('@behrenle/number-drive-parser');
 const assert = require("assert");
 
 function parse(str) {
@@ -38,7 +38,6 @@ let evalTest = (node) => {
 }
 
 let summarizeTest = (node) => {
-  let summarized = node.summarize();
   return node.breakDown().summarize();
 }
 
