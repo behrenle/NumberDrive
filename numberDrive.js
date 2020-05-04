@@ -1,11 +1,11 @@
 const FailedParsingException = require("./exceptions/FailedParsingException");
-//const Script = require("./script");
+const Script = require("./script");
 const Manual = require("./manual.json");
 const parse = require("./parse");
 const prelude = require("./prelude");
 
 const NumberDrive = {
-  //Script: Script,
+  Script: Script,
   Manual: Manual,
   evaluate: (string) => {
     let node = parse(string);

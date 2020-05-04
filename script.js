@@ -1,11 +1,7 @@
-const Stack        = require("./scope/Stack");
 const Scope        = require("./scope/Scope");
-const ENV          = require("./envLoader");
-const TreeBuilderC = require("./TreeBuilder.js");
-const TreeBuilder  = new TreeBuilderC();
-const Parser       = require('@behrenle/number-drive-parser');
-const FailedParsingException = require("./exceptions/FailedParsingException");
 const Exception = require("./exceptions/Exception");
+const parse = require("./parse");
+const prelude = require("./prelude");
 
 function transformGerman2English(str) {
   return str
@@ -23,21 +19,13 @@ function transformEnglish2German(str) {
 
 class Script {
   constructor(lang) {
-    // setup script environment
-    this.ENV = new Stack();
-    for (var scope of ENV.scopes) {
-      this.ENV.push(scope);
-    }
-
-    // language
     this.lang = lang ? lang : "en";
-
-    // setup user scope
-    this.ENV.push(new Scope());
-
-    // setup internal script structre
-    this.inputs  = [];
+    this.inputs = [];
     this.outputs = [];
+
+    // generate stack and setup user scope
+    this.ENV = prelude();
+    this.ENV.push(new Scope());
   }
 
   getSetting(...args) {
@@ -106,35 +94,20 @@ class Script {
       : this.outputs[index];
   }
 
-  push(node) {
-    var inputStr, outputStr;
-
-    node.setStack(this.getENV());
-    try {
-      var result = node.evaluate();
-      outputStr = result.serialize();
-    } catch (e) {
-      if (e instanceof Exception) {
-        outputStr = e.stringify();
-      } else {
-        outputStr = e;
-      }
-    }
-
-    this.outputs.push(outputStr);
-  }
-
   pushString(rawStr) {
+    let str = this.lang == "en" ? rawStr : transformGerman2English(rawStr);
+    this.inputs.push(str);
     try {
-      var str = this.lang == "en" ? rawStr : transformGerman2English(rawStr);
-      var parseTreeNode = Parser.parse(str),
-          astNode       = TreeBuilder.build(parseTreeNode);
-
-      this.inputs.push(str);
-      this.push(astNode);
-    } catch (e) {
-      this.inputs.push(str);
-      this.outputs.push(new FailedParsingException(e).stringify());
+      let node = parse(str)
+      try {
+        node.setStack(this.getENV());
+        let result = node.evaluate();
+        this.outputs.push(result.serialize());
+      } catch (runtimeError) {
+        this.outputs.push(runtimeError);
+      }
+    } catch (syntaxError) {
+      this.outputs.push(syntaxError);
     }
   }
 
