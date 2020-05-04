@@ -1,27 +1,27 @@
 const constructors = require("../constructors");
-const gFuncTools   = require("./gFuncTools");
-const Decimal      = constructors.Decimal;
-const Scope        = require("../scope/Scope");
+const tools = require("../pluginTools");
+const Decimal = constructors.Decimal;
+const Scope = require("../scope/Scope");
 
 module.exports = {
   table: function(parameters, stack) {
-    var params, expr, lLimit, uLimit, stepSize;
+    let params, expr, lLimit, uLimit, stepSize;
     if (parameters.length == 4) {
-      params   = gFuncTools.paramCheck(parameters, ["term", "number", "number", "number"]);
+      params   = tools.checkParameters(parameters, ["term", "number", "number", "number"]);
       expr     = params[0].breakDown().summarize();
       lLimit   = params[1].getDecimalValue();
       uLimit   = params[2].getDecimalValue();
       stepSize = params[3].getDecimalValue();
     } else {
-      params   = gFuncTools.paramCheck(parameters, ["term", "number", "number"]);
+      params   = tools.checkParameters(parameters, ["term", "number", "number"]);
       expr     = params[0].breakDown().summarize();
       lLimit   = params[1].getDecimalValue();
       uLimit   = params[2].getDecimalValue();
       stepSize = new Decimal(1);
     }
 
-    // check var count
-    var varName;
+    // check let count
+    let varName;
     if (expr.getSymbolNames().length == 1) {
       varName = expr.getSymbolNames()[0];
     } else {
@@ -36,13 +36,13 @@ module.exports = {
       throw "invalid limits or step size";
     }
 
-    var result = new constructors.Tensor(constructors);
-    var value  = new constructors.Number(constructors, lLimit);
-    var vScope = new Scope();
+    let result = new constructors.Tensor(constructors);
+    let value  = new constructors.Number(constructors, lLimit);
+    let vScope = new Scope();
     vScope.setValue(varName, value);
     expr.getStack().push(vScope);
 
-    for (var i = lLimit; !i.gt(uLimit); i = i.plus(stepSize)) {
+    for (let i = lLimit; !i.gt(uLimit); i = i.plus(stepSize)) {
       value.setSign(Decimal.sign(i));
       value.setValue(i.abs());
       result.push(new constructors.Number(constructors, i));

@@ -1,7 +1,6 @@
 const constructors = require("../constructors");
-const gFuncTools   = require("./gFuncTools");
-const Decimal      = constructors.Decimal;
-const trigMaxPrecision = 32;
+const Decimal = constructors.Decimal;
+const tools = require("../pluginTools");
 
 function binco(n, k) {
   if (n % 1 != 0 || k % 1 != 0) {
@@ -38,7 +37,7 @@ function cBinomial(p, n, k) {
 
 module.exports = {
   cbinom: function(parameters, stack) {
-    let params = gFuncTools.paramCheck(parameters, ["number", "number", "number"]),
+    let params = tools.checkParameters(parameters, ["number", "number", "number"]),
         n = params[0].getDecimalValue().toNumber(),
         p = params[1].getDecimalValue().toNumber(),
         k = params[2].getDecimalValue().toNumber();
@@ -51,7 +50,7 @@ module.exports = {
   },
 
   binom: function(parameters, stack) {
-    let params = gFuncTools.paramCheck(parameters, ["number", "number", "number"]),
+    let params = tools.checkParameters(parameters, ["number", "number", "number"]),
         n = params[0].getDecimalValue().toNumber(),
         p = params[1].getDecimalValue().toNumber(),
         k = params[2].getDecimalValue().toNumber();
@@ -64,7 +63,7 @@ module.exports = {
   },
 
   binco: function(parameters, stack) {
-    let params = gFuncTools.paramCheck(parameters, ["number", "number"]),
+    let params = tools.checkParameters(parameters, ["number", "number"]),
         n = params[0].getDecimalValue().toNumber(),
         k = params[1].getDecimalValue().toNumber();
 
@@ -72,84 +71,66 @@ module.exports = {
   },
 
   exp: function(parameters, stack) {
-    var param = gFuncTools.paramCheck(parameters, ["number"])[0],
+    let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      value.exp()
-    );
+    return param.new("Number", value.exp());
   },
 
   ln: function(parameters, stack) {
-    var param = gFuncTools.paramCheck(parameters, ["number"])[0],
+    let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      value.ln()
-    );
+    return param.new("Number", value.ln());
   },
 
   log: function(parameters, stack) {
-    var params = gFuncTools.paramCheck(parameters, ["number", "number"]),
+    let params = tools.checkParameters(parameters, ["number", "number"]),
         value  = params[0].getDecimalValue(),
         base   = params[1].getDecimalValue();
 
-
-    return params[0].new(
-      "Number",
-      value.log(base)
-    );
+    return params[0].new("Number", value.log(base));
   },
 
   min: function(parameters, stack) {
-    var params = gFuncTools.paramCheckSingleType(parameters, "number"),
+    let params = tools.checkParameters(parameters, "number"),
         values = params.map(x => x.getDecimalValue()),
         min    = values[0];
 
-    for (var i = 1; i < values.length; i++) {
-      if (min.gt(values[i])) {
-        min = values[i];
-      }
-    }
+    values.forEach((item, i) => {
+      if (min.gt(item)) min = item;
+    });
 
     return new constructors.Number(constructors, min);
   },
 
   max: function(parameters, stack) {
-    var params = gFuncTools.paramCheckSingleType(parameters, "number"),
+    let params = tools.checkParameters(parameters, "number"),
         values = params.map(x => x.getDecimalValue()),
         max    = values[0];
 
-    for (var i = 1; i < values.length; i++) {
-      if (!max.gte(values[i])) {
-        max = values[i];
-      }
-    }
+    values.forEach((item, i) => {
+      if (!max.gte(item)) max = item;
+    });
 
     return new constructors.Number(constructors, max);
   },
 
   sqrt: function(parameters, stack) {
-    var params = gFuncTools.paramCheck(parameters, ["number"]),
+    let params = tools.checkParameters(parameters, ["number"]),
         value  = params[0].getDecimalValue();
 
-    if (value.isNegative()) {
+    if (value.isNegative())
       throw "sqrt: invalid parameters";
-    }
 
     return params[0].new("Number", value.sqrt());
   },
 
   root: function(parameters, stack) {
-    var params = gFuncTools.paramCheck(parameters, ["number", "number"]),
+    let params = tools.checkParameters(parameters, ["number", "number"]),
         value  = params[0].getDecimalValue(),
-        grade  = params[1].getDecimalValue();
-
-    var result = value.toPower(
-      grade.toPower(-1)
-    );
+        grade  = params[1].getDecimalValue(),
+        result = value.toPower(grade.toPower(-1));
 
     if (result.isNaN()) {
       throw "root: invalid parameters";
@@ -161,8 +142,8 @@ module.exports = {
   delete: function(parameters, stack) {
     if (parameters.length == 1) {
       if (parameters[0] instanceof constructors.Symbol) {
-        var topScope = stack.getTopScope();
-        var name = parameters[0].getName();
+        let topScope = stack.getTopScope();
+        let name = parameters[0].getName();
         if (topScope.getValue(name)) {
           topScope.deleteValue(name);
           return new constructors.Number(constructors, 1);

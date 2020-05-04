@@ -1,7 +1,7 @@
 const constructors = require("../constructors");
-const gFuncTools   = require("./gFuncTools");
-const Decimal      = constructors.Decimal;
-const Scope        = require("../scope/Scope");
+const tools = require("../pluginTools");
+const Decimal = constructors.Decimal;
+const Scope = require("../scope/Scope");
 
 // config stuff
 const scanN         = Math.pow(10, 3);
@@ -9,19 +9,19 @@ const closeZero     = new constructors.Decimal("10e-24");
 const maxIterations = 128;
 
 function scan(expr, start, stop, varName) {
-  var increment = Decimal.div(
+  let increment = Decimal.div(
     Decimal.sub(stop, start),
     scanN
   );
 
-  var points = [],
+  let points = [],
       vScope = new Scope,
       value  = new constructors.Number(constructors);
 
   vScope.setValue(varName, value);
   expr.getStack().push(vScope);
 
-  for (var currX = new Decimal(start); !currX.gt(stop); currX = currX.plus(increment)) {
+  for (let currX = new Decimal(start); !currX.gt(stop); currX = currX.plus(increment)) {
     value.setSign(Decimal.sign(currX));
     value.setValue(currX.abs());
     points.push([
@@ -34,9 +34,9 @@ function scan(expr, start, stop, varName) {
 }
 
 function filterSignFlips(points) {
-  var flips = [];
+  let flips = [];
 
-  for (var i = 1; i < points.length; i++) {
+  for (let i = 1; i < points.length; i++) {
     if (
       (
         points[i][1].gte(0) &&
@@ -54,7 +54,7 @@ function filterSignFlips(points) {
 }
 
 function analyzeInterval(expr, varName, flip, mode) {
-  var leftLimit  = flip[0],
+  let leftLimit  = flip[0],
       rightLimit = flip[1],
       value      = new constructors.Number(constructors),
       result, nextLimit, leftValue, rightValue, nextValue;
@@ -71,7 +71,7 @@ function analyzeInterval(expr, varName, flip, mode) {
   value.setValue(Decimal.abs(rightLimit));
   rightValue = expr.evaluate().getDecimalValue();
 
-  for (var i = 0; i < maxIterations; i++) {
+  for (let i = 0; i < maxIterations; i++) {
     // return if zero
     if (!Decimal.abs(rightValue).gt(closeZero)) {
       return rightLimit;
@@ -112,9 +112,9 @@ function analyzeInterval(expr, varName, flip, mode) {
 }
 
 function filterAbsDips(points) {
-  var dips = [];
+  let dips = [];
 
-  for (var i = 1; i < points.length - 1; i++) {
+  for (let i = 1; i < points.length - 1; i++) {
     if (
       (points[i][1].gte(0) && (
         !points[i][1].gte(points[i - 1][1])
@@ -133,17 +133,17 @@ function filterAbsDips(points) {
 
 module.exports = {
   nsolve: function(parameters, stack) {
-    var params, leftLimitRaw, rightLimitRaw;
+    let params, leftLimitRaw, rightLimitRaw;
     if (parameters.length == 1) {
-      params        = gFuncTools.paramCheck(parameters, ["equation"]),
+      params        = tools.checkParameters(parameters, ["equation"]),
       leftLimitRaw  = new Decimal(-20);
       rightLimitRaw = new Decimal(20);
     } else {
-      params        = gFuncTools.paramCheck(parameters, ["equation", "number", "number"]),
+      params        = tools.checkParameters(parameters, ["equation", "number", "number"]),
       leftLimitRaw  = params[1].getDecimalValue();
       rightLimitRaw = params[2].getDecimalValue();
     }
-    var rExpr    = params[0].new("Sum"),
+    let rExpr    = params[0].new("Sum"),
         subExpr1 = params[0].getElement(0).clone(),
         subExpr2 = params[0].getElement(1).clone();
 
@@ -151,34 +151,34 @@ module.exports = {
     subExpr2.applySign(-1);
     rExpr.push(subExpr1);
     rExpr.push(subExpr2);
-    var expr = rExpr.breakDown().summarize();
+    let expr = rExpr.breakDown().summarize();
 
     // limits
-    var leftLimit  = Decimal.min(leftLimitRaw, rightLimitRaw),
+    let leftLimit  = Decimal.min(leftLimitRaw, rightLimitRaw),
         rightLimit = Decimal.max(leftLimitRaw, rightLimitRaw);
 
-    // check var count
-    var varName;
+    // check let count
+    let varName;
     if (expr.getSymbolNames().length == 1) {
       varName = expr.getSymbolNames()[0];
     } else {
       throw "invalid variable count";
     }
 
-    var points  = scan(expr, leftLimit, rightLimit, varName),
+    let points  = scan(expr, leftLimit, rightLimit, varName),
         flips   = filterSignFlips(points),
         dips    = filterAbsDips(points),
         results = [];
 
     // evaluate sign flips
-    for (var flip of flips) {
+    for (let flip of flips) {
       result = analyzeInterval(expr, varName, flip, true);
       if (result)
         results.push(result);
     }
 
     // evaluate sign flips
-    for (var dip of dips) {
+    for (let dip of dips) {
       result = analyzeInterval(expr, varName, dip, false);
       if (result)
         results.push(result);
@@ -186,7 +186,7 @@ module.exports = {
 
     // create results vector
     resultVec = new constructors.Tensor(constructors, [results.length]);
-    for (var i = 0; i < results.length; i++) {
+    for (let i = 0; i < results.length; i++) {
       resultVec.setElement(i, new constructors.Number(
         constructors, results[i]
       ));

@@ -1,7 +1,7 @@
 const constructors = require("../constructors");
-const gFuncTools   = require("./gFuncTools");
-const Decimal      = constructors.Decimal;
-const Scope        = require("../scope/Scope");
+const tools = require("../pluginTools");
+const Decimal = constructors.Decimal;
+const Scope = require("../scope/Scope");
 
 // conf
 const splitSections = 150;
@@ -28,7 +28,7 @@ const weightPosPairs    = [],
 ];
 
 // create Decimal objects for each value
-for (var i = 1; i < weightPosPairStrs.length; i += 2) {
+for (let i = 1; i < weightPosPairStrs.length; i += 2) {
   weightPosPairs.push([
     new Decimal(weightPosPairStrs[i - 1]),
     new Decimal(weightPosPairStrs[i]),
@@ -37,11 +37,11 @@ for (var i = 1; i < weightPosPairStrs.length; i += 2) {
 
 // transformation from [-1, 1] -> [a, b]
 function transformPairValues(a, b) {
-  var v1 = b.minus(a).div(2),
+  let v1 = b.minus(a).div(2),
       v2 = a.plus(b).div(2);
 
-  var newPairs = [];
-  for (var i = 0; i < weightPosPairs.length; i++) {
+  let newPairs = [];
+  for (let i = 0; i < weightPosPairs.length; i++) {
     newPairs.push([
       weightPosPairs[i][0].mul(v1).plus(v2),
       weightPosPairs[i][1].mul(v1)
@@ -52,10 +52,10 @@ function transformPairValues(a, b) {
 
 // split integration interval into smaller ones for improved accuracy
 function splitInterval(a, b) {
-  var intervals = [],
+  let intervals = [],
       iLength   = b.minus(a).div(splitSections);
 
-  for (var i = 0; i < splitSections; i++) {
+  for (let i = 0; i < splitSections; i++) {
     intervals.push([
       iLength.mul(i).plus(a),
       iLength.mul(i + 1).plus(a)
@@ -66,7 +66,7 @@ function splitInterval(a, b) {
 }
 
 function integrate(expr, a, b, varName) {
-  var vScope = new Scope,
+  let vScope = new Scope,
       value  = new constructors.Number(constructors),
       result = new Decimal(0);
 
@@ -74,16 +74,16 @@ function integrate(expr, a, b, varName) {
   expr.getStack().push(vScope);
 
   // split intervals
-  var splits = splitInterval(a, b);
+  let splits = splitInterval(a, b);
 
   // calculate positions and weights
-  var wpPairs = [];
-  for (var i = 0; i < splits.length; i++) {
+  let wpPairs = [];
+  for (let i = 0; i < splits.length; i++) {
     wpPairs = wpPairs.concat(transformPairValues(splits[i][0], splits[i][1]));
   }
 
   // evaluate expr
-  for (var i = 0; i < wpPairs.length; i++) {
+  for (let i = 0; i < wpPairs.length; i++) {
     value.setSign(Decimal.sign(wpPairs[i][0]));
     value.setValue(wpPairs[i][0].abs());
     result = result.plus(expr.evaluate().getDecimalValue().mul(wpPairs[i][1]));
@@ -95,15 +95,15 @@ function integrate(expr, a, b, varName) {
 
 module.exports = {
   nintegral: function(parameters, stack) {
-    var params = gFuncTools.paramCheck(parameters, ["term", "number", "number"]),
+    let params = tools.checkParameters(parameters, ["term", "number", "number"]),
         expr   = params[0].breakDown().summarize();
 
     // limits
-    var leftLimit  = Decimal.min(params[1].getDecimalValue(), params[2].getDecimalValue()),
+    let leftLimit  = Decimal.min(params[1].getDecimalValue(), params[2].getDecimalValue()),
         rightLimit = Decimal.max(params[1].getDecimalValue(), params[2].getDecimalValue());
 
-    // check var count
-    var varName;
+    // check let count
+    let varName;
     if (expr.getSymbolNames().length == 1) {
       varName = expr.getSymbolNames()[0];
     } else {
