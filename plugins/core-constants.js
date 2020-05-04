@@ -1,12 +1,12 @@
 const Decimal = require("decimal.js");
 
-const piStr = "3.141592653589793238462643383";
+const piStr = require("./pi.json")[0];
 const eStr = Decimal.exp(1).toString();
 
 module.exports = {
   inlineDefinitions: [
-    `pi := ${piStr}`,
+    "pi := acos(-1)",
     `e := ${eStr}`,
     `deg := ${new Decimal(piStr).div(180).toString()}`,
-  ],
+  ]
 };

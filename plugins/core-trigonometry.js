@@ -3,67 +3,60 @@ const tools = require("../pluginTools");
 const Decimal = constructors.Decimal;
 const trigMaxPrecision = 32;
 
+function createResult(decimal) {
+  let result;
+  if (decimal.abs().greaterThan(new Decimal("1e-20"))) {
+    result = decimal;
+  } else {
+    result = Decimal(0);
+  }
+  return new constructors.Number(
+    constructors,
+    result
+  );
+}
 
-module.exports = {
+const funcs = {
   sin: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.sin(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.sin(value));
   },
 
   cos: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.cos(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.cos(value));
   },
 
   tan: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-
-    return param.new(
-      "Number",
-      Decimal.tan(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.tan(value));
   },
 
   sinh: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.sinh(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.sinh(value));
   },
 
   cosh: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.cosh(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.cosh(value));
   },
 
   tanh: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.tanh(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.tanh(value));
   },
 
   // inverse functions
@@ -71,59 +64,46 @@ module.exports = {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.asin(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.asin(value));
   },
 
   acos: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.acos(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.acos(value));
   },
 
   atan: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.atan(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.atan(value));
   },
 
   asinh: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.asinh(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.asinh(value));
   },
 
   acosh: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.acosh(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.acosh(value));
   },
 
   atanh: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["number"])[0],
         value = param.getDecimalValue();
 
-    return param.new(
-      "Number",
-      Decimal.atanh(value).toDecimalPlaces(trigMaxPrecision)
-    );
+    return createResult(Decimal.atanh(value));
   },
 }
+
+module.exports = {
+  genericFunctions: funcs,
+  inlineDefinitions: [],
+};
