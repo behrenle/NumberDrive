@@ -1,18 +1,27 @@
 const NumberDrive = require("../numberDrive");
+const prelude = require("../prelude");
 const assert = require("assert");
 
 function executeTestBatch(categoryName, testArray, lambda) {
   let failedTests = 0;
   console.group(`${categoryName}: Running ${testArray.length} tests:`);
   testArray.forEach((item, i) => {
+    let stack = prelude();
+
     let parsedInput = NumberDrive.parse(item[0]),
         parsedOutput = NumberDrive.parse(item[1]);
+
+    parsedInput.setStack(stack);
+    parsedOutput.setStack(stack);
 
     let result = lambda(parsedInput),
         expected = lambda(parsedOutput);
 
     try {
-      assert.equal(result.equals(expected), true);
+      assert.equal(
+        result.equals(expected) || result.serialize() == expected.serialize(),
+        true
+      );
     } catch (e) {
       console.group(`\n#${i} test failed:`);
       console.table({

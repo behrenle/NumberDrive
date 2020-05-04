@@ -8,7 +8,7 @@ function createResult(decimal) {
   if (decimal.abs().greaterThan(new Decimal("1e-20"))) {
     result = decimal;
   } else {
-    result = Decimal(0);
+    result = new Decimal(0);
   }
   return new constructors.Number(
     constructors,
