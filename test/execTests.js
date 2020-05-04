@@ -1,19 +1,12 @@
 const NumberDrive = require("../numberDrive");
-const TreeBuilderC = require("../TreeBuilder.js");
-const TreeBuilder = new TreeBuilderC();
-const Parser = require('@behrenle/number-drive-parser');
 const assert = require("assert");
-
-function parse(str) {
-  return TreeBuilder.build(Parser.parse(str));
-}
 
 function executeTestBatch(categoryName, testArray, lambda) {
   let failedTests = 0;
   console.group(`${categoryName}: Running ${testArray.length} tests:`);
   testArray.forEach((item, i) => {
-    let parsedInput = parse(item[0]),
-        parsedOutput = parse(item[1]);
+    let parsedInput = NumberDrive.parse(item[0]),
+        parsedOutput = NumberDrive.parse(item[1]);
 
     let result = lambda(parsedInput),
         expected = lambda(parsedOutput);
