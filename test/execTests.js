@@ -9,6 +9,7 @@ function parse(str) {
 }
 
 function executeTestBatch(categoryName, testArray, lambda) {
+  let failedTests = 0;
   console.group(`${categoryName}: Running ${testArray.length} tests:`);
   testArray.forEach((item, i) => {
     let parsedInput = parse(item[0]),
@@ -28,9 +29,11 @@ function executeTestBatch(categoryName, testArray, lambda) {
         ["test(output)"]: expected.serialize(),
       });
       console.groupEnd();
+      failedTests++;
     }
   });
   console.groupEnd();
+  return failedTests;
 }
 
 let evalTest = (node) => {
@@ -52,9 +55,15 @@ const tests = {
   }
 };
 
+let failedTests = 0,
+    totalTests = 0;
+
 Object.entries(tests).forEach((entry) => {
   let key = entry[0],
       value = entry[1];
 
-  executeTestBatch(key, value.tests, value.lambda);
+  totalTests += value.tests.length;
+  failedTests += executeTestBatch(key, value.tests, value.lambda);
 });
+
+console.log(`${failedTests} of ${totalTests} tests failed`);
