@@ -98,13 +98,13 @@ class Script {
     let str = this.lang == "en" ? rawStr : transformGerman2English(rawStr);
     this.inputs.push(str);
     try {
-      let node = parse(str)
+      let node = parse(str);
       try {
         node.setStack(this.getENV());
         let result = node.evaluate();
         this.outputs.push(result.serialize());
       } catch (runtimeError) {
-        this.outputs.push(runtimeError);
+        this.outputs.push("RuntimeError: " + runtimeError);
       }
     } catch (syntaxError) {
       this.outputs.push(syntaxError);

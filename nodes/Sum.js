@@ -17,7 +17,7 @@ class Sum extends AbstractContainer {
         if (acc.getType() == "tensor" && value.getType() == "tensor")
           return acc.addTensor(value).evaluate();
 
-        throw "undefined operation";
+        throw `sum: undefined operation: ${acc.getType()} + ${value.getType()}`;
       });
 
     result.applySigns(this);
