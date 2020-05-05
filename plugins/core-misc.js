@@ -147,6 +147,7 @@ module.exports = {
   name: "core-misc",
   genericFunctions: funcs,
   inlineDefinitions: [
-    "normal(mu,sigma,x):=1/(sigma*sqrt(2*pi))*exp((x-mu)^2/(2*sigma))",
+    "normal(x) := 1 / sqrt(2*pi) * exp(x^2 / 2)",
+    "cnormal(x) := 0.5 * (1 + erf(x / sqrt(2)))",
   ],
 };
