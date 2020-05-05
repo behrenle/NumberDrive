@@ -173,8 +173,18 @@
     },
     {
       "name": "normal",
-      "synopsis": "normal(mu, sigma, x)",
-      "description": "Gaussian distribution <br>mu: expectation <br>sigma: standard deviation <br>x: position"
+      "synopsis": "normal(x)",
+      "description": "Gaussian distribution"
+    },
+    {
+      "name": "cnormal",
+      "synopsis": "cnormal(x)",
+      "description": "Cumulative Gaussian distribution"
+    },
+    {
+      "name": "erf",
+      "synopsis": "erf(x)",
+      "description": "Gaussian error function"
     },
     {
       "name": "binco",
@@ -190,6 +200,16 @@
       "name": "cbinom",
       "synopsis": "cbinom(n, p, k)",
       "description": "Binomial cumulative distribution"
+    },
+    {
+      "name": "switch",
+      "synopsis": "switch(v, f, g)",
+      "description": "Evaluates f if v >= 0 otherwise g."
+    },
+    {
+      "name": "abs",
+      "synopsis": "abs(x)",
+      "description": "Computes the absolute value of x."
     }
   ]
 }
