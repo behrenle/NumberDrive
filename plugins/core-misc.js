@@ -133,6 +133,13 @@ const funcs = {
       throw "invalid argument type";
     }
     throw "invalid number of arguments";
+  },
+
+  abs: function(parameters, stack) {
+    let params = tools.checkParameters(parameters, ["number"]),
+        value = params[0];
+
+    return value.new("Number", value.getDecimalValue().abs());
   }
 }
 
