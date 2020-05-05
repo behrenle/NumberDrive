@@ -9,4 +9,5 @@ module.exports = [
   require("./plugins/core-table"),
   require("./plugins/core-misc"),
   require("./plugins/core-switch"),
+  require("./plugins/core-erf"),
 ];
