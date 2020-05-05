@@ -8,4 +8,5 @@ module.exports = [
   require("./plugins/core-tensor"),
   require("./plugins/core-table"),
   require("./plugins/core-misc"),
+  require("./plugins/core-switch"),
 ];
