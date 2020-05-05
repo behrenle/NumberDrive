@@ -107,7 +107,7 @@ class Script {
         this.outputs.push("RuntimeError: " + runtimeError);
       }
     } catch (syntaxError) {
-      this.outputs.push(syntaxError);
+      this.outputs.push("SyntaxError: " + syntaxError.message);
     }
   }
 
