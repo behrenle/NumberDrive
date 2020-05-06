@@ -1,7 +1,7 @@
-const constructors = require("../constructors");
+const constructors = require("../../constructors");
 const Decimal = constructors.Decimal;
-const tools = require("../pluginTools");
-const utils = require("../utils");
+const tools = require("../../pluginTools");
+const utils = require("../../utils");
 const binco = utils.binco;
 
 function binomial(p, n, k) {
@@ -150,4 +150,5 @@ module.exports = {
     "normal(x) := 1 / sqrt(2*pi) * exp(x^2 / 2)",
     "cnormal(x) := 0.5 * (1 + erf(x / sqrt(2)))",
   ],
+  manual: require("./manual/misc.json"),
 };

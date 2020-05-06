@@ -1,5 +1,5 @@
-const constructors = require("../constructors");
-const tools = require("../pluginTools");
+const constructors = require("../../constructors");
+const tools = require("../../pluginTools");
 const Decimal = constructors.Decimal;
 const trigMaxPrecision = 32;
 
@@ -114,4 +114,5 @@ module.exports = {
     "acosdeg(x):=acos(x)/deg",
     "atandeg(x):=atan(x)/deg",
   ],
+  manual: require("./manual/trigonometry.json"),
 };

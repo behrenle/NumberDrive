@@ -1,7 +1,7 @@
-const constructors = require("../constructors");
-const tools = require("../pluginTools");
+const constructors = require("../../constructors");
+const tools = require("../../pluginTools");
 const Decimal = constructors.Decimal;
-const Scope = require("../scope/Scope");
+const Scope = require("../../scope/Scope");
 
 const funcs = {
   table: function(parameters, stack) {
@@ -60,4 +60,5 @@ module.exports = {
   name: "core-table",
   genericFunctions: funcs,
   inlineDefinitions: [],
+  manual: require("./manual/table.json"),
 };

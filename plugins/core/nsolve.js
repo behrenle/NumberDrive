@@ -1,7 +1,7 @@
-const constructors = require("../constructors");
-const tools = require("../pluginTools");
+const constructors = require("../../constructors");
+const tools = require("../../pluginTools");
 const Decimal = constructors.Decimal;
-const Scope = require("../scope/Scope");
+const Scope = require("../../scope/Scope");
 
 // config stuff
 const scanN         = Math.pow(10, 3);
@@ -204,4 +204,5 @@ module.exports = {
   name: "core-nsolve",
   genericFunctions: funcs,
   inlineDefinitions: [],
+  manual: require("./manual/nsolve.json"),
 };

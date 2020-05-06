@@ -1,4 +1,4 @@
-const tools = require("../pluginTools");
+const tools = require("../../pluginTools");
 
 function switchFunc(parameters, stack) {
   let params = tools.checkParameters(parameters, ["number", "term", "term"]),
@@ -18,4 +18,5 @@ module.exports = {
     ["switch"]: switchFunc,
   },
   inlineDefinitions: [],
+  manual: require("./manual/switch.json"),
 };

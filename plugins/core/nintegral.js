@@ -1,7 +1,7 @@
-const constructors = require("../constructors");
-const tools = require("../pluginTools");
+const constructors = require("../../constructors");
+const tools = require("../../pluginTools");
 const Decimal = constructors.Decimal;
-const Scope = require("../scope/Scope");
+const Scope = require("../../scope/Scope");
 
 // conf
 const splitSections = 150;
@@ -118,4 +118,5 @@ module.exports = {
   name: "core-nintegral",
   genericFunctions: funcs,
   inlineDefinitions: [],
+  manual: require("./manual/nintegral.json"),
 };

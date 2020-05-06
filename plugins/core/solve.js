@@ -1,5 +1,5 @@
-const constructors = require("../constructors");
-const tools = require("../pluginTools");
+const constructors = require("../../constructors");
+const tools = require("../../pluginTools");
 
 function getCoeffs(node) {
   if (node.getType() == "sum") {
@@ -105,4 +105,5 @@ module.exports = {
   name: "core-solve",
   genericFunctions: funcs,
   inlineDefinitions: [],
+  manual: require("./manual/solve.json"),
 };

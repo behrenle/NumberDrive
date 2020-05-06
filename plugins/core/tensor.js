@@ -1,9 +1,9 @@
-const constructors = require("../constructors");
-const tools = require("../pluginTools");
+const constructors = require("../../constructors");
+const tools = require("../../pluginTools");
 const Decimal = constructors.Decimal;
 
 const funcs = {
-  dimensions: function(parameters, stack) {
+  dims: function(parameters, stack) {
     let param  = tools.checkParameters(parameters, ["tensor"])[0],
         result = param.new("Tensor", [param.getDimensions().length]);
 
@@ -47,4 +47,5 @@ module.exports = {
   name: "core-tensor",
   genericFunctions: funcs,
   inlineDefinitions: [],
+  manual: require("./manual/tensor.json"),
 };
