@@ -40,6 +40,59 @@ const funcs = {
   det: function(parameters, stack) {
     let param = tools.checkParameters(parameters, ["tensor"])[0];
     return param.det().evaluate();
+  },
+
+  cross: function(parameters, stack) {
+    let params = tools.checkParameters(parameters, ["tensor", "tensor"]),
+        vec1 = params[0],
+        vec2 = params[1];
+
+    let dims1 = vec1.getDimensions(),
+        dims2 = vec2.getDimensions();
+
+    if (dims1.length != 1 && dims2.length != 1)
+      throw "invalid input dimensions";
+
+    if (dims1[0] != dims2[0])
+      throw "invalid input dimensions";
+
+    if (dims1[0] != 3)
+      throw "invalid input dimensions";
+
+    let a = vec1.getElements().map(x => x.getDecimalValue());
+    let b = vec2.getElements().map(x => x.getDecimalValue());
+
+    let r1 = Decimal.sub(
+      Decimal.mul(
+        a[1], b[2]
+      ),
+      Decimal.mul(
+        a[2], b[1]
+      )
+    );
+    let r2 = Decimal.sub(
+      Decimal.mul(
+        a[2], b[0]
+      ),
+      Decimal.mul(
+        a[0], b[2]
+      )
+    );
+    let r3 = Decimal.sub(
+      Decimal.mul(
+        a[0], b[1]
+      ),
+      Decimal.mul(
+        a[1], b[0]
+      )
+    );
+
+    result = params[0].new("Tensor", [3]);
+    result.setElement(0, params[0].new("Number", r1));
+    result.setElement(1, params[0].new("Number", r2));
+    result.setElement(2, params[0].new("Number", r3));
+
+    return result;
   }
 }
 
