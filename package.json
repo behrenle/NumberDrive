@@ -5,7 +5,8 @@
   "main": "numberDrive.js",
   "dependencies": {
     "@behrenle/number-drive-parser": "^3.0.1",
-    "decimal.js": "^10.2.0"
+    "decimal.js": "^10.2.0",
+    "lodash.clonedeep": "^4.5.0"
   },
   "devDependencies": {},
   "scripts": {

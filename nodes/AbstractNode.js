@@ -1,6 +1,7 @@
 const IllegalArgumentException = require("../exceptions/IllegalArgumentException");
 const UnknownConstructorException = require("../exceptions/UnknownConstructorException");
 const Stack = require("../scope/Stack.js");
+const cloneDeep = require('lodash.clonedeep');
 
 class AbstractNode {
   constructor(constructors, sign, mulSign) {
@@ -173,19 +174,9 @@ class AbstractNode {
   }
 
   clone() {
-    var cloneOBJ = new this.constructor(this.constructors);
-    for (var key of Object.keys(this)) {
-      if (key == "elements") {
-        for (var subElement of this.getElements()) {
-          cloneOBJ.push(subElement.clone());
-        }
-      } else {
-        cloneOBJ[key] = this[key];
-      }
-    }
-    cloneOBJ.setSign(this.getSign());
-    cloneOBJ.setMulSign(this.getMulSign());
-    return cloneOBJ;
+    let clone = cloneDeep(this);
+    clone.setStack(this.getStack());
+    return clone;
   }
 
   stringifyHead() {
