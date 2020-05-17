@@ -85,48 +85,48 @@ class Product extends AbstractContainer {
   }
 
   breakDown() {
-    var newElements = [];
-    var sums = [];
     if (this.isEvaluable()) {
       return this.evaluate();
     }
-    for (var rawElement of this.getElements()) {
-      rawElement.applyMulSign(this.getMulSign());
-      var element = rawElement.breakDown();
-      if (element.getType() == "product") {
-        for (var subElement of element.getElements()) {
-          subElement.applyMulSign(element.getMulSign());
-          newElements.push(subElement);
-        }
-      } else if (element.getType() == "sum") {
-        sums.push(element);
+
+    let elements = this.getElements().map(
+      (element) => element.breakDown());
+    let sumElements = elements.filter(
+      (element) => element.getType() == "sum");
+    let productElements = elements.filter(
+      (element) => element.getType() == "product");
+    let otherElements = elements.filter(
+      (element) => element.getType() != "sum" && element.getType() != "product");
+
+    // multiply sums by each other
+    let sumResult;
+    if (sumElements.length > 0)
+      sumResult = sumElements.reduce(
+        (acc, value) => acc.mulSum(value));
+
+    // combine products and append otherElements
+    let productResult = this.new("Product");
+    productElements.forEach((product) => {
+      product.getElement(0).applySign(product.getSign());
+      product.forEach((item) => {
+        let newItem = item.clone().applyMulSign(product.getMulSign);
+        productResult.push(newItem);
+    })});
+    otherElements.forEach((element) => productResult.push(element));
+
+    // compose result
+    let result;
+    if (sumResult) {
+      if (productResult) {
+        result = sumResult.mulNonSum(productResult);
       } else {
-        newElements.push(element)
+        result = sumResult;
       }
-    }
-    this.resetMulSign();
-    var result;
-    if (sums.length > 0) {
-      result = sums[0];
-      sums.splice(0, 1); // remove first element
-      for (var sum of sums) {
-        result = result.mulSum(sum);
-      }
-    }
-    if (newElements.length > 1) {
-      this.setElements(newElements);
-      if (result) {
-        return result.mulNonSum(this);
-      }
-      return this;
-    } else if (newElements.length == 1){
-      if (result) {
-        return result.mulNonSum(newElements[0]);
-      }
-      return newElements[0];
     } else {
-      return result;
+      result = productResult;
     }
+    result.applySigns(this);
+    return result;
   }
 
   summarize() {
