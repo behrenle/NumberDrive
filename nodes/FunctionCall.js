@@ -51,5 +51,5 @@ class FunctionCall extends AbstractContainer {
   }
 }
 
-registerNode(FunctionCall);
+registerNode("FunctionCall", FunctionCall);
 export default FunctionCall;

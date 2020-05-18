@@ -51,6 +51,6 @@ class Definition extends AbstractContainer {
   }
 }
 
-registerNode(Definition);
+registerNode("Definition", Definition);
 
 export default Definition;

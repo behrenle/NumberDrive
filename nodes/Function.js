@@ -30,5 +30,5 @@ class Function extends AbstractContainer {
   }
 }
 
-registerNode(Function);
+registerNode("Function", Function);
 export default Function;

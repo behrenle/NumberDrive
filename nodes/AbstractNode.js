@@ -6,8 +6,8 @@ import Decimal from 'decimal.js';
 
 const nodes = { Decimal };
 
-export const registerNode = (nodeClass) => {
-  nodes[nodeClass.name] = nodeClass;
+export const registerNode = (name, nodeClass) => {
+  nodes[name] = nodeClass;
 }
 
 class AbstractNode {
@@ -182,6 +182,6 @@ class AbstractNode {
   }
 }
 
-registerNode(AbstractNode);
+registerNode("AbstractNode", AbstractNode);
 
 export default AbstractNode;

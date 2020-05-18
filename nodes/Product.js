@@ -315,5 +315,5 @@ class Product extends AbstractContainer {
   }
 }
 
-registerNode(Product);
+registerNode("Product", Product);
 export default Product;

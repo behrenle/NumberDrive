@@ -15,5 +15,5 @@ class GenericFunction extends AbstractContainer {
   }
 }
 
-registerNode(GenericFunction);
+registerNode("GenericFunction", GenericFunction);
 export default GenericFunction;

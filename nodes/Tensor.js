@@ -302,5 +302,5 @@ class Tensor extends AbstractContainer {
   }
 }
 
-registerNode(Tensor);
+registerNode("Tensor", Tensor);
 export default Tensor;

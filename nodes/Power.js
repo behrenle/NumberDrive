@@ -109,5 +109,5 @@ class Power extends AbstractContainer {
   }
 }
 
-registerNode(Power);
+registerNode("Power", Power);
 export default Power;

@@ -71,5 +71,5 @@ class Symbol extends AbstractNode {
   }
 }
 
-registerNode(Symbol);
+registerNode("Symbol", Symbol);
 export default Symbol;

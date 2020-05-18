@@ -226,5 +226,5 @@ class Sum extends AbstractContainer {
   }
 }
 
-registerNode(Sum);
+registerNode("Sum", Sum);
 export default Sum;

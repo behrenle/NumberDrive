@@ -84,5 +84,5 @@ class Number extends AbstractNode {
   }
 }
 
-registerNode(Number);
+registerNode("Number", Number);
 export default Number;

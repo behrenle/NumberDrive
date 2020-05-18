@@ -64,5 +64,5 @@ class Equation extends AbstractContainer {
   }
 }
 
-registerNode(Equation);
+registerNode("Equation", Equation);
 export default Equation;
