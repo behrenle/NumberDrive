@@ -3,6 +3,7 @@
   "version": "2.21.2",
   "description": "Interpreter for math expressions.",
   "main": "numberDrive.js",
+  "type": "module",
   "dependencies": {
     "@behrenle/number-drive-parser": "^3.0.1",
     "decimal.js": "^10.2.0",
