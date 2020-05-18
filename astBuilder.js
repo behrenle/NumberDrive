@@ -1,6 +1,7 @@
 import UnknownNodeException from "./exceptions/UnknownNodeException.js";
 import InvalidTensorFormatException from "./exceptions/InvalidTensorFormatException.js";
-import constructors from "./constructors.js";
+import Nodes from "./constructors.js";
+import Decimal from 'decimal.js';
 
 function dimEquals(dims1, dims2) {
   if (dims1 instanceof Array && dims2 instanceof Array) {
@@ -43,20 +44,18 @@ function getTensorElements(listNode) {
 }
 
 class AstBuilder {
-  constructor() {
-    this.constructors = constructors;
-  }
+  constructor() {}
 
   getSign(parseTreeNode) {
     return parseTreeNode.sign == "-"
-      ? new constructors.Decimal(-1)
-      : new constructors.Decimal(1);
+      ? new Decimal(-1)
+      : new Decimal(1);
   }
 
   getMulSign(parseTreeNode) {
     return parseTreeNode.mulSign == "/"
-      ? new constructors.Decimal(-1)
-      : new constructors.Decimal(1);
+      ? new Decimal(-1)
+      : new Decimal(1);
   }
 
   build(parseTreeNode) {
@@ -94,8 +93,7 @@ class AstBuilder {
   }
 
   buildNumber(parseTreeNode) {
-    return new constructors.Number(
-      constructors,
+    return new Nodes.Number(
       parseTreeNode.value,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
@@ -103,8 +101,7 @@ class AstBuilder {
   }
 
   buildSum(parseTreeNode) {
-    var node = new constructors.Sum(
-      constructors,
+    var node = new Nodes.Sum(
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
@@ -115,8 +112,7 @@ class AstBuilder {
   }
 
   buildProduct(parseTreeNode) {
-    var node = new constructors.Product(
-      constructors,
+    var node = new Nodes.Product(
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
@@ -127,8 +123,7 @@ class AstBuilder {
   }
 
   buildPower(parseTreeNode) {
-    var node = new constructors.Power(
-      constructors,
+    var node = new Nodes.Power(
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
     );
@@ -138,8 +133,7 @@ class AstBuilder {
   }
 
   buildSymbol(parseTreeNode) {
-    return new constructors.Symbol(
-      constructors,
+    return new Nodes.Symbol(
       parseTreeNode.value,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
@@ -148,8 +142,7 @@ class AstBuilder {
 
   buildTensor(parseTreeNode) {
     var dims = getDims(parseTreeNode);
-    var node = new constructors.Tensor(
-      constructors,
+    var node = new Nodes.Tensor(
       dims,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
@@ -161,8 +154,7 @@ class AstBuilder {
   }
 
   buildFunctionCall(parseTreeNode) {
-    var node = new constructors.FunctionCall(
-      constructors,
+    var node = new Nodes.FunctionCall(
       parseTreeNode.name,
       this.getSign(parseTreeNode),
       this.getMulSign(parseTreeNode)
@@ -174,7 +166,7 @@ class AstBuilder {
   }
 
   buildDefinition(parseTreeNode) {
-    var node = new constructors.Definition(constructors);
+    var node = new Nodes.Definition();
     node.setElements(parseTreeNode.elements.map(
       n => this.build(n)
     ));
@@ -182,7 +174,7 @@ class AstBuilder {
   }
 
   buildEquation(parseTreeNode) {
-    var node = new constructors.Equation(constructors);
+    var node = new Nodes.Equation();
     node.setElements(parseTreeNode.elements.map(
       n => this.build(n)
     ));

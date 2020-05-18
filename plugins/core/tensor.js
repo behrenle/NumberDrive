@@ -1,8 +1,6 @@
-import constructors from "../../constructors.js";
 import tools from "../../pluginTools.js";
 import manual from "./manual/tensor.js";
-
-const Decimal = constructors.Decimal;
+import Decimal from 'decimal.js';
 
 const funcs = {
   dims: function(parameters, stack) {

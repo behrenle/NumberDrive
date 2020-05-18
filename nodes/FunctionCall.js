@@ -1,8 +1,9 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 
 class FunctionCall extends AbstractContainer {
-  constructor(constructors, name, sign, mulSign) {
-    super(constructors, [], sign, mulSign);
+  constructor(name, sign, mulSign) {
+    super([], sign, mulSign);
     this.type = "functionCall";
     this.name = name;
   }
@@ -50,4 +51,5 @@ class FunctionCall extends AbstractContainer {
   }
 }
 
+registerNode(FunctionCall);
 export default FunctionCall;

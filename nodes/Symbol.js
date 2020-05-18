@@ -1,9 +1,9 @@
-import AbstractNode from "./AbstractNode.js";
+import AbstractNode, { registerNode } from "./AbstractNode.js";
 import UnknownSymbolException from "../exceptions/UnknownSymbolException.js";
 
 class Symbol extends AbstractNode {
-  constructor(constructors, name, sign, mulSign) {
-    super(constructors, sign, mulSign);
+  constructor(name, sign, mulSign) {
+    super(sign, mulSign);
     this.type = "symbol";
     this.name = name;
   }
@@ -71,4 +71,5 @@ class Symbol extends AbstractNode {
   }
 }
 
+registerNode(Symbol);
 export default Symbol;

@@ -1,8 +1,9 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 
 class Sum extends AbstractContainer {
-  constructor(constructors, sign, mulSign) {
-    super(constructors, [], sign, mulSign);
+  constructor(sign, mulSign) {
+    super([], sign, mulSign);
     this.type = "sum";
     this.connectionStrength = 1;
   }
@@ -50,7 +51,7 @@ class Sum extends AbstractContainer {
       var e1 = element.clone();
       var e2 = node.clone();
       e1.applySign(this.getSign());
-      if (e1 instanceof this.constructors.AbstractContainer) {
+      if (e1.constructor.name == "AbstractContainer") {
         summand.applySign(e1.getSign());
         summand.setElements(e1.getElements());
       } else {
@@ -225,4 +226,5 @@ class Sum extends AbstractContainer {
   }
 }
 
+registerNode(Sum);
 export default Sum;

@@ -1,9 +1,8 @@
-import constructors from "../../constructors.js";
+import Nodes from "../../constructors.js";
 import tools from "../../pluginTools.js";
 import Scope from "../../scope/Scope.js";
 import manual from "./manual/table.js";
-
-const Decimal = constructors.Decimal;
+import Decimal from 'decimal.js';
 
 const funcs = {
   table: function(parameters, stack) {
@@ -38,8 +37,8 @@ const funcs = {
       throw "invalid limits or step size";
     }
 
-    let result = new constructors.Tensor(constructors);
-    let value  = new constructors.Number(constructors, lLimit);
+    let result = new Nodes.Tensor();
+    let value  = new Nodes.Number(lLimit);
     let vScope = new Scope();
     vScope.setValue(varName, value);
     expr.getStack().push(vScope);
@@ -47,7 +46,7 @@ const funcs = {
     for (let i = lLimit; !i.gt(uLimit); i = i.plus(stepSize)) {
       value.setSign(Decimal.sign(i));
       value.setValue(i.abs());
-      result.push(new constructors.Number(constructors, i));
+      result.push(new Nodes.Number(i));
       result.push(expr.evaluate());
     }
 

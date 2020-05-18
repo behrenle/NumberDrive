@@ -1,8 +1,9 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 
 class Equation extends AbstractContainer {
-  constructor(constructors) { // equation is signless
-    super(constructors, [], 1, 1);
+  constructor() { // equation is signless
+    super([], 1, 1);
     this.type = "equation";
   }
 
@@ -63,4 +64,5 @@ class Equation extends AbstractContainer {
   }
 }
 
+registerNode(Equation);
 export default Equation;

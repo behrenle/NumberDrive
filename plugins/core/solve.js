@@ -1,4 +1,4 @@
-import constructors from "../../constructors.js";
+import Nodes from "../../constructors.js";
 import tools from "../../pluginTools.js";
 import manual from "./manual/solve.js";
 
@@ -60,8 +60,7 @@ const funcs = {
       throw "variables count does not match equation count";
 
     // create coeff matrix
-    let coeffMatrix = new constructors.Tensor(
-      constructors,
+    let coeffMatrix = new Nodes.Tensor(
       [varNames.length, varNames.length]
     );
 
@@ -77,9 +76,7 @@ const funcs = {
       throw "can't solve linear equation system";
     }
 
-    let result = new constructors.Tensor(
-      constructors, [varNames.length]
-    );
+    let result = new Nodes.Tensor([varNames.length]);
 
     for (let i = 0; i < varNames.length; i++) {
       let bottomDet = cmDet.clone();
@@ -88,9 +85,9 @@ const funcs = {
         cloneCm.setElement([i, j], consts[j]);
       }
       let topDet = cloneCm.det().evaluate();
-      let resultItem = new constructors.Equation(constructors);
-      resultItem.push(new constructors.Symbol(constructors, varNames[i]));
-      let value = new constructors.Product(constructors);
+      let resultItem = new Nodes.Equation();
+      resultItem.push(new Nodes.Symbol(varNames[i]));
+      let value = new Nodes.Product();
       value.push(topDet);
       bottomDet.applyMulSign(-1);
       value.push(bottomDet);

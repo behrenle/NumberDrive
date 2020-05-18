@@ -1,7 +1,6 @@
 import Scope from "./scope/Scope.js";
 import Stack from "./scope/Stack.js";
 import GenericFunction from "./nodes/GenericFunction.js";
-import constructors from "./constructors.js";
 import parse from "./parse.js";
 import plugins from "./pluginLoader.js";
 
@@ -15,7 +14,7 @@ export default () => {
       let name = entry[0],
           func = entry[1];
 
-      stack.setValue(name, new GenericFunction(constructors, func));
+      stack.setValue(name, new GenericFunction(func));
   })});
 
   // load inline definitions and constants with special precision

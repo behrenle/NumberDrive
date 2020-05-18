@@ -1,9 +1,9 @@
-import constructors from "../../constructors.js";
+import Nodes from "../../constructors.js";
 import tools from "../../pluginTools.js";
 import utils from "../../utils.js";
 import manual from "./manual/misc.js";
+import Decimal from 'decimal.js';
 
-const Decimal = constructors.Decimal;
 const binco = utils.binco;
 
 function binomial(p, n, k) {
@@ -83,7 +83,7 @@ const funcs = {
       if (min.gt(item)) min = item;
     });
 
-    return new constructors.Number(constructors, min);
+    return new Nodes.Number(min);
   },
 
   max: function(parameters, stack) {
@@ -95,7 +95,7 @@ const funcs = {
       if (!max.gte(item)) max = item;
     });
 
-    return new constructors.Number(constructors, max);
+    return new Nodes.Number(max);
   },
 
   sqrt: function(parameters, stack) {
@@ -123,14 +123,14 @@ const funcs = {
 
   delete: function(parameters, stack) {
     if (parameters.length == 1) {
-      if (parameters[0] instanceof constructors.Symbol) {
+      if (parameters[0] instanceof Nodes.Symbol) {
         let topScope = stack.getTopScope();
         let name = parameters[0].getName();
         if (topScope.getValue(name)) {
           topScope.deleteValue(name);
-          return new constructors.Number(constructors, 1);
+          return new Nodes.Number(1);
         }
-        return new constructors.Number(constructors, 0);
+        return new Nodes.Number(0);
       }
       throw "invalid argument type";
     }

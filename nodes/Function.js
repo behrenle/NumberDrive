@@ -1,9 +1,10 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 import Scope from "../scope/Scope.js";
 
 class Function extends AbstractContainer {
-  constructor(constructors, parameters, expression) { // function is signless
-    super(constructors, [], 1, 1);
+  constructor(parameters, expression) { // function is signless
+    super([], 1, 1);
     this.type = "function";
     this.expression = expression;
     this.setElements(parameters);
@@ -29,4 +30,5 @@ class Function extends AbstractContainer {
   }
 }
 
+registerNode(Function);
 export default Function;

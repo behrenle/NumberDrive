@@ -1,39 +1,40 @@
-import AbstractNode from "./AbstractNode.js";
+import AbstractNode, { registerNode } from "./AbstractNode.js";
+import Decimal from 'decimal.js';
 
 class Number extends AbstractNode {
-  constructor(constructors, value = 0, sign, mulSign) {
-    super(constructors, sign, mulSign);
+  constructor(value = 0, sign, mulSign) {
+    super(sign, mulSign);
     this.type = "number";
     var rawValue = this.new("Decimal", value);
-    this.applySign(this.constructors.Decimal.sign(rawValue));
+    this.applySign(Decimal.sign(rawValue));
     this.setValue(rawValue.abs());
   }
 
   addNumber(number) {
-    return this.new("Number", this.constructors.Decimal.add(
-      this.constructors.Decimal.mul(this.getValue(), this.getSign()),
-      this.constructors.Decimal.mul(number.getValue(), number.getSign())
+    return this.new("Number", Decimal.add(
+      Decimal.mul(this.getValue(), this.getSign()),
+      Decimal.mul(number.getValue(), number.getSign())
     ));
   }
 
   mulNumber(number) {
-    return this.new("Number", this.constructors.Decimal.mul(
-      this.constructors.Decimal.mul(this.getSign(), number.getSign()),
-      this.constructors.Decimal.mul(
-        this.constructors.Decimal.pow(this.getValue(), this.getMulSign()),
-        this.constructors.Decimal.pow(number.getValue(), number.getMulSign())
+    return this.new("Number", Decimal.mul(
+      Decimal.mul(this.getSign(), number.getSign()),
+      Decimal.mul(
+        Decimal.pow(this.getValue(), this.getMulSign()),
+        Decimal.pow(number.getValue(), number.getMulSign())
       )
     ));
   }
 
   power(number) {
     return this.new("Number",
-      this.constructors.Decimal.pow(
-        this.constructors.Decimal.mul(
+      Decimal.pow(
+        Decimal.mul(
           this.getSign(),
           this.getValue()
         ),
-        this.constructors.Decimal.mul(
+        Decimal.mul(
           number.getValue(),
           number.getSign()
         )
@@ -46,7 +47,7 @@ class Number extends AbstractNode {
   }
 
   getDecimalValue() {
-    return this.constructors.Decimal.mul(
+    return Decimal.mul(
       this.getSign(),
       this.getValue()
     );
@@ -83,4 +84,5 @@ class Number extends AbstractNode {
   }
 }
 
+registerNode(Number);
 export default Number;

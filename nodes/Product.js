@@ -1,9 +1,10 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 import DevideByZeroException from "../exceptions/DivideByZeroException.js";
 
 class Product extends AbstractContainer {
-  constructor(constructors, sign, mulSign) {
-    super(constructors, [], sign, mulSign);
+  constructor(sign, mulSign) {
+    super([], sign, mulSign);
     this.type = "product";
     this.connectionStrength = 2;
   }
@@ -108,8 +109,9 @@ class Product extends AbstractContainer {
     let productResult = this.new("Product");
     productElements.forEach((product) => {
       product.getElement(0).applySign(product.getSign());
-      product.forEach((item) => {
-        let newItem = item.clone().applyMulSign(product.getMulSign);
+      product.getElements().forEach((item) => {
+        let newItem = item.clone()
+        newItem.applyMulSign(product.getMulSign());
         productResult.push(newItem);
     })});
     otherElements.forEach((element) => productResult.push(element));
@@ -117,7 +119,7 @@ class Product extends AbstractContainer {
     // compose result
     let result;
     if (sumResult) {
-      if (productResult) {
+      if (productResult.getLength() > 0) {
         result = sumResult.mulNonSum(productResult);
       } else {
         result = sumResult;
@@ -151,6 +153,7 @@ class Product extends AbstractContainer {
             if (i != k) {
               var node1 = nEvals[i],
                   node2 = nEvals[k];
+
               if (node1.getType() == "power" && node2.getType() == "power") {
                 var base1 = node1.getBase(),
                     base2 = node2.getBase();
@@ -312,4 +315,5 @@ class Product extends AbstractContainer {
   }
 }
 
+registerNode(Product);
 export default Product;

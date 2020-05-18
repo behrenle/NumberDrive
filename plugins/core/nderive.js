@@ -1,10 +1,10 @@
-import constructors from "../../constructors.js";
+import Nodes from "../../constructors.js";
 import tools from "../../pluginTools.js";
 import utils from "../../utils.js";
 import Scope from "../../scope/Scope.js";
 import manual from "./manual/nderive.js";
+import Decimal from 'decimal.js';
 
-const Decimal = constructors.Decimal;
 const h = new Decimal("10e-6");
 
 const funcs = {
@@ -33,17 +33,17 @@ const funcs = {
 
     // prepare evaluation
     let vScope = new Scope(),
-        value  = new constructors.Number(constructors);
+        value  = new Nodes.Number();
 
     vScope.setValue(varName, value);
     expr.getStack().push(vScope);
 
     // calculate result
-    let result = new constructors.Decimal(0),
+    let result = new Decimal(0),
         eValue, rValue;
 
     for (let i = 0; i <= grade; i++) {
-      let c1 = new constructors.Decimal(-1).pow(i),
+      let c1 = new Decimal(-1).pow(i),
           c2 = utils.binco(grade, i);
 
       eValue = pos.add(
@@ -61,7 +61,7 @@ const funcs = {
     // remove scope
     expr.getStack().pop();
 
-    return new constructors.Number(constructors, result.div(h.mul(2).pow(grade)));
+    return new Number(result.div(h.mul(2).pow(grade)));
   }
 }
 

@@ -1,8 +1,8 @@
-import AbstractNode from "./AbstractNode.js";
+import AbstractNode, { registerNode } from "./AbstractNode.js";
 
 class AbstractContainer extends AbstractNode {
-  constructor(constructors, elements, sign, mulSign) {
-    super(constructors, sign, mulSign);
+  constructor( elements, sign, mulSign) {
+    super(sign, mulSign);
     this.setElements(elements);
     this.type = "AbstractContainer";
     this.connectionStrength = 0;
@@ -130,5 +130,7 @@ class AbstractContainer extends AbstractNode {
     return this.connectionStrength;
   }
 }
+
+registerNode(AbstractContainer);
 
 export default AbstractContainer;

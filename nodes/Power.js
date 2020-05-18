@@ -1,9 +1,10 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 import Number from "./Number.js";
 
 class Power extends AbstractContainer {
-  constructor(constructors, sign, mulSign) {
-    super(constructors, [], sign, mulSign);
+  constructor(sign, mulSign) {
+    super([], sign, mulSign);
     this.type = "power";
     this.connectionStrength = 3;
   }
@@ -98,4 +99,5 @@ class Power extends AbstractContainer {
   }
 }
 
+registerNode(Power);
 export default Power;

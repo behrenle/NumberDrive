@@ -1,9 +1,9 @@
-import constructors from "../../constructors.js";
+import Nodes from "../../constructors.js";
 import tools from "../../pluginTools.js";
 import Scope from "../../scope/Scope.js";
 import manual from "./manual/nintegral.js";
+import Decimal from 'decimal.js';
 
-const Decimal = constructors.Decimal;
 const splitSections = 150;
 
 // data for Gauß-Kronrod-Quadratur
@@ -67,7 +67,7 @@ function splitInterval(a, b) {
 
 function integrate(expr, a, b, varName) {
   let vScope = new Scope,
-      value  = new constructors.Number(constructors),
+      value  = new Nodes.Number(),
       result = new Decimal(0);
 
   vScope.setValue(varName, value);
@@ -110,7 +110,7 @@ const funcs = {
       throw "invalid variable count";
     }
 
-    return new constructors.Number(constructors, integrate(expr, leftLimit, rightLimit, varName));
+    return new Nodes.Number(integrate(expr, leftLimit, rightLimit, varName));
   }
 }
 

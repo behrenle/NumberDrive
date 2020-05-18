@@ -2,14 +2,20 @@ import IllegalArgumentException from "../exceptions/IllegalArgumentException.js"
 import UnknownConstructorException from "../exceptions/UnknownConstructorException.js";
 import Stack from "../scope/Stack.js";
 import cloneDeep from 'lodash.clonedeep';
+import Decimal from 'decimal.js';
+
+const nodes = { Decimal };
+
+export const registerNode = (nodeClass) => {
+  nodes[nodeClass.name] = nodeClass;
+}
 
 class AbstractNode {
-  constructor(constructors, sign, mulSign) {
-    this.constructors = constructors;
+  constructor(sign, mulSign) {
     this.type = "AbstractNode";
     this.stack = new Stack();
-    this.sign = new this.constructors.Decimal(1);
-    this.mulSign = new this.constructors.Decimal(1);
+    this.sign = this.new("Decimal", 1);
+    this.mulSign = this.new("Decimal", 1);
     this.setSign(sign);
     this.setMulSign(mulSign);
   }
@@ -42,19 +48,11 @@ class AbstractNode {
 
   new(type, ...args) {
     if (typeof type == "string") {
-      if (this.constructors[type]) {
-        switch (type) {
-          case "Decimal":
-            return new this.constructors.Decimal(...args);
-
-          default:
-            var node =  new this.constructors[type](
-              this.constructors,
-              ...args
-            );
-            node.setStack(this.getStack());
-            return node;
-        }
+      if (nodes[type]) {
+        let node = new nodes[type](...args);
+        if (node instanceof AbstractNode)
+          node.setStack(this.getStack());
+        return node;
       } else {
         throw new UnknownConstructorException(type);
       }
@@ -107,7 +105,7 @@ class AbstractNode {
   }
 
   getSignString() {
-    return this.sign.equals(new this.constructors.Decimal(-1)) ? "-" : "+";
+    return this.sign.equals(new Decimal(-1)) ? "-" : "+";
   }
 
   resetSign() {
@@ -115,7 +113,7 @@ class AbstractNode {
   }
 
   isNegative() {
-    return this.getSign().equals(new this.constructors.Decimal(-1));
+    return this.getSign().equals(new Decimal(-1));
   }
 
   getMulSign() {
@@ -127,43 +125,40 @@ class AbstractNode {
   }
 
   getMulSignString() {
-    return this.mulSign.equals(new this.constructors.Decimal(-1)) ? "/" : "*";
+    return this.mulSign.equals(new Decimal(-1)) ? "/" : "*";
   }
 
   setSign(s) {
     if (s) {
       if (
-        new this.constructors.Decimal(1).equals(s)
-        || new this.constructors.Decimal(-1).equals(s)
+        new Decimal(1).equals(s)
+        || new Decimal(-1).equals(s)
       ) {
-        this.sign = new this.constructors.Decimal(s);
+        this.sign = new Decimal(s);
         return;
       }
     }
-    this.setSign(new this.constructors.Decimal(1));
+    this.setSign(new Decimal(1));
   }
 
   setMulSign(s) {
     if (s) {
-      if (
-          new this.constructors.Decimal(1).equals(s)
-          || new this.constructors.Decimal(-1).equals(s)
-        ) {
-        this.mulSign = new this.constructors.Decimal(s);
+      if (new Decimal(1).equals(s) || new Decimal(-1).equals(s)) {
+        this.mulSign = new Decimal(s);
         return;
       }
     }
-    this.setSign(new this.constructors.Decimal(1));
+    this.setSign(new Decimal(1));
   }
 
   applySign(s) {
-    this.setSign(this.constructors.Decimal.mul(
+    this.setSign(Decimal.mul(
       this.getSign(), s
     ));
   }
 
   applyMulSign(s) {
-    this.setMulSign(this.constructors.Decimal.mul(
+    this.setMulSign(Decimal.mul(
       this.getMulSign(), s
     ));
   }
@@ -186,5 +181,7 @@ class AbstractNode {
     + ")";
   }
 }
+
+registerNode(AbstractNode);
 
 export default AbstractNode;

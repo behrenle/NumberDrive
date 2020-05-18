@@ -1,9 +1,9 @@
-import constructors from "../../constructors.js";
+import Nodes from "../../constructors.js";
 import tools from "../../pluginTools.js";
 import manual from "./manual/trigonometry.js";
+import Decimal from 'decimal.js';
 
 const trigMaxPrecision = 32;
-const Decimal = constructors.Decimal;
 
 function createResult(decimal) {
   let result;
@@ -12,10 +12,7 @@ function createResult(decimal) {
   } else {
     result = new Decimal(0);
   }
-  return new constructors.Number(
-    constructors,
-    result
-  );
+  return new Nodes.Number(result);
 }
 
 const funcs = {

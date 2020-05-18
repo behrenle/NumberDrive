@@ -1,11 +1,11 @@
-import constructors from "../../constructors.js";
+import Nodes from "../../constructors.js";
 import tools from "../../pluginTools.js";
 import Scope from "../../scope/Scope.js";
 import manual from "./manual/nsolve.js";
+import Decimal from 'decimal.js';
 
-const Decimal = constructors.Decimal;
 const scanN = Math.pow(10, 3);
-const closeZero = new constructors.Decimal("10e-24");
+const closeZero = new Nodes.Decimal("10e-24");
 const maxIterations = 128;
 
 function scan(expr, start, stop, varName) {
@@ -16,7 +16,7 @@ function scan(expr, start, stop, varName) {
 
   let points = [],
       vScope = new Scope,
-      value  = new constructors.Number(constructors);
+      value  = new Nodes.Number();
 
   vScope.setValue(varName, value);
   expr.getStack().push(vScope);
@@ -56,7 +56,7 @@ function filterSignFlips(points) {
 function analyzeInterval(expr, varName, flip, mode) {
   let leftLimit  = flip[0],
       rightLimit = flip[1],
-      value      = new constructors.Number(constructors),
+      value      = new Nodes.Number(),
       result, nextLimit, leftValue, rightValue, nextValue;
 
   expr.getStack().setValue(varName, value);
@@ -185,11 +185,9 @@ const funcs = {
     }
 
     // create results vector
-    let resultVec = new constructors.Tensor(constructors, [results.length]);
+    let resultVec = new Nodes.Tensor([results.length]);
     for (let i = 0; i < results.length; i++) {
-      resultVec.setElement(i, new constructors.Number(
-        constructors, results[i]
-      ));
+      resultVec.setElement(i, new Nodes.Number(results[i]));
     }
 
     // remove evaluation scope

@@ -1,8 +1,9 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 
 class GenericFunction extends AbstractContainer {
-  constructor(constructors, evalFunc) { // function is signless
-    super(constructors, [], 1, 1);
+  constructor(evalFunc) { // function is signless
+    super([], 1, 1);
     this.type = "genericFunction";
     this.evalFunc = evalFunc;
   }
@@ -14,4 +15,5 @@ class GenericFunction extends AbstractContainer {
   }
 }
 
+registerNode(GenericFunction);
 export default GenericFunction;

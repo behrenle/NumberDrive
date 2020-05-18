@@ -1,8 +1,9 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 
 class Definition extends AbstractContainer {
-  constructor(constructors) { // definition is signless
-    super(constructors, [], 1, 1);
+  constructor() { // definition is signless
+    super([], 1, 1);
     this.type = "definition";
   }
 
@@ -49,5 +50,7 @@ class Definition extends AbstractContainer {
     return str;
   }
 }
+
+registerNode(Definition);
 
 export default Definition;

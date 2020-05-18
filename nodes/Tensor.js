@@ -1,8 +1,9 @@
 import AbstractContainer from "./AbstractContainer.js";
+import { registerNode } from "./AbstractNode.js";
 
 class Tensor extends AbstractContainer {
-  constructor(constructors, dims = [0], sign, mulSign) {
-    super(constructors, [], sign, mulSign);
+  constructor(dims = [0], sign, mulSign) {
+    super([], sign, mulSign);
     this.type = "tensor";
     this.connectionStrength = 4;
     this.dims = dims;
@@ -301,4 +302,5 @@ class Tensor extends AbstractContainer {
   }
 }
 
+registerNode(Tensor);
 export default Tensor;

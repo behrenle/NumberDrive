@@ -1,6 +1,7 @@
 import Scope from "./Scope.js";
 import EmptyStackException from "../exceptions/EmptyStackException.js";
 import IllegalArgumentException from "../exceptions/IllegalArgumentException.js";
+import Nodes from "../constructors.js";
 
 class Stack {
   constructor() {
@@ -33,14 +34,13 @@ class Stack {
 
   getValue(name) {
     if (name == "memory") {
-      var constructors = this.getValue("pi").constructors;
-      var result   = new constructors.Tensor(constructors);
+      var result = new Nodes.Tensor();
       var topScope = this.getTopScope();
       for (var name of Object.keys(topScope.values)) {
         if (name == "memory") {
           continue;
         }
-        result.push(new constructors.Symbol(constructors, name));
+        result.push(new Nodes.Symbol(name));
       }
       result.reshape([result.getElements().length]);
       result.setStack(this);
