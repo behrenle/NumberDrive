@@ -113,5 +113,5 @@ export default {
     "acosdeg(x):=acos(x)/deg",
     "atandeg(x):=atan(x)/deg",
   ],
-  manual
+  manual: manual
 };

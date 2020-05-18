@@ -118,5 +118,5 @@ export default {
   name: "core-nintegral",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual
+  manual: manual
 };

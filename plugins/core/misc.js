@@ -152,5 +152,5 @@ export default {
     "normal(x) := 1 / sqrt(2*pi) * exp(x^2 / 2)",
     "cnormal(x) := 0.5 * (1 + erf(x / sqrt(2)))",
   ],
-  manual
+  manual: manual
 };

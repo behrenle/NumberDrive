@@ -103,5 +103,5 @@ export default {
   name: "core-solve",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual
+  manual: manual
 };

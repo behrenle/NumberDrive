@@ -19,5 +19,5 @@ export default {
     ["switch"]: switchFunc,
   },
   inlineDefinitions: [],
-  manual
+  manual: manual
 };

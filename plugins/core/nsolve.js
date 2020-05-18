@@ -202,5 +202,5 @@ export default {
   name: "core-nsolve",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual
+  manual: manual
 };

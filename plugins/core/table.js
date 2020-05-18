@@ -61,5 +61,5 @@ export default {
   name: "core-table",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual
+  manual: manual
 };

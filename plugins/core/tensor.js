@@ -100,5 +100,5 @@ export default {
   name: "core-tensor",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual
+  manual: manual
 };

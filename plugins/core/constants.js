@@ -11,5 +11,5 @@ export default {
     `e := ${eStr}`,
     `deg := ${new Decimal(piStr).div(180).toString()}`,
   ],
-  manual
+  manual: manual
 };

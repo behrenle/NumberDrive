@@ -69,5 +69,5 @@ export default {
   name: "core-nderive",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual
+  manual: manual
 };
