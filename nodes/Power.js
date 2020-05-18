@@ -56,6 +56,16 @@ class Power extends AbstractContainer {
         result.setExponent(newExp);
         return result;
       }
+    } else if (this.getBase().getType() == "sum" && this.getExponent().getType() == "number") {
+      let exponentValue = this.getExponent().getDecimalValue();
+      if (exponentValue.mod(1).equals(0)) {
+        let result = this.new("Product");
+        for (let i = 0; i < exponentValue.toNumber(); i++) {
+          result.push(this.getBase().clone());
+        }
+        result.applySigns(this);
+        return result.breakDown();
+      }
     }
     return this;
   }
