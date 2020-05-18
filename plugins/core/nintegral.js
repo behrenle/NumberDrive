@@ -1,9 +1,9 @@
-const constructors = require("../../constructors");
-const tools = require("../../pluginTools");
-const Decimal = constructors.Decimal;
-const Scope = require("../../scope/Scope");
+import constructors from "../../constructors.js";
+import tools from "../../pluginTools.js";
+import Scope from "../../scope/Scope.js";
+import manual from "./manual/nintegral.js";
 
-// conf
+const Decimal = constructors.Decimal;
 const splitSections = 150;
 
 // data for Gauß-Kronrod-Quadratur
@@ -114,9 +114,9 @@ const funcs = {
   }
 }
 
-module.exports = {
+export default {
   name: "core-nintegral",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual: require("./manual/nintegral.json"),
+  manual
 };

@@ -1,4 +1,4 @@
-{
+export default {
   "constants": [],
   "functions": [
     {
@@ -27,4 +27,4 @@
       "description": "Calculate the vector product of a and b"
     }
   ]
-}
+};

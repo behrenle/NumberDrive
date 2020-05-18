@@ -1,7 +1,9 @@
-const constructors = require("../../constructors");
+import constructors from "../../constructors.js";
+import tools from "../../pluginTools.js";
+import utils from "../../utils.js";
+import manual from "./manual/misc.js";
+
 const Decimal = constructors.Decimal;
-const tools = require("../../pluginTools");
-const utils = require("../../utils");
 const binco = utils.binco;
 
 function binomial(p, n, k) {
@@ -143,12 +145,12 @@ const funcs = {
   }
 }
 
-module.exports = {
+export default {
   name: "core-misc",
   genericFunctions: funcs,
   inlineDefinitions: [
     "normal(x) := 1 / sqrt(2*pi) * exp(x^2 / 2)",
     "cnormal(x) := 0.5 * (1 + erf(x / sqrt(2)))",
   ],
-  manual: require("./manual/misc.json"),
+  manual
 };

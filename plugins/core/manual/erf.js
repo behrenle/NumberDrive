@@ -1,4 +1,4 @@
-{
+export default {
   "constants": [],
   "functions": [
     {
@@ -7,4 +7,4 @@
       "description": "Gaussian error function"
     }
   ]
-}
+};

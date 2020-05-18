@@ -1,4 +1,4 @@
-{
+export default {
   "constants": [
     {
       "name": "e",
@@ -14,4 +14,4 @@
     }
   ],
   "functions": []
-}
+};

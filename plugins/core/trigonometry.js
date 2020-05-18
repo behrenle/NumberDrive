@@ -1,7 +1,9 @@
-const constructors = require("../../constructors");
-const tools = require("../../pluginTools");
-const Decimal = constructors.Decimal;
+import constructors from "../../constructors.js";
+import tools from "../../pluginTools.js";
+import manual from "./manual/trigonometry.js";
+
 const trigMaxPrecision = 32;
+const Decimal = constructors.Decimal;
 
 function createResult(decimal) {
   let result;
@@ -103,7 +105,7 @@ const funcs = {
   },
 }
 
-module.exports = {
+export default {
   name: "core-trigonometry",
   genericFunctions: funcs,
   inlineDefinitions: [
@@ -114,5 +116,5 @@ module.exports = {
     "acosdeg(x):=acos(x)/deg",
     "atandeg(x):=atan(x)/deg",
   ],
-  manual: require("./manual/trigonometry.json"),
+  manual
 };

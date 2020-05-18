@@ -1,9 +1,10 @@
-const constructors = require("../../constructors");
-const tools = require("../../pluginTools");
-const utils = require("../../utils");
-const Decimal = constructors.Decimal;
-const Scope = require("../../scope/Scope");
+import constructors from "../../constructors.js";
+import tools from "../../pluginTools.js";
+import utils from "../../utils.js";
+import Scope from "../../scope/Scope.js";
+import manual from "./manual/nderive.js";
 
+const Decimal = constructors.Decimal;
 const h = new Decimal("10e-6");
 
 const funcs = {
@@ -64,9 +65,9 @@ const funcs = {
   }
 }
 
-module.exports = {
+export default {
   name: "core-nderive",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual: require("./manual/nderive.json"),
+  manual
 };

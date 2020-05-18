@@ -1,4 +1,5 @@
-const tools = require("../../pluginTools");
+import tools from "../../pluginTools.js";
+import manual from "./manual/switch.js";
 
 function switchFunc(parameters, stack) {
   let params = tools.checkParameters(parameters, ["number", "term", "term"]),
@@ -12,11 +13,11 @@ function switchFunc(parameters, stack) {
   return expression2.evaluate();
 }
 
-module.exports = {
+export default {
   name: "core-switch",
   genericFunctions: {
     ["switch"]: switchFunc,
   },
   inlineDefinitions: [],
-  manual: require("./manual/switch.json"),
+  manual
 };

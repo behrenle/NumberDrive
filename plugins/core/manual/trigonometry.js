@@ -1,4 +1,4 @@
-{
+export default {
   "constants": [],
   "functions": [
     {
@@ -93,4 +93,4 @@
       "description": "Calculates the inverse hyperbolic tangent of a given number."
     }
   ]
-}
+};

@@ -1,4 +1,4 @@
-{
+export default {
   "constants": [
     {
       "name": "memory",
@@ -77,4 +77,4 @@
       "description": "n. a."
     }
   ]
-}
+};

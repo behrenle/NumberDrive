@@ -1,5 +1,7 @@
-const constructors = require("../../constructors");
-const tools = require("../../pluginTools");
+import constructors from "../../constructors.js";
+import tools from "../../pluginTools.js";
+import manual from "./manual/tensor.js";
+
 const Decimal = constructors.Decimal;
 
 const funcs = {
@@ -96,9 +98,9 @@ const funcs = {
   }
 }
 
-module.exports = {
+export default {
   name: "core-tensor",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual: require("./manual/tensor.json"),
+  manual
 };

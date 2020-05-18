@@ -1,4 +1,4 @@
-{
+export default {
   "constants": [],
   "functions": [
     {
@@ -7,4 +7,4 @@
       "description": "If possible, solve the equation within the limits.<br>Default limits: -20, 20"
     }
   ]
-}
+};

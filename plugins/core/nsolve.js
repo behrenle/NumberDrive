@@ -1,11 +1,11 @@
-const constructors = require("../../constructors");
-const tools = require("../../pluginTools");
-const Decimal = constructors.Decimal;
-const Scope = require("../../scope/Scope");
+import constructors from "../../constructors.js";
+import tools from "../../pluginTools.js";
+import Scope from "../../scope/Scope.js";
+import manual from "./manual/nsolve.js";
 
-// config stuff
-const scanN         = Math.pow(10, 3);
-const closeZero     = new constructors.Decimal("10e-24");
+const Decimal = constructors.Decimal;
+const scanN = Math.pow(10, 3);
+const closeZero = new constructors.Decimal("10e-24");
 const maxIterations = 128;
 
 function scan(expr, start, stop, varName) {
@@ -172,20 +172,20 @@ const funcs = {
 
     // evaluate sign flips
     for (let flip of flips) {
-      result = analyzeInterval(expr, varName, flip, true);
+      let result = analyzeInterval(expr, varName, flip, true);
       if (result)
         results.push(result);
     }
 
     // evaluate sign flips
     for (let dip of dips) {
-      result = analyzeInterval(expr, varName, dip, false);
+      let result = analyzeInterval(expr, varName, dip, false);
       if (result)
         results.push(result);
     }
 
     // create results vector
-    resultVec = new constructors.Tensor(constructors, [results.length]);
+    let resultVec = new constructors.Tensor(constructors, [results.length]);
     for (let i = 0; i < results.length; i++) {
       resultVec.setElement(i, new constructors.Number(
         constructors, results[i]
@@ -200,9 +200,9 @@ const funcs = {
   }
 };
 
-module.exports = {
+export default {
   name: "core-nsolve",
   genericFunctions: funcs,
   inlineDefinitions: [],
-  manual: require("./manual/nsolve.json"),
+  manual
 };
