@@ -1,4 +1,4 @@
-const Exception = require("./Exception");
+import Exception from "./Exception.js";
 
 class UnknownSymbolException extends Exception {
   constructor(symbol) {
@@ -6,4 +6,4 @@ class UnknownSymbolException extends Exception {
   }
 }
 
-module.exports = UnknownSymbolException;
+export default UnknownSymbolException;

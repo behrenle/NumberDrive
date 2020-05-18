@@ -1,4 +1,4 @@
-const Exception = require("./Exception");
+import Exception from "./Exception.js";
 
 class UnknownConstructorException extends Exception {
   constructor(name) {
@@ -6,4 +6,4 @@ class UnknownConstructorException extends Exception {
   }
 }
 
-module.exports = UnknownConstructorException;
+export default UnknownConstructorException;

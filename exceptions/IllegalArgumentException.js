@@ -1,4 +1,4 @@
-const Exception = require("./Exception");
+import Exception from "./Exception.js";
 
 class IllegalArgumentException extends Exception {
   constructor(expected, got) {
@@ -11,4 +11,4 @@ class IllegalArgumentException extends Exception {
   }
 }
 
-module.exports = IllegalArgumentException;
+export default IllegalArgumentException;

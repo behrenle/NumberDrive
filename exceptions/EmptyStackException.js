@@ -1,4 +1,4 @@
-const Exception = require("./Exception");
+import Exception from "./Exception.js";
 
 class EmptyStackException extends Exception {
   constructor() {
@@ -6,4 +6,4 @@ class EmptyStackException extends Exception {
   }
 }
 
-module.exports = EmptyStackException;
+export default EmptyStackException;

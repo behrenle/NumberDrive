@@ -1,4 +1,4 @@
-const Exception = require("./Exception");
+import Exception from "./Exception.js";
 
 class DevideByZeroException extends Exception {
   constructor() {
@@ -6,4 +6,4 @@ class DevideByZeroException extends Exception {
   }
 }
 
-module.exports = DevideByZeroException;
+export default DevideByZeroException;

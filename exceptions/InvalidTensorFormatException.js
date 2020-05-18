@@ -1,4 +1,4 @@
-const Exception = require("./Exception");
+import Exception from "./Exception.js";
 
 class InvalidTensorFormatException extends Exception {
   constructor() {
@@ -6,4 +6,4 @@ class InvalidTensorFormatException extends Exception {
   }
 }
 
-module.exports = InvalidTensorFormatException;
+export default InvalidTensorFormatException;

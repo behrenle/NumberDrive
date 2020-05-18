@@ -1,4 +1,4 @@
-const Exception = require("./Exception");
+import Exception from "./Exception.js";
 
 class FailedParsingException extends Exception {
   constructor(e) {
@@ -6,4 +6,4 @@ class FailedParsingException extends Exception {
   }
 }
 
-module.exports = FailedParsingException;
+export default FailedParsingException;
