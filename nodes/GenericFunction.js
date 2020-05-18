@@ -1,4 +1,4 @@
-const AbstractContainer = require("./AbstractContainer");
+import AbstractContainer from "./AbstractContainer.js";
 
 class GenericFunction extends AbstractContainer {
   constructor(constructors, evalFunc) { // function is signless
@@ -14,4 +14,4 @@ class GenericFunction extends AbstractContainer {
   }
 }
 
-module.exports = GenericFunction;
+export default GenericFunction;

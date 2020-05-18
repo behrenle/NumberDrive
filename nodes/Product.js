@@ -1,5 +1,5 @@
-const AbstractContainer = require("./AbstractContainer");
-const DevideByZeroException = require("../exceptions/DivideByZeroException");
+import AbstractContainer from "./AbstractContainer.js";
+import DevideByZeroException from "../exceptions/DivideByZeroException.js";
 
 class Product extends AbstractContainer {
   constructor(constructors, sign, mulSign) {
@@ -312,4 +312,4 @@ class Product extends AbstractContainer {
   }
 }
 
-module.exports = Product;
+export default Product;

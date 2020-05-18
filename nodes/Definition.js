@@ -1,4 +1,4 @@
-const AbstractContainer = require("./AbstractContainer");
+import AbstractContainer from "./AbstractContainer.js";
 
 class Definition extends AbstractContainer {
   constructor(constructors) { // definition is signless
@@ -50,4 +50,4 @@ class Definition extends AbstractContainer {
   }
 }
 
-module.exports = Definition;
+export default Definition;

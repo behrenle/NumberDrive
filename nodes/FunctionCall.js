@@ -1,4 +1,4 @@
-const AbstractContainer = require("./AbstractContainer");
+import AbstractContainer from "./AbstractContainer.js";
 
 class FunctionCall extends AbstractContainer {
   constructor(constructors, name, sign, mulSign) {
@@ -50,4 +50,4 @@ class FunctionCall extends AbstractContainer {
   }
 }
 
-module.exports = FunctionCall;
+export default FunctionCall;

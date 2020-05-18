@@ -1,5 +1,5 @@
-const AbstractContainer = require("./AbstractContainer");
-const Number = require("./Number");
+import AbstractContainer from "./AbstractContainer.js";
+import Number from "./Number.js";
 
 class Power extends AbstractContainer {
   constructor(constructors, sign, mulSign) {
@@ -98,4 +98,4 @@ class Power extends AbstractContainer {
   }
 }
 
-module.exports = Power;
+export default Power;

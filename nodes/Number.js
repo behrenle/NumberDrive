@@ -1,4 +1,4 @@
-const AbstractNode = require("./AbstractNode");
+import AbstractNode from "./AbstractNode.js";
 
 class Number extends AbstractNode {
   constructor(constructors, value = 0, sign, mulSign) {
@@ -83,4 +83,4 @@ class Number extends AbstractNode {
   }
 }
 
-module.exports = Number;
+export default Number;

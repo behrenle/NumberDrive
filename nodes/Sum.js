@@ -1,4 +1,4 @@
-const AbstractContainer = require("./AbstractContainer");
+import AbstractContainer from "./AbstractContainer.js";
 
 class Sum extends AbstractContainer {
   constructor(constructors, sign, mulSign) {
@@ -225,4 +225,4 @@ class Sum extends AbstractContainer {
   }
 }
 
-module.exports = Sum;
+export default Sum;

@@ -1,4 +1,4 @@
-const AbstractNode = require("./AbstractNode");
+import AbstractNode from "./AbstractNode.js";
 
 class AbstractContainer extends AbstractNode {
   constructor(constructors, elements, sign, mulSign) {
@@ -131,4 +131,4 @@ class AbstractContainer extends AbstractNode {
   }
 }
 
-module.exports = AbstractContainer;
+export default AbstractContainer;

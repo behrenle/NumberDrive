@@ -1,5 +1,5 @@
-const AbstractContainer = require("./AbstractContainer");
-const Scope = require("../scope/Scope.js");
+import AbstractContainer from "./AbstractContainer.js";
+import Scope from "../scope/Scope.js";
 
 class Function extends AbstractContainer {
   constructor(constructors, parameters, expression) { // function is signless
@@ -29,4 +29,4 @@ class Function extends AbstractContainer {
   }
 }
 
-module.exports = Function;
+export default Function;

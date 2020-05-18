@@ -1,5 +1,5 @@
-const AbstractNode = require("./AbstractNode");
-const UnknownSymbolException = require("../exceptions/UnknownSymbolException");
+import AbstractNode from "./AbstractNode.js";
+import UnknownSymbolException from "../exceptions/UnknownSymbolException.js";
 
 class Symbol extends AbstractNode {
   constructor(constructors, name, sign, mulSign) {
@@ -71,4 +71,4 @@ class Symbol extends AbstractNode {
   }
 }
 
-module.exports = Symbol;
+export default Symbol;

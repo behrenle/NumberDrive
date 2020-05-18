@@ -1,4 +1,4 @@
-const AbstractContainer = require("./AbstractContainer");
+import AbstractContainer from "./AbstractContainer.js";
 
 class Tensor extends AbstractContainer {
   constructor(constructors, dims = [0], sign, mulSign) {
@@ -301,4 +301,4 @@ class Tensor extends AbstractContainer {
   }
 }
 
-module.exports = Tensor;
+export default Tensor;

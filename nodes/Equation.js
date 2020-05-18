@@ -1,4 +1,4 @@
-const AbstractContainer = require("./AbstractContainer");
+import AbstractContainer from "./AbstractContainer.js";
 
 class Equation extends AbstractContainer {
   constructor(constructors) { // equation is signless
@@ -63,4 +63,4 @@ class Equation extends AbstractContainer {
   }
 }
 
-module.exports = Equation;
+export default Equation;

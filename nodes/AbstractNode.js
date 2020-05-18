@@ -1,7 +1,7 @@
-const IllegalArgumentException = require("../exceptions/IllegalArgumentException");
-const UnknownConstructorException = require("../exceptions/UnknownConstructorException");
-const Stack = require("../scope/Stack.js");
-const cloneDeep = require('lodash.clonedeep');
+import IllegalArgumentException from "../exceptions/IllegalArgumentException.js";
+import UnknownConstructorException from "../exceptions/UnknownConstructorException.js";
+import Stack from "../scope/Stack.js";
+import cloneDeep from 'lodash.clonedeep';
 
 class AbstractNode {
   constructor(constructors, sign, mulSign) {
@@ -187,4 +187,4 @@ class AbstractNode {
   }
 }
 
-module.exports = AbstractNode;
+export default AbstractNode;
