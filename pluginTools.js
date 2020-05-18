@@ -42,7 +42,7 @@ function checkSingleType(params, eType) {
   });
 }
 
-module.exports = {
+export default {
   checkParameters: (params, expected) => {
     if (typeof expected == "string")
       return checkSingleType(params, expected);
@@ -52,4 +52,4 @@ module.exports = {
 
     throw "invalid arguments";
   }
-}
+};

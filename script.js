@@ -1,7 +1,7 @@
-const Scope        = require("./scope/Scope");
-const Exception = require("./exceptions/Exception");
-const parse = require("./parse");
-const prelude = require("./prelude");
+import Scope from "./scope/Scope.js";
+import Exception from "./exceptions/Exception.js";
+import parse from "./parse.js";
+import prelude from "./prelude.js";
 
 function transformGerman2English(str) {
   return str
@@ -121,4 +121,4 @@ class Script {
   }
 }
 
-module.exports = Script;
+export default Script;

@@ -1,6 +1,6 @@
-const AstBuilder = require("./astBuilder.js");
-const Parser = require('@behrenle/number-drive-parser');
+import AstBuilder from "./astBuilder.js";
+import Parser from '@behrenle/number-drive-parser';
 
-module.exports = (string) => {
+export default (string) => {
   return AstBuilder.build(Parser.parse(string));
-}
+};

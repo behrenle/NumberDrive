@@ -1,9 +1,9 @@
-const Scope = require("./scope/Scope");
-const Stack = require("./scope/Stack");
-const GenericFunction = require("./nodes/GenericFunction");
-const constructors = require("./constructors");
-const parse = require("./parse");
-const plugins = require("./pluginLoader");
+import Scope from "./scope/Scope.js";
+import Stack from "./scope/Stack.js";
+import GenericFunction from "./nodes/GenericFunction.js";
+import constructors from "./constructors.js";
+import parse from "./parse.js";
+import plugins from "./pluginLoader.js";
 
 module.exports = () => {
   let stack = new Stack();

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   binco: function(n, k) {
      var result = 1;
      if (n < k) {
@@ -13,7 +13,7 @@ module.exports = {
 
   indexCheck: function(tensor, coords) {
     let realCoords = [];
-    
+
     if (coords.getDimensions().length != 1)
       throw "invalid index dimensions";
 

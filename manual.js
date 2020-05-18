@@ -1,4 +1,4 @@
-const plugins = require("./pluginLoader");
+import plugins from "./pluginLoader.js";
 
 const manual = {
   constants: [],
@@ -20,4 +20,4 @@ plugins.forEach((plugin) => {
   );
 });
 
-module.exports = manual;
+export default manual;

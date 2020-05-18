@@ -1,19 +1,31 @@
-const Decimal = require('decimal.js');
+import Decimal from 'decimal.js';
+import AbstractNode from "./nodes/AbstractNode.js";
+import AbstractContainer from "./nodes/AbstractContainer.js";
+import Number from "./nodes/Number.js";
+import Symbol from "./nodes/Symbol.js";
+import Sum from "./nodes/Sum.js";
+import Product from "./nodes/Product.js";
+import Power from "./nodes/Power.js";
+import Tensor from "./nodes/Tensor.js";
+import Function from "./nodes/Function.js";
+import FunctionCall from "./nodes/FunctionCall.js";
+import Definition from "./nodes/Definition.js";
+import Equation from "./nodes/Equation.js";
 
 Decimal.precision = 25;
 
-module.exports = {
-  AbstractNode:      require("./nodes/AbstractNode"),
-  AbstractContainer: require("./nodes/AbstractContainer"),
-  Decimal:           Decimal,
-  Number:            require("./nodes/Number"),
-  Symbol:            require("./nodes/Symbol"),
-  Sum:               require("./nodes/Sum"),
-  Product:           require("./nodes/Product"),
-  Power:             require("./nodes/Power"),
-  Tensor:            require("./nodes/Tensor"),
-  Function:          require("./nodes/Function"),
-  FunctionCall:      require("./nodes/FunctionCall"),
-  Definition:        require("./nodes/Definition"),
-  Equation:          require("./nodes/Equation"),
+export default {
+  Decimal,
+  AbstractNode,
+  AbstractContainer,
+  Number,
+  Symbol,
+  Sum,
+  Product,
+  Power,
+  Tensor,
+  Function,
+  FunctionCall,
+  Definition,
+  Equation
 };

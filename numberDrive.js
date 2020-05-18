@@ -1,8 +1,8 @@
-const FailedParsingException = require("./exceptions/FailedParsingException");
-const Script = require("./script");
-const Manual = require("./manual.js");
-const parse = require("./parse");
-const prelude = require("./prelude");
+import FailedParsingException from "./exceptions/FailedParsingException.js";
+import Script from "./script.js";
+import Manual from "./manual.js";
+import parse from "./parse.js";
+import prelude from "./prelude";
 
 const NumberDrive = {
   Script: Script,
@@ -15,4 +15,4 @@ const NumberDrive = {
   parse
 };
 
-module.exports = NumberDrive;
+export default NumberDrive;

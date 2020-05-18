@@ -1,7 +1,6 @@
-const UnknownNodeException = require("./exceptions/UnknownNodeException");
-const InvalidTensorFormatException = require("./exceptions/InvalidTensorFormatException");
-
-const constructors = require("./constructors");
+import UnknownNodeException from "./exceptions/UnknownNodeException.js";
+import InvalidTensorFormatException from "./exceptions/InvalidTensorFormatException.js";
+import constructors from "./constructors.js";
 
 function dimEquals(dims1, dims2) {
   if (dims1 instanceof Array && dims2 instanceof Array) {
@@ -191,4 +190,4 @@ class AstBuilder {
   }
 }
 
-module.exports = new AstBuilder();
+export default new AstBuilder();
