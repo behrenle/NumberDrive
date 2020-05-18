@@ -1,4 +1,4 @@
-module.exports = [
+/*module.exports = [
   require("./plugins/core/constants"),
   require("./plugins/core/trigonometry"),
   require("./plugins/core/solve"),
@@ -10,4 +10,6 @@ module.exports = [
   require("./plugins/core/misc"),
   require("./plugins/core/switch"),
   require("./plugins/core/erf"),
-];
+];*/
+
+export default [];
