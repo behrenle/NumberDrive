@@ -2,7 +2,7 @@ import FailedParsingException from "./exceptions/FailedParsingException.js";
 import Script from "./script.js";
 import Manual from "./manual.js";
 import parse from "./parse.js";
-import prelude from "./prelude";
+import prelude from "./prelude.js";
 
 const NumberDrive = {
   Script: Script,

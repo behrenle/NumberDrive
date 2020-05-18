@@ -1,6 +1,9 @@
-const NumberDrive = require("../numberDrive");
-const prelude = require("../prelude");
-const assert = require("assert");
+import NumberDrive from "../numberDrive.js";
+import prelude from "../prelude.js";
+import assert from "assert";
+
+import evaluateTests from "./tests/evaluate.js";
+import summarizeTests from "./tests/summarize.js";
 
 function executeTestBatch(categoryName, testArray, lambda) {
   let failedTests = 0;
@@ -48,11 +51,11 @@ let summarizeTest = (node) => {
 
 const tests = {
   Evaluation: {
-    tests: require("./tests/evaluate.json"),
+    tests: evaluateTests,
     lambda: evalTest
   },
   Summarize: {
-    tests: require("./tests/summarize.json"),
+    tests: summarizeTests,
     lambda: summarizeTest
   }
 };

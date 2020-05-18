@@ -1,6 +1,6 @@
-const Scope = require("./Scope");
-const EmptyStackException = require("../exceptions/EmptyStackException");
-const IllegalArgumentException = require("../exceptions/IllegalArgumentException");
+import Scope from "./Scope.js";
+import EmptyStackException from "../exceptions/EmptyStackException.js";
+import IllegalArgumentException from "../exceptions/IllegalArgumentException.js";
 
 class Stack {
   constructor() {
@@ -75,4 +75,4 @@ class Stack {
   }
 }
 
-module.exports = Stack;
+export default Stack;

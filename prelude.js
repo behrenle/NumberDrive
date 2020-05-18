@@ -5,7 +5,7 @@ import constructors from "./constructors.js";
 import parse from "./parse.js";
 import plugins from "./pluginLoader.js";
 
-module.exports = () => {
+export default () => {
   let stack = new Stack();
   stack.push(new Scope());
 
