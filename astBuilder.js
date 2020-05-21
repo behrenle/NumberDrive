@@ -32,6 +32,9 @@ function getDims(listNode) {
 }
 
 function getTensorElements(listNode) {
+  if (listNode.elements.length == 0)
+    return [];
+
   if (listNode.elements[0].type == "list") {
     var elements = [];
     for (var element of listNode.elements) {
@@ -142,6 +145,9 @@ class AstBuilder {
 
   buildTensor(parseTreeNode) {
     var dims = getDims(parseTreeNode);
+    if (dims.length == 0) {
+      dims = [ 0 ];
+    }
     var node = new Nodes.Tensor(
       dims,
       this.getSign(parseTreeNode),
