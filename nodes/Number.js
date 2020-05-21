@@ -10,6 +10,14 @@ class Number extends AbstractNode {
     this.setValue(rawValue.abs());
   }
 
+  evaluate() {
+    if (this.getMulSign().equals(-1)) {
+      this.setValue(new Decimal(1).div(this.getValue()));
+      this.setMulSign(1);
+    }
+    return this;
+  }
+
   addNumber(number) {
     return this.new("Number", Decimal.add(
       Decimal.mul(this.getValue(), this.getSign()),
@@ -47,6 +55,14 @@ class Number extends AbstractNode {
   }
 
   getDecimalValue() {
+    if (this.getMulSign().equals(-1)) {
+      return new Decimal(1).div(
+        Decimal.mul(
+          this.getSign(),
+          this.getValue()
+        )
+      );
+    }
     return Decimal.mul(
       this.getSign(),
       this.getValue()
