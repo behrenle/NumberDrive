@@ -5,7 +5,8 @@ import manual from "./manual/nsolve.js";
 import Decimal from 'decimal.js';
 
 const scanN = Math.pow(10, 3);
-const closeZero = new Nodes.Decimal("10e-24");
+const closeZeroX = new Nodes.Decimal("10e-10");
+const closeZeroY = new Nodes.Decimal("10e-24");
 const limitDelta = new Nodes.Decimal("10e-3");
 const maxIterations = 128;
 
@@ -74,9 +75,9 @@ function analyzeInterval(expr, varName, flip, mode) {
 
   for (let i = 0; i < maxIterations; i++) {
     // return if zero
-    if (!Decimal.abs(rightValue).gt(closeZero)) {
+    if (!Decimal.abs(rightValue).gt(closeZeroY)) {
       return rightLimit;
-    } else if (!Decimal.abs(leftValue).gt(closeZero)) {
+    } else if (!Decimal.abs(leftValue).gt(closeZeroY)) {
       return leftLimit;
     }
 
@@ -158,7 +159,7 @@ const funcs = {
     let leftLimit  = Decimal.min(leftLimitRaw, rightLimitRaw).minus(limitDelta),
         rightLimit = Decimal.max(leftLimitRaw, rightLimitRaw).plus(limitDelta);
 
-    // check let count
+    // check variable count
     let varName;
     if (expr.getSymbolNames().length == 1) {
       varName = expr.getSymbolNames()[0];
@@ -183,6 +184,21 @@ const funcs = {
       let result = analyzeInterval(expr, varName, dip, false);
       if (result)
         results.push(result);
+    }
+
+    // sort results
+    results.sort((first, second) => {
+      if (second.gt(first)) {
+        return -1;
+      }
+      return 1;
+    });
+
+    // rounding
+    for (let i = 0; i < results.length; i++) {
+      if (closeZeroX.gte(results[i].abs())) {
+        results[i] = new Nodes.Decimal(0);
+      }
     }
 
     // create results vector
