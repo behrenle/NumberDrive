@@ -29,7 +29,9 @@ class Symbol extends AbstractNode {
       value.applySign(this.getSign());
       value.applyMulSign(this.getMulSign());
       value.setStack(this.getStack());
-      return value.evaluate();
+      if (this.getName() != "memory")
+        return value.evaluate();
+      return value;
     } else {
       throw new UnknownSymbolException(this);
     }
