@@ -3,6 +3,8 @@ import Exception from "./exceptions/Exception.js";
 import parse from "./parse.js";
 import prelude from "./prelude.js";
 
+const debug = false;
+
 function transformGerman2English(str) {
   return str
     //.replace(/(?<=\d)\,(?=\d)/g, ".")
@@ -104,9 +106,15 @@ class Script {
         let result = node.evaluate();
         this.outputs.push(result.serialize());
       } catch (runtimeError) {
+        if (debug) {
+          throw runtimeError;
+        }
         this.outputs.push("RuntimeError: " + runtimeError);
       }
     } catch (syntaxError) {
+      if (debug) {
+        throw syntaxError;
+      }
       this.outputs.push("SyntaxError: " + syntaxError.message);
     }
   }
