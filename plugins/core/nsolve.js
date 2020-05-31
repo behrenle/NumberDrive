@@ -6,6 +6,7 @@ import Decimal from 'decimal.js';
 
 const scanN = Math.pow(10, 3);
 const closeZero = new Nodes.Decimal("10e-24");
+const limitDelta = new Nodes.Decimal("10e-3");
 const maxIterations = 128;
 
 function scan(expr, start, stop, varName) {
@@ -36,7 +37,7 @@ function scan(expr, start, stop, varName) {
 function filterSignFlips(points) {
   let flips = [];
 
-  for (let i = 1; i < points.length; i++) {
+  for (let i = 1; i < points.length - 1; i++) {
     if (
       (
         points[i][1].gte(0) &&
@@ -154,8 +155,8 @@ const funcs = {
     let expr = rExpr.breakDown().summarize();
 
     // limits
-    let leftLimit  = Decimal.min(leftLimitRaw, rightLimitRaw),
-        rightLimit = Decimal.max(leftLimitRaw, rightLimitRaw);
+    let leftLimit  = Decimal.min(leftLimitRaw, rightLimitRaw).minus(limitDelta),
+        rightLimit = Decimal.max(leftLimitRaw, rightLimitRaw).plus(limitDelta);
 
     // check let count
     let varName;
