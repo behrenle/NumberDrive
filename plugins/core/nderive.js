@@ -61,7 +61,7 @@ const funcs = {
     // remove scope
     expr.getStack().pop();
 
-    return new Number(result.div(h.mul(2).pow(grade)));
+    return new Nodes.Number(result.div(h.mul(2).pow(grade)));
   }
 }
 
