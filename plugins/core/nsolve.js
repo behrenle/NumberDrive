@@ -26,10 +26,17 @@ function scan(expr, start, stop, varName) {
   for (let currX = new Decimal(start); !currX.gt(stop); currX = currX.plus(increment)) {
     value.setSign(Decimal.sign(currX));
     value.setValue(currX.abs());
-    points.push([
-      value.getDecimalValue(),
-      expr.evaluate().getDecimalValue()
-    ]);
+    let result;
+    try {
+      result = expr.evaluate().getDecimalValue();
+    } catch (e) {
+      // do nothing :-)
+    }
+    if (result)
+      points.push([
+        value.getDecimalValue(),
+        result
+      ]);
   }
 
   return points;
@@ -85,7 +92,11 @@ function analyzeInterval(expr, varName, flip, mode) {
     nextLimit = Decimal.div(leftLimit.plus(rightLimit), 2);
     value.setSign(Decimal.sign(nextLimit));
     value.setValue(Decimal.abs(nextLimit));
-    nextValue = expr.evaluate().getDecimalValue();
+    try {
+      nextValue = expr.evaluate().getDecimalValue();
+    } catch (e) {
+      return;
+    }
 
     if (mode) {
 

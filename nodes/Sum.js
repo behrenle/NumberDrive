@@ -61,7 +61,7 @@ class Sum extends AbstractContainer {
       summand.squashSigns();
       result.push(summand);
     }
-    return result;
+    return result.breakDown();
   }
 
   breakDown() {

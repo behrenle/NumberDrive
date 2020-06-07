@@ -92,12 +92,28 @@ class Product extends AbstractContainer {
 
     let elements = this.getElements().map(
       (element) => element.breakDown());
+
+    let filteredIndeces = [];
     let sumElements = elements.filter(
-      (element) => element.getType() == "sum");
+      (element, index) => {
+        if (element.getType() == "sum" && element.getMulSign().equals(1)) {
+          filteredIndeces.push(index);
+          return true;
+        }
+        return false;
+      });
+
     let productElements = elements.filter(
-      (element) => element.getType() == "product");
+      (element, index) => {
+        if (element.getType() == "product") {
+          filteredIndeces.push(index);
+          return true;
+        }
+        return false;
+      });
+
     let otherElements = elements.filter(
-      (element) => element.getType() != "sum" && element.getType() != "product");
+      (element, index) => !filteredIndeces.includes(index));
 
     // multiply sums by each other
     let sumResult;
