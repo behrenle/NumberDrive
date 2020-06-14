@@ -87,7 +87,7 @@ const funcs = {
       )
     );
 
-    result = params[0].new("Tensor", [3]);
+    let result = params[0].new("Tensor", [3]);
     result.setElement(0, params[0].new("Number", r1));
     result.setElement(1, params[0].new("Number", r2));
     result.setElement(2, params[0].new("Number", r3));
