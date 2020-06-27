@@ -34,13 +34,20 @@ class Stack {
 
   getValue(name) {
     if (name == "memory") {
-      var result = new Nodes.Tensor();
-      var topScope = this.getTopScope();
+      let result = new Nodes.Tensor();
+      let topScope = this.getTopScope();
       for (var name of Object.keys(topScope.values)) {
         if (name == "memory") {
           continue;
         }
-        result.push(new Nodes.Symbol(name));
+        let value = this.getValue(name);
+        if (value.getType() != "function") {
+          result.push(new Nodes.Symbol(name));
+        } else {
+          let func = new Nodes.FunctionCall(name, 1, 1);
+          func.setElements(value.getElements().map(x => x.clone()));
+          result.push(func);
+        }
       }
       result.reshape([result.getElements().length]);
       result.setStack(this);
