@@ -11,6 +11,8 @@ class Product extends AbstractContainer {
 
   evaluate() {
     // added Number(1) to prevent empty product evaluation
+
+    //console.log(this.serialize());
     let elements = [this.new("Number", 1), ...this.getElements()];
     let result = elements
       .map((element) => element.evaluate())
@@ -42,6 +44,7 @@ class Product extends AbstractContainer {
       });
 
     result.applySigns(this);
+    //console.log(result.serialize());
     return result;
   }
 
@@ -63,21 +66,24 @@ class Product extends AbstractContainer {
     if (node.type == "product") {
       this.squashSigns();
       node.squashSigns();
-      var thisNonEvaluables = this.new("Product");
-      var nodeNonEvaluables = this.new("Product");
+      let thisNonEvaluables = this.new("Product");
+      let nodeNonEvaluables = this.new("Product");
       thisNonEvaluables.setElements(this.getNonEvaluables());
       nodeNonEvaluables.setElements(node.getNonEvaluables());
-      var thisBrokeDown = thisNonEvaluables.breakDown();
-      var nodeBrokeDown = nodeNonEvaluables.breakDown();
+      let thisBrokeDown = thisNonEvaluables.breakDown();
+      let nodeBrokeDown = nodeNonEvaluables.breakDown();
       if (thisBrokeDown.equals(nodeBrokeDown)) {
         return true;
       }
     } else if (node.type == "symbol") {
-      var nonEvaluables = this.getNonEvaluables();
+      let nonEvaluables = this.getNonEvaluables();
       if (nonEvaluables.length == 1) {
-        if (nonEvaluables[0].getType() == "symbol") {
-          if (nonEvaluables[0].getName() == node.getName()) {
-            return true;
+        let symbol = nonEvaluables[0];
+        if (symbol.getType() == "symbol") {
+          if (symbol.getName() == node.getName()) {
+            if (symbol.getMulSign().equals(node.getMulSign())) {
+              return true;
+            }
           }
         }
       }
