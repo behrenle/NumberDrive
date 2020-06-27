@@ -1,55 +1,76 @@
-function checkType(param, eType) {
+function checkType(param, type) {
   let pType = param.getType();
-  if (eType == "term") {
-    if (pType != "equation" && pType != "definition" && pType != "tensor")
-      return param;
+  if (type == "term") {
+    return pType != "equation" && pType != "definition" && pType != "tensor";
   } else {
-    let eParam = param.evaluate();
-    if (eParam.getType() == eType)
-      return eParam;
-
-    pType = eParam.getType();
+    return pType == type;
   }
-  throw `expected ${eType} got ${pType}`;
+}
+
+function checkTypes(param, types) {
+  let pType = param.getType();
+  for (let type of types) {
+    if (pType == type)
+      return true;
+  }
+  return false;
+}
+
+function createError(position, param, type) {
+  let firstMessagePart = `invalid parameter (#${position + 1}): expected`;
+  let lastMessagePart = `got ${param.getType()}`;
+  let middleMessagePart;
+  if (typeof type == "string") {
+    middleMessagePart = type;
+  } else if (type instanceof Array) {
+    middleMessagePart = `{${type.join()}}`;
+  } else {
+    throw `INTERNAL ERROR: unknown type: ${typeof type}`;
+  }
+  throw `${firstMessagePart} ${middleMessagePart} ${lastMessagePart}`;
+}
+
+function checkSingleType(params, type) {
+  params.forEach((param, pos) => {
+    if (!checkType(param, type)) {
+      createError(pos, param, type);
+    }
+  });
 }
 
 function checkMultipleTypes(params, types) {
   if (params.length != types.length)
     throw `invalid number of parameters: expected ${types.length} got ${params.length}`;
-
-  return params.map((param, i) => {
-    let eType  = types[i],
-        eParam;
-
-    try {
-      eParam = checkType(param, types[i]);
-    } catch (error) {
-      throw `invalid parameter (#${i}): ${error}`
+  params.forEach((param, pos) => {
+    let type = types[pos];
+    if (type instanceof Array) {
+      if (checkTypes(param, type)) {
+        return;
+      }
+    } else {
+      if (checkType(param, type)) {
+        return;
+      }
     }
-    return eParam;
-  });
-}
-
-function checkSingleType(params, eType) {
-  return params.map((param, i) => {
-    let eParam;
-    try {
-      eParam = checkType(param, eType);
-    } catch (error) {
-      throw `invalid parameter (#${i}): ${error}`
-    }
-    return eParam
+    createError(pos, param, type);
   });
 }
 
 export default {
   checkParameters: (params, expected) => {
+    let evaluatedParams = params.map(param => {
+      if (param.isEvaluable()) {
+        return param.evaluate();
+      }
+      return param;
+    });
+
     if (typeof expected == "string")
-      return checkSingleType(params, expected);
+      checkSingleType(evaluatedParams, expected);
 
     if (expected instanceof Array)
-      return checkMultipleTypes(params, expected);
+      checkMultipleTypes(evaluatedParams, expected);
 
-    throw "invalid arguments";
+    return evaluatedParams;
   }
 };
