@@ -138,10 +138,28 @@ const funcs = {
   },
 
   abs: function(parameters, stack) {
-    let params = tools.checkParameters(parameters, ["number"]),
+    let params = tools.checkParameters(parameters, [["number", "tensor"]]),
         value = params[0];
 
-    return value.new("Number", value.getDecimalValue().abs());
+    if (value.getType() == "number") {
+      return value.new("Number", value.getDecimalValue().abs());
+    } else {
+      if (value.getRank() != 1)
+        throw `abs: invalid parameter expected number or vector got tensor of rank ${value.getRank()}`;
+
+      if (!value.isEvaluable())
+        throw `abs: invalid parameter: vector is not evaluable`;
+
+      let result = new Decimal(0);
+      value.getElements().forEach(item => {
+        if (item.getType() != "number")
+          throw `abs: invalid parameter: vector elements can not be evaluated to numbers`;
+
+        let v = item.getDecimalValue();
+        result = result.plus(Decimal.mul(v, v));
+      });
+      return value.new("Number", Decimal.sqrt(result));
+    }
   }
 }
 

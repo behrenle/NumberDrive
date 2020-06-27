@@ -54,7 +54,7 @@ export default {
     {
       "name": "abs",
       "synopsis": "abs(x)",
-      "description": "Computes the absolute value of x."
+      "description": "Computes the absolute value of a number or the length of a vector."
     },
     {
       "name": "min",
