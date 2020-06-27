@@ -12,8 +12,10 @@ class Number extends AbstractNode {
 
   evaluate() {
     if (this.getMulSign().equals(-1)) {
-      this.setValue(new Decimal(1).div(this.getValue()));
-      this.setMulSign(1);
+      let result = this.new("Number");
+      result.setSign(this.getSign());
+      result.setValue(new Decimal(1).div(this.getValue()));
+      return result;
     }
     return this;
   }
