@@ -1,24 +1,26 @@
+import Decimal from 'decimal.js';
+
 export default {
     binco: function (n, k) {
-        var result = 1;
+        let result = new Decimal(1);
         if (n < k) {
             throw "invalid input: n < k!";
         }
         while (k > 0) {
-            result *= n / k;
+            result = result.mul(n / k);
             n--;
             k--;
         }
-        return Math.round(result);
+        return result.round();
     },
 
     indexCheck: function (tensor, coords) {
         let realCoords = [];
 
-        if (coords.getDimensions().length != 1)
+        if (coords.getDimensions().length !== 1)
             throw "invalid index dimensions";
 
-        if (coords.getDimensions()[0] != tensor.getDimensions().length)
+        if (coords.getDimensions()[0] !== tensor.getDimensions().length)
             throw "invalid index length";
 
         for (let i = 0; i < coords.getElements().length; i++) {

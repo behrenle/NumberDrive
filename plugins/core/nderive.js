@@ -44,7 +44,7 @@ const funcs = {
 
         for (let i = 0; i <= grade; i++) {
             let c1 = new Decimal(-1).pow(i),
-                c2 = utils.binco(grade, i);
+                c2 = utils.binco(grade, i).toNumber();
 
             eValue = pos.add(
                 new Decimal(grade).sub(

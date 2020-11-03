@@ -7,14 +7,16 @@ import Decimal from 'decimal.js';
 const binco = utils.binco;
 
 function binomial(p, n, k) {
-    return binco(n, k) * Math.pow(p, k) * Math.pow((1 - p), (n - k));
+    return binco(n, k)
+        .mul(Math.pow(p, k))
+        .mul(Math.pow((1 - p), (n - k)));
 }
 
 function cBinomial(p, n, k) {
     return Array(k + 1)
-        .fill()
+        .fill(0)
         .map((_, i) => binomial(p, n, i))
-        .reduce((acc, inc) => acc += inc);
+        .reduce((acc, inc) => acc.plus(inc), new Decimal(0));
 }
 
 const funcs = {
