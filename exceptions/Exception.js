@@ -1,24 +1,24 @@
 class Exception {
-  constructor(type, message) {
-    this.type = type;
-    this.message = message;
-  }
+    constructor(type, message) {
+        this.type = type;
+        this.message = message;
+    }
 
-  stringify() {
-    return this.type + (this.message ? ": " + this.message : "");
-  }
+    stringify() {
+        return this.type + (this.message ? ": " + this.message : "");
+    }
 
-  print() {
-    console.log(this.stringify());
-  }
+    print() {
+        console.log(this.stringify());
+    }
 
-  getType() {
-    return this.type;
-  }
+    getType() {
+        return this.type;
+    }
 
-  getMessage() {
-    return this.message;
-  }
+    getMessage() {
+        return this.message;
+    }
 }
 
 export default Exception;

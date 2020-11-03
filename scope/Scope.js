@@ -1,23 +1,23 @@
 class Scope {
-  constructor(values) {
-    this.values = typeof values == "object" ? values : {};
-  }
+    constructor(values) {
+        this.values = typeof values == "object" ? values : {};
+    }
 
-  exists(name) {
-    return this.values[name] ? true : false;
-  }
+    exists(name) {
+        return this.values[name] ? true : false;
+    }
 
-  getValue(name) {
-    return this.values[name];
-  }
+    getValue(name) {
+        return this.values[name];
+    }
 
-  setValue(name, value) {
-    this.values[name] = value;
-  }
+    setValue(name, value) {
+        this.values[name] = value;
+    }
 
-  deleteValue(name) {
-    delete this.values[name];
-  }
+    deleteValue(name) {
+        delete this.values[name];
+    }
 }
 
 export default Scope;

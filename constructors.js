@@ -15,17 +15,17 @@ import Equation from "./nodes/Equation.js";
 Decimal.precision = 25;
 
 export default {
-  Decimal: Decimal,
-  AbstractNode: AbstractNode,
-  AbstractContainer: AbstractContainer,
-  Number: Number,
-  Symbol: Symbol,
-  Sum: Sum,
-  Product: Product,
-  Power: Power,
-  Tensor: Tensor,
-  Function: Function,
-  FunctionCall: FunctionCall,
-  Definition: Definition,
-  Equation: Equation
+    Decimal: Decimal,
+    AbstractNode: AbstractNode,
+    AbstractContainer: AbstractContainer,
+    Number: Number,
+    Symbol: Symbol,
+    Sum: Sum,
+    Product: Product,
+    Power: Power,
+    Tensor: Tensor,
+    Function: Function,
+    FunctionCall: FunctionCall,
+    Definition: Definition,
+    Equation: Equation
 };

@@ -11,15 +11,15 @@ import core_switch from "./plugins/core/switch.js";
 import core_erf from "./plugins/core/erf.js";
 
 export default [
-  core_constants,
-  core_trigonometry,
-  core_solve,
-  core_nsolve,
-  core_nderive,
-  core_nintegral,
-  core_tensor,
-  core_table,
-  core_misc,
-  core_switch,
-  core_erf
+    core_constants,
+    core_trigonometry,
+    core_solve,
+    core_nsolve,
+    core_nderive,
+    core_nintegral,
+    core_tensor,
+    core_table,
+    core_misc,
+    core_switch,
+    core_erf
 ];

@@ -6,112 +6,112 @@ import Decimal from 'decimal.js';
 const trigMaxPrecision = 32;
 
 function createResult(decimal) {
-  let result;
-  if (decimal.abs().greaterThan(new Decimal("1e-20"))) {
-    result = decimal;
-  } else {
-    result = new Decimal(0);
-  }
-  return new Nodes.Number(result);
+    let result;
+    if (decimal.abs().greaterThan(new Decimal("1e-20"))) {
+        result = decimal;
+    } else {
+        result = new Decimal(0);
+    }
+    return new Nodes.Number(result);
 }
 
 const funcs = {
-  sin: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    sin: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.sin(value));
-  },
+        return createResult(Decimal.sin(value));
+    },
 
-  cos: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    cos: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.cos(value));
-  },
+        return createResult(Decimal.cos(value));
+    },
 
-  tan: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    tan: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.tan(value));
-  },
+        return createResult(Decimal.tan(value));
+    },
 
-  sinh: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    sinh: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.sinh(value));
-  },
+        return createResult(Decimal.sinh(value));
+    },
 
-  cosh: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    cosh: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.cosh(value));
-  },
+        return createResult(Decimal.cosh(value));
+    },
 
-  tanh: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    tanh: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.tanh(value));
-  },
+        return createResult(Decimal.tanh(value));
+    },
 
-  // inverse functions
-  asin: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    // inverse functions
+    asin: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.asin(value));
-  },
+        return createResult(Decimal.asin(value));
+    },
 
-  acos: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    acos: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.acos(value));
-  },
+        return createResult(Decimal.acos(value));
+    },
 
-  atan: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    atan: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.atan(value));
-  },
+        return createResult(Decimal.atan(value));
+    },
 
-  asinh: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    asinh: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.asinh(value));
-  },
+        return createResult(Decimal.asinh(value));
+    },
 
-  acosh: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    acosh: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.acosh(value));
-  },
+        return createResult(Decimal.acosh(value));
+    },
 
-  atanh: function(parameters, stack) {
-    let param = tools.checkParameters(parameters, ["number"])[0],
-        value = param.getDecimalValue();
+    atanh: function (parameters, stack) {
+        let param = tools.checkParameters(parameters, ["number"])[0],
+            value = param.getDecimalValue();
 
-    return createResult(Decimal.atanh(value));
-  },
+        return createResult(Decimal.atanh(value));
+    },
 }
 
 export default {
-  name: "core-trigonometry",
-  genericFunctions: funcs,
-  inlineDefinitions: [
-    "sindeg(x):=sin(x*deg)",
-    "cosdeg(x):=cos(x*deg)",
-    "tandeg(x):=tan(x*deg)",
-    "asindeg(x):=asin(x)/deg",
-    "acosdeg(x):=acos(x)/deg",
-    "atandeg(x):=atan(x)/deg",
-  ],
-  manual: manual
+    name: "core-trigonometry",
+    genericFunctions: funcs,
+    inlineDefinitions: [
+        "sindeg(x):=sin(x*deg)",
+        "cosdeg(x):=cos(x*deg)",
+        "tandeg(x):=tan(x*deg)",
+        "asindeg(x):=asin(x)/deg",
+        "acosdeg(x):=acos(x)/deg",
+        "atandeg(x):=atan(x)/deg",
+    ],
+    manual: manual
 };

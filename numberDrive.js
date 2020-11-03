@@ -5,14 +5,14 @@ import parse from "./parse.js";
 import prelude from "./prelude.js";
 
 const NumberDrive = {
-  Script: Script,
-  Manual: Manual,
-  evaluate: (string) => {
-    let node = parse(string);
-    node.setStack(prelude());
-    return node.evaluate().serialize();
-  },
-  parse
+    Script: Script,
+    Manual: Manual,
+    evaluate: (string) => {
+        let node = parse(string);
+        node.setStack(prelude());
+        return node.evaluate().serialize();
+    },
+    parse
 };
 
 export default NumberDrive;

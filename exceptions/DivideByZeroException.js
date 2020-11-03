@@ -1,9 +1,9 @@
 import Exception from "./Exception.js";
 
 class DevideByZeroException extends Exception {
-  constructor() {
-    super("DevideByZeroException");
-  }
+    constructor() {
+        super("DevideByZeroException");
+    }
 }
 
 export default DevideByZeroException;
