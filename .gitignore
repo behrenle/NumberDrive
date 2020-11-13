@@ -2,3 +2,4 @@ parser.js
 test.js
 node_modules/*
 test/dumps/*
+.idea/
