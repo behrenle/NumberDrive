@@ -1,10 +1,9 @@
 export default {
-    "constants": [],
-    "functions": [
+    constants: [],
+    functions: [
         {
-            "name": "solve",
-            "synopsis": "solve(equation [, equation [, ...]])",
-            "description": "Solves a system of linear equations."
+            synopsis: "solve(equation [, equation [, ...]])",
+            description: "Solves a system of linear equations."
         }
     ]
 };

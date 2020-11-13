@@ -1,10 +1,9 @@
 export default {
-    "constants": [],
-    "functions": [
+    constants: [],
+    functions: [
         {
-            "name": "erf",
-            "synopsis": "erf(x)",
-            "description": "Gaussian error function"
+            synopsis: "erf(x)",
+            description: "Gaussian error function"
         }
     ]
 };
