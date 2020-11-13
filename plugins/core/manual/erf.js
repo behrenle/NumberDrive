@@ -2,8 +2,14 @@ export default {
     constants: [],
     functions: [
         {
-            synopsis: "erf(x)",
-            description: "Gaussian error function"
+            synopsis: {
+                en: "erf(x)",
+                de: "erf(x)"
+            },
+            description: {
+                en: "Gaussian error function",
+                de: "Gaussian error function"
+            }
         }
     ]
 };

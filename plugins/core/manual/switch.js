@@ -2,8 +2,14 @@ export default {
     constants: [],
     functions: [
         {
-            synopsis: "switch(v, f, g)",
-            description: "Evaluates f if v >= 0 otherwise g."
+            synopsis: {
+                en: "switch(v, f, g)",
+                de: "switch(v, f, g)"
+            },
+            description: {
+                en: "Evaluates f if v >= 0 otherwise g.",
+                de: "Evaluates f if v >= 0 otherwise g."
+            }
         }
     ]
 };

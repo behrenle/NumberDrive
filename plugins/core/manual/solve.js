@@ -2,8 +2,14 @@ export default {
     constants: [],
     functions: [
         {
-            synopsis: "solve(equation [, equation [, ...]])",
-            description: "Solves a system of linear equations."
+            synopsis: {
+                en: "solve(equation [, equation [, ...]])",
+                de: "solve(equation [, equation [, ...]])"
+            },
+            description: {
+                en: "Solves a system of linear equations.",
+                de: "Solves a system of linear equations."
+            }
         }
     ]
 };
