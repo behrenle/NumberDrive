@@ -2,7 +2,7 @@ import plugins from "./pluginLoader.js";
 
 const manual = {
     constants: [],
-    functions: [],
+    functions: []
 };
 
 plugins.forEach((plugin) => {
