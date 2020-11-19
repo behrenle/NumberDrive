@@ -8,7 +8,7 @@ export default {
             },
             description: {
                 en: "Gaussian error function",
-                de: "Gaussian error function"
+                de: "Gaußsche Fehlerfunktion"
             }
         }
     ]

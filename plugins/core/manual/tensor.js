@@ -8,37 +8,37 @@ export default {
             },
             description: {
                 en: "Returns a dimensions vector.",
-                de: "Returns a dimensions vector."
+                de: "Gibt einen Vektor mit den Dimensionen des übergebenen Tensors zurück."
             }
         },
         {
             synopsis: {
-                en: "get(tensor, index_tensor)",
-                de: "get(tensor, index_tensor)"
+                en: "get(t, c)",
+                de: "get(t, k)"
             },
             description: {
-                en: "n. a.",
-                de: "n. a."
+                en: "Returns the element of the tensor t at the coordinates c.",
+                de: "Gibt das Element des Tensors t an den Koordinaten k zurück."
             }
         },
         {
             synopsis: {
-                en: "set(tensor, index_tensor, number)",
-                de: "set(tensor, index_tensor, number)"
+                en: "set(t, c, v)",
+                de: "set(t, k, v)"
             },
             description: {
-                en: "n. a.",
-                de: "n. a."
+                en: "Sets the value of t at coordinates c to v.",
+                de: "Setzt den Wert von t an den Koordinaten k auf v."
             }
         },
         {
             synopsis: {
                 en: "det(square_matrix)",
-                de: "det(square_matrix)"
+                de: "det(m)"
             },
             description: {
                 en: "Calculate the determinant given a matrix",
-                de: "Calculate the determinant given a matrix"
+                de: "Berechne die Determinante einer quadratischen Matrix m."
             }
         },
         {
@@ -48,7 +48,7 @@ export default {
             },
             description: {
                 en: "Calculate the vector product of a and b",
-                de: "Calculate the vector product of a and b"
+                de: "Berechne das Vektorprodukt der beiden Vektoren a und b."
             }
         }
     ]
