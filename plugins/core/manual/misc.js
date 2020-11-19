@@ -7,7 +7,7 @@ export default {
             },
             description: {
                 en: "A vector of all user defined symbol names.",
-                de: "A vector of all user defined symbol names."
+                de: "Liste aller durch den Anwender definierten Variablen."
             }
         }
     ],
@@ -19,7 +19,7 @@ export default {
             },
             description: {
                 en: "Equivalent to e^x.",
-                de: "Equivalent to e^x."
+                de: "Exponentionalfunktion e^x mit Basis e."
             }
         },
         {
@@ -29,7 +29,7 @@ export default {
             },
             description: {
                 en: "Binomial distribution",
-                de: "Binomial distribution"
+                de: "Binomialverteilung mit Parametern n, p und k."
             }
         },
         {
@@ -39,37 +39,37 @@ export default {
             },
             description: {
                 en: "Binomial cumulative distribution",
-                de: "Binomial cumulative distribution"
+                de: "Kumulierte Binomialverteilung mit Parametern n, p und k."
             }
         },
         {
             synopsis: {
                 en: "sqrt(v)",
-                de: "sqrt(v)"
+                de: "sqrt(a)"
             },
             description: {
                 en: "Calculates the square root of v.<br>v>=0",
-                de: "Calculates the square root of v.<br>v>=0"
+                de: "Quadratwurzel von a."
             }
         },
         {
             synopsis: {
                 en: "root(v, n)",
-                de: "root(v, n)"
+                de: "root(a, n)"
             },
             description: {
                 en: "Computes the nth root of v.<br> n, v >= 0",
-                de: "Computes the nth root of v.<br> n, v >= 0"
+                de: "n-te Wurzel von a."
             }
         },
         {
             synopsis: {
                 en: "delete(symbol)",
-                de: "delete(symbol)"
+                de: "delete(a)"
             },
             description: {
                 en: "Deletes a user defined symbol.<br>Returns 1 if the deletion was successful, otherwise 0.",
-                de: "Deletes a user defined symbol.<br>Returns 1 if the deletion was successful, otherwise 0."
+                de: "Lösche die Variable a.<br>Ergebnis ist 1 falls die Löschung erfolgreich war, sonst 0."
             }
         },
         {
@@ -79,7 +79,7 @@ export default {
             },
             description: {
                 en: "Gaussian distribution",
-                de: "Gaussian distribution"
+                de: "Standardnormalverteilung mit Erwartungswert 0 und Varianz 1."
             }
         },
         {
@@ -89,7 +89,7 @@ export default {
             },
             description: {
                 en: "Cumulative Gaussian distribution",
-                de: "Cumulative Gaussian distribution"
+                de: "Kumulierte Standardnormalverteilung mit Erwartungswert 0 und Varianz 1."
             }
         },
         {
@@ -99,17 +99,17 @@ export default {
             },
             description: {
                 en: "Computes n over k (binomial coefficient).",
-                de: "Computes n over k (binomial coefficient)."
+                de: "Binomialkoeffizient mit Parametern n und k."
             }
         },
         {
             synopsis: {
                 en: "abs(x)",
-                de: "abs(x)"
+                de: "abs(a)"
             },
             description: {
                 en: "Computes the absolute value of a number or the length of a vector.",
-                de: "Computes the absolute value of a number or the length of a vector."
+                de: "Betrag von a."
             }
         },
         {
@@ -118,8 +118,8 @@ export default {
                 de: "min(value_1 [, value_2 [, ...]])"
             },
             description: {
-                en: "n. a.",
-                de: "n. a."
+                en: "returns the minimum of all passed parameters",
+                de: "Gibt das Minimum aller übergebenen Werte zurück."
             }
         },
         {
@@ -128,28 +128,28 @@ export default {
                 de: "max(value_1 [, value_2 [, ...]])"
             },
             description: {
-                en: "n. a.",
-                de: "n. a."
+                en: "returns the maximum of all passed parameters",
+                de: "Gibt das Maximum aller übergebenen Werte zurück."
             }
         },
         {
             synopsis: {
                 en: "ln(value)",
-                de: "ln(value)"
+                de: "ln(a)"
             },
             description: {
                 en: "n. a.",
-                de: "n. a."
+                de: "Logarithmus zur Basis e von a."
             }
         },
         {
             synopsis: {
                 en: "log(value, base)",
-                de: "log(value, base)"
+                de: "log(a, b)"
             },
             description: {
                 en: "n. a.",
-                de: "n. a."
+                de: "Logarithmus zur Basis b von a."
             }
         }
     ]

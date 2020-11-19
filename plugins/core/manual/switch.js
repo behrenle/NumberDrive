@@ -8,7 +8,7 @@ export default {
             },
             description: {
                 en: "Evaluates f if v >= 0 otherwise g.",
-                de: "Evaluates f if v >= 0 otherwise g."
+                de: "Berechne die Funktion f falls v >= 0 sonst g."
             }
         }
     ]

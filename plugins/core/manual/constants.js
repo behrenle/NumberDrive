@@ -6,8 +6,8 @@ export default {
                 de: "e",
             },
             description: {
-                en: "Euler's number",
-                de: "Euler's number"
+                en: "Euler's number.",
+                de: "Eulersche Zahl"
             }
         },
         {
@@ -17,7 +17,7 @@ export default {
             },
             description: {
                 en: "π is commonly defined as the ratio of a circle's circumference C to its diameter d",
-                de: "π is commonly defined as the ratio of a circle's circumference C to its diameter d"
+                de: "Kreiszahl π"
             }
         },
         {
@@ -27,7 +27,7 @@ export default {
             },
             description: {
                 en: "deg is the conversion factor between degrees and radians.",
-                de: "deg is the conversion factor between degrees and radians."
+                de: "deg ist der Umrechnungsfaktor zwischen Gradmaß und Bogenmaß."
             }
         }
     ],
