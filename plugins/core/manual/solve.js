@@ -3,12 +3,12 @@ export default {
     functions: [
         {
             synopsis: {
-                en: "solve(equation [, equation [, ...]])",
-                de: "solve(gl1 [, gl2 [, ...]])"
+                en: "solve(u, ...)",
+                de: "solve(u, ...)"
             },
             description: {
                 en: "Solves a system of linear equations.",
-                de: "Löse ein System von linearen Gleichungen mit Gleichungen gl1, gl2 usw."
+                de: "Löse ein System von linearen Gleichungen mit Gleichungen u, ..."
             }
         }
     ]

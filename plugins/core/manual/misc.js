@@ -114,8 +114,8 @@ export default {
         },
         {
             synopsis: {
-                en: "min(value_1 [, value_2 [, ...]])",
-                de: "min(value_1 [, value_2 [, ...]])"
+                en: "min(v, ...)",
+                de: "min(v, ...)"
             },
             description: {
                 en: "returns the minimum of all passed parameters",
@@ -124,8 +124,8 @@ export default {
         },
         {
             synopsis: {
-                en: "max(value_1 [, value_2 [, ...]])",
-                de: "max(value_1 [, value_2 [, ...]])"
+                en: "max(v, ...)",
+                de: "max(v, ...)"
             },
             description: {
                 en: "returns the maximum of all passed parameters",
@@ -134,22 +134,22 @@ export default {
         },
         {
             synopsis: {
-                en: "ln(value)",
-                de: "ln(a)"
+                en: "ln(v)",
+                de: "ln(v)"
             },
             description: {
-                en: "n. a.",
-                de: "Logarithmus zur Basis e von a."
+                en: "Natural logarithm of v.",
+                de: "Logarithmus zur Basis e von v."
             }
         },
         {
             synopsis: {
-                en: "log(value, base)",
-                de: "log(a, b)"
+                en: "log(v, b)",
+                de: "log(v, b)"
             },
             description: {
-                en: "n. a.",
-                de: "Logarithmus zur Basis b von a."
+                en: "Logarithm of v to base b",
+                de: "Logarithmus zur Basis b von v."
             }
         }
     ]
