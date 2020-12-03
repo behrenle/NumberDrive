@@ -119,6 +119,12 @@ class Script {
         }
     }
 
+    evaluate(inputStr, languageMode, significantDigits) {
+        this.setSetting("sigDigits", significantDigits);
+        this.lang = languageMode;
+        this.pushString(inputStr);
+    }
+
     output() {
         for (var i = 0; i < this.getLength(); i++) {
             console.log(
