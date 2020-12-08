@@ -4,7 +4,7 @@ export default {
         {
             synopsis: {
                 en: "nderive(f(x), x, g?)",
-                de: "nderive(f(x), x, g?)"
+                de: "nderive(f(x); x; g?)"
             },
             description: {
                 en: "Calculates the value of the g-th derivative of f at the specified position x. if g is not specified: g = 1",

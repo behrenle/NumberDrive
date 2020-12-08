@@ -14,7 +14,7 @@ export default {
         {
             synopsis: {
                 en: "get(t, c)",
-                de: "get(t, k)"
+                de: "get(t; k)"
             },
             description: {
                 en: "Returns the element of the tensor t at the coordinates c.",
@@ -24,11 +24,11 @@ export default {
         {
             synopsis: {
                 en: "set(t, c, v)",
-                de: "set(t, k, v)"
+                de: "set(t; c; v)"
             },
             description: {
                 en: "Sets the value of t at coordinates c to v.",
-                de: "Setzt den Wert von t an den Koordinaten k auf v."
+                de: "Setzt den Wert von t an den Koordinaten c auf v."
             }
         },
         {
@@ -43,8 +43,8 @@ export default {
         },
         {
             synopsis: {
-                en: "cross([a1,a2,a3], [b1,b2,b3])",
-                de: "cross([a1,a2,a3], [b1,b2,b3])"
+                en: "cross([a1, a2, a3], [b1, b2, b3])",
+                de: "cross([a1; a2; a3]; [b1; b2; b3])"
             },
             description: {
                 en: "Calculate the vector product of a and b",

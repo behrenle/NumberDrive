@@ -3,183 +3,183 @@ export default {
     functions: [
         {
             synopsis: {
-                en: "sin(number)",
-                de: "sin(a)"
+                en: "sin(v)",
+                de: "sin(v)"
             },
             description: {
-                en: "Calculates the sine of a given number.",
-                de: "Sinus von a im Bogenmaß."
+                en: "Calculates the sine of a given value v.",
+                de: "Sinus von v im Bogenmaß."
             }
         },
         {
             synopsis: {
-                en: "cos(number)",
-                de: "cos(a)"
+                en: "cos(v)",
+                de: "cos(v)"
             },
             description: {
-                en: "Calculates the cosine of a given number.",
-                de: "Cosinus von a im Bogenmaß."
+                en: "Calculates the cosine of a given value v.",
+                de: "Cosinus von v im Bogenmaß."
             }
         },
         {
             synopsis: {
-                en: "tan(number)",
-                de: "tan(a)"
+                en: "tan(v)",
+                de: "tan(v)"
             },
             description: {
-                en: "Calculates the tagent of a given number.",
-                de: "Tangens von a im Bogenmaß."
+                en: "Calculates the tagent of a given value v.",
+                de: "Tangens von v im Bogenmaß."
             }
         },
         {
             synopsis: {
-                en: "sindeg(number)",
-                de: "sindeg(a)"
+                en: "sindeg(v)",
+                de: "sindeg(v)"
             },
             description: {
-                en: "Calculates the sine of a given number. <br>number in degrees",
-                de: "Sinus von a im Gradmaß."
+                en: "Calculates the sine of v. <br>v in degrees",
+                de: "Sinus von v im Gradmaß."
             }
         },
         {
             synopsis: {
-                en: "cosdeg(number)",
-                de: "cosdeg(a)"
+                en: "cosdeg(v)",
+                de: "cosdeg(v)"
             },
             description: {
-                en: "Calculates the cosine of a given number. <br>number in degrees",
-                de: "Cosinus von a im Gradmaß."
+                en: "Calculates the cosine of v. <br>v in degrees",
+                de: "Cosinus von v im Gradmaß."
             }
         },
         {
             synopsis: {
-                en: "tandeg(number)",
-                de: "tandeg(a)"
+                en: "tandeg(v)",
+                de: "tandeg(v)"
             },
             description: {
-                en: "Calculates the tagent of a given number. <br>number in degrees",
-                de: "Tangens von a im Gradmaß."
+                en: "Calculates the tagent of v. <br>v in degrees",
+                de: "Tangens von v im Gradmaß."
             }
         },
         {
             synopsis: {
-                en: "sinh(number)",
-                de: "sinh(a)"
+                en: "sinh(v)",
+                de: "sinh(v)"
             },
             description: {
-                en: "Calculates the hyperbolic sine of a given number.",
-                de: "Hyperbelsinus von a."
+                en: "Calculates the hyperbolic sine of v.",
+                de: "Hyperbelsinus von v."
             }
         },
         {
             synopsis: {
-                en: "cosh(angle)",
-                de: "cosh(a)"
+                en: "cosh(v)",
+                de: "cosh(v)"
             },
             description: {
-                en: "Calculates the hyperbolic cosine of a given angle.",
-                de: "Hyperbelcosinus von a."
+                en: "Calculates the hyperbolic cosine of v",
+                de: "Hyperbelcosinus von v."
             }
         },
         {
             synopsis: {
-                en: "tanh(angle)",
-                de: "tanh(a)"
+                en: "tanh(v)",
+                de: "tanh(v)"
             },
             description: {
-                en: "Calculates the hyperbolic tangent of a given angle.",
-                de: "Hyperbeltangens von a."
+                en: "Calculates the hyperbolic tangent of v.",
+                de: "Hyperbeltangens von v."
             }
         },
 
         {
             synopsis: {
-                en: "asin(number)",
-                de: "asin(a)"
+                en: "asin(v)",
+                de: "asin(v)"
             },
             description: {
-                en: "Calculates the inverse sine of a given number.",
-                de: "Arkussinus von a im Bogenmaß."
+                en: "Calculates the inverse sine of v.",
+                de: "Arkussinus von v im Bogenmaß."
             }
         },
         {
             synopsis: {
-                en: "acos(number)",
-                de: "acos(a)"
+                en: "acos(v)",
+                de: "acos(v)"
             },
             description: {
-                en: "Calculates the inverse cosine of a given number.",
-                de: "Arkuscosinus von a im Bogenmaß."
+                en: "Calculates the inverse cosine of v.",
+                de: "Arkuscosinus von v im Bogenmaß."
             }
         },
         {
             synopsis: {
-                en: "atan(number)",
-                de: "atan(a)"
+                en: "atan(v)",
+                de: "atan(v)"
             },
             description: {
-                en: "Calculates the inverse tagent of a given number.",
-                de: "Arkustangens von a im Bogenmaß."
+                en: "Calculates the inverse tagent of v.",
+                de: "Arkustangens von v im Bogenmaß."
             }
         },
         {
             synopsis: {
-                en: "asindeg(number)",
-                de: "asindeg(a)"
+                en: "asindeg(v)",
+                de: "asindeg(v)"
             },
             description: {
-                en: "Calculates the inverse sine of a given number. <br>result in degrees",
-                de: "Arkussinus von a im Gradmaß."
+                en: "Calculates the inverse sine of v. <br>result in degrees",
+                de: "Arkussinus von v im Gradmaß."
             }
         },
         {
             synopsis: {
-                en: "acosdeg(number)",
-                de: "acosdeg(a)"
+                en: "acosdeg(v)",
+                de: "acosdeg(v)"
             },
             description: {
-                en: "Calculates the inverse cosine of a given number. <br>result in degrees",
-                de: "Arkuscosinus von a im Gradmaß."
+                en: "Calculates the inverse cosine of v. <br>result in degrees",
+                de: "Arkuscosinus von v im Gradmaß."
             }
         },
         {
             synopsis: {
-                en: "atandeg(number)",
-                de: "atandeg(a)"
+                en: "atandeg(v)",
+                de: "atandeg(v)"
             },
             description: {
-                en: "Calculates the inverse tagent of a given number. <br>result in degrees",
-                de: "Arkustangens von a im Gradmaß."
+                en: "Calculates the inverse tagent of v. <br>result in degrees",
+                de: "Arkustangens von v im Gradmaß."
             }
         },
         {
             synopsis: {
-                en: "asinh(number)",
-                de: "asinh(a)"
+                en: "asinh(v)",
+                de: "asinh(v)"
             },
             description: {
-                en: "Calculates the inverse hyperbolic sine of a given number.",
-                de: "Hyperbolischer Arkussinus von a."
+                en: "Calculates the inverse hyperbolic sine of v.",
+                de: "Hyperbolischer Arkussinus von v."
             }
         },
         {
             synopsis: {
-                en: "acosh(number)",
-                de: "acosh(a)"
+                en: "acosh(v)",
+                de: "acosh(v)"
             },
             description: {
-                en: "Calculates the inverse hyperbolic cosine of a given number.",
-                de: "Hyperbolischer Arkuscosinus von a."
+                en: "Calculates the inverse hyperbolic cosine of v.",
+                de: "Hyperbolischer Arkuscosinus von v."
             }
         },
         {
             synopsis: {
-                en: "atanh(number)",
-                de: "atanh(a)"
+                en: "atanh(v)",
+                de: "atanh(v)"
             },
             description: {
-                en: "Calculates the inverse hyperbolic tangent of a given number.",
-                de: "Hyperbolischer Arkustangens von a."
+                en: "Calculates the inverse hyperbolic tangent of v.",
+                de: "Hyperbolischer Arkustangens von v."
             }
         }
     ]

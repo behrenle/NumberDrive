@@ -4,7 +4,7 @@ export default {
         {
             synopsis: {
                 en: "nintegral(f(x), u, v)",
-                de: "nintegral(f(x), u, v)"
+                de: "nintegral(f(x); u; v)"
             },
             description: {
                 en: "Calculates the definite integral of the function for the given limits.",

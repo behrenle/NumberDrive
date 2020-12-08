@@ -4,7 +4,7 @@ export default {
         {
             synopsis: {
                 en: "solve(u, ...)",
-                de: "solve(u, ...)"
+                de: "solve(u; ...)"
             },
             description: {
                 en: "Solves a system of linear equations.",

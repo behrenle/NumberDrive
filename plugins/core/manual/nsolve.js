@@ -4,7 +4,7 @@ export default {
         {
             synopsis: {
                 en: "nsolve(u, v?, w?)",
-                de: "nsolve(u, v?, w?)"
+                de: "nsolve(u; v?; w?)"
             },
             description: {
                 en: "If possible, solve the equation u within the limits.<br>Default limits: -20, 20",

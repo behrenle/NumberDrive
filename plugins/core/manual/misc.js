@@ -25,7 +25,7 @@ export default {
         {
             synopsis: {
                 en: "binom(n, p, k)",
-                de: "binom(n, p, k)"
+                de: "binom(n; p; k)"
             },
             description: {
                 en: "Binomial distribution",
@@ -35,7 +35,7 @@ export default {
         {
             synopsis: {
                 en: "cbinom(n, p, k)",
-                de: "cbinom(n, p, k)"
+                de: "cbinom(n; p; k)"
             },
             description: {
                 en: "Binomial cumulative distribution",
@@ -55,7 +55,7 @@ export default {
         {
             synopsis: {
                 en: "root(v, n)",
-                de: "root(a, n)"
+                de: "root(a; n)"
             },
             description: {
                 en: "Computes the nth root of v.<br> n, v >= 0",
@@ -64,11 +64,11 @@ export default {
         },
         {
             synopsis: {
-                en: "delete(symbol)",
+                en: "delete(a)",
                 de: "delete(a)"
             },
             description: {
-                en: "Deletes a user defined symbol.<br>Returns 1 if the deletion was successful, otherwise 0.",
+                en: "Delete the variable a.<br>Returns 1 if the deletion was successful, otherwise 0.",
                 de: "Lösche die Variable a.<br>Ergebnis ist 1 falls die Löschung erfolgreich war, sonst 0."
             }
         },
@@ -95,7 +95,7 @@ export default {
         {
             synopsis: {
                 en: "binco(n, k)",
-                de: "binco(n, k)"
+                de: "binco(n; k)"
             },
             description: {
                 en: "Computes n over k (binomial coefficient).",
@@ -115,7 +115,7 @@ export default {
         {
             synopsis: {
                 en: "min(v, ...)",
-                de: "min(v, ...)"
+                de: "min(v; ...)"
             },
             description: {
                 en: "returns the minimum of all passed parameters",
@@ -125,7 +125,7 @@ export default {
         {
             synopsis: {
                 en: "max(v, ...)",
-                de: "max(v, ...)"
+                de: "max(v; ...)"
             },
             description: {
                 en: "returns the maximum of all passed parameters",
@@ -145,7 +145,7 @@ export default {
         {
             synopsis: {
                 en: "log(v, b)",
-                de: "log(v, b)"
+                de: "log(v; b)"
             },
             description: {
                 en: "Logarithm of v to base b",
