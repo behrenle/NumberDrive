@@ -27,3 +27,10 @@ export interface Symbol extends NodeWithMetadata{
 }
 
 export type Node = Number | Symbol | Sum;
+
+
+export interface StackFrame {
+    [key: string]: Node
+}
+
+export type Stack = StackFrame[];
