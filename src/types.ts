@@ -2,7 +2,7 @@ interface AbstractNode {
     type: string,
 }
 
-interface AbstractOperatorNode extends AbstractNode {
+export interface AbstractOperatorNode extends AbstractNode {
     children: [Node, Node],
 }
 
@@ -36,7 +36,9 @@ export interface Pow extends AbstractOperatorNode {
     type: "pow"
 }
 
-export type Node = Num | Sym | Add | Sub | Mul | Div | Pow;
+export type AtomicNode = Num | Sym;
+export type OperatorNode = Add | Sub | Mul | Div | Pow;
+export type Node = AtomicNode | OperatorNode;
 
 export interface StackFrame {
     [key: string]: Node
