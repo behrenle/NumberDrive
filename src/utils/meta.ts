@@ -21,3 +21,10 @@ export const applyMetaToNode = (node: Node, meta: NodeMetadata): Node => {
         meta: applyMeta(node.meta, meta)
     };
 };
+
+export const createMeta = (positive: -1 | 1, multiply: -1 | 1): NodeMetadata => {
+    return {
+        positive,
+        multiply
+    };
+};
