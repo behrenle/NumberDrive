@@ -1,33 +1,42 @@
-export interface NodeMetadata {
-    positive: 1 | -1;
-    multiply: 1 | -1;
-}
-
 interface AbstractNode {
     type: string,
 }
 
-interface NodeWithMetadata extends AbstractNode {
-    meta: NodeMetadata
+interface AbstractOperatorNode extends AbstractNode {
+    children: [Node, Node],
 }
 
-export interface Number extends NodeWithMetadata {
-    type: "number",
-    value: number,
+export interface Num extends AbstractNode {
+    type: "num",
+    value: number
 }
 
-export interface Sum extends NodeWithMetadata {
-    type: "sum",
-    children: Node[];
-}
-
-export interface Symbol extends NodeWithMetadata{
-    type: "symbol",
+export interface Sym extends AbstractNode {
+    type: "sym",
     name: string
 }
 
-export type Node = Number | Symbol | Sum;
+export interface Add extends AbstractOperatorNode {
+    type: "add"
+}
 
+export interface Sub extends AbstractOperatorNode {
+    type: "sub"
+}
+
+export interface Mul extends AbstractOperatorNode {
+    type: "mul"
+}
+
+export interface Div extends AbstractOperatorNode {
+    type: "div"
+}
+
+export interface Pow extends AbstractOperatorNode {
+    type: "pow"
+}
+
+export type Node = Num | Sym | Add | Sub | Mul | Div | Pow;
 
 export interface StackFrame {
     [key: string]: Node
