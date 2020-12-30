@@ -3,16 +3,27 @@ export interface NodeMetadata {
     multiply: 1 | -1;
 }
 
-export interface Number {
+interface AbstractNode {
+    type: string,
+}
+
+interface NodeWithMetadata extends AbstractNode {
+    meta: NodeMetadata
+}
+
+export interface Number extends NodeWithMetadata {
     type: "number",
-    meta: NodeMetadata,
     value: number,
 }
 
-export interface Sum {
+export interface Sum extends NodeWithMetadata {
     type: "sum",
-    meta: NodeMetadata,
     children: Node[];
 }
 
-export type Node = Number | Sum;
+export interface Symbol extends NodeWithMetadata{
+    type: "symbol",
+    name: string
+}
+
+export type Node = Number | Symbol | Sum;
