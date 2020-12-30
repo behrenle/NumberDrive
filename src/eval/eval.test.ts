@@ -1,6 +1,9 @@
 import {evaluate} from "./index";
-import {createSum} from "../create";
-import {createNumberFromValue} from "../create/number";
+import {createNumberFromValue, createSum, createSymbol} from "../create";
+import {addItem} from "../utils/stack";
+import {createMeta} from "../utils/meta";
+
+const emptyStack = [{}];
 
 test("evalNumber", () => {
     expect(evaluate({
@@ -10,7 +13,7 @@ test("evalNumber", () => {
             multiply: -1,
             positive: 1
         }
-    })).toStrictEqual({
+    }, emptyStack)).toStrictEqual({
         type: "number",
         value: 0.5,
         meta: {
@@ -23,11 +26,18 @@ test("evalNumber", () => {
 test("evalSum#1", () => {
     const children = [createNumberFromValue(-2), createNumberFromValue(2)];
     const sum = createSum(children, {positive: 1, multiply: 1});
-    expect(evaluate(sum)).toStrictEqual(createNumberFromValue(0));
-})
+    expect(evaluate(sum, emptyStack)).toStrictEqual(createNumberFromValue(0));
+});
 
 test("evalSum#2", () => {
     const children = [createNumberFromValue(-2), createNumberFromValue(3)];
     const sum = createSum(children, {positive: -1, multiply: 1});
-    expect(evaluate(sum)).toStrictEqual(createNumberFromValue(-1));
-})
+    expect(evaluate(sum, emptyStack)).toStrictEqual(createNumberFromValue(-1));
+});
+
+test("evalSymbol", () => {
+    const symbol = createSymbol("foo", createMeta(1, 1));
+    const value = createNumberFromValue(-2);
+    const stack = addItem(emptyStack, "foo", value);
+    expect(evaluate(symbol, stack)).toStrictEqual(value);
+});

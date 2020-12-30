@@ -1,7 +1,7 @@
-import {Number} from "../types";
+import {Number, Stack} from "../types";
 import {isMultiply} from "../utils/meta";
 
-const evalNumber = (number: Number): Number => {
+const evalNumber = (number: Number, stack: Stack): Number => {
     let value = number.value;
     let meta = {...number.meta};
 
