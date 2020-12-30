@@ -1,18 +1,18 @@
 import {Node, Stack} from "../types";
-import evalNumber from "./number";
-import evalSum from "./sum";
-import evalSymbol from "./symbol";
+import evalNum from "./num";
+import evalSym from "./sym";
+import evalAdd from "./add";
 
-export const evaluate = (node: Node, stack: Stack): Node => {
+export const evalNode = (node: Node, stack: Stack): Node => {
     switch (node.type) {
-        case "number":
-            return evalNumber(node, stack);
+        case "num":
+            return evalNum(node);
 
-        case "sum":
-            return evalSum(node, stack);
+        case "sym":
+            return evalSym(node, stack);
 
-        case "symbol":
-            return evalSymbol(node, stack);
+        case "add":
+            return evalAdd(node, stack);
 
         default:
             throw "unknown node type";
