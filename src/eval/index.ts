@@ -1,7 +1,9 @@
-import {Node, Stack} from "../types";
+import {Node, OperatorNode, Stack} from "../types";
 import evalNum from "./num";
 import evalSym from "./sym";
 import evalAdd from "./add";
+import {leftChild, rightChild} from "../utils/node";
+import evalSub from "./sub";
 
 export const evalNode = (node: Node, stack: Stack): Node => {
     switch (node.type) {
@@ -14,7 +16,14 @@ export const evalNode = (node: Node, stack: Stack): Node => {
         case "add":
             return evalAdd(node, stack);
 
+        case "sub":
+            return evalSub(node, stack);
+
         default:
             throw "unknown node type";
     }
 };
+
+export const evalChildren = (node: OperatorNode, stack: Stack): [Node, Node] => {
+    return [evalNode(leftChild(node), stack), evalNode(rightChild(node), stack)];
+}
