@@ -1,5 +1,5 @@
 import {evalNode} from "./index";
-import {createAdd, createNum, createSub, createSym} from "../create";
+import {createAdd, createMul, createNum, createSub, createSym} from "../create";
 
 const emptyStack = [{}];
 
@@ -31,6 +31,16 @@ test("evalSub", () => {
     const num2 = createNum(3);
     const num3 = createNum(-1);
     const sub = createSub(sym, num2);
+    const stack = [{"fooBar": num}];
+    expect(evalNode(sub, stack)).toStrictEqual(num3);
+});
+
+test("evalMul", () => {
+    const sym = createSym("fooBar");
+    const num = createNum(-2);
+    const num2 = createNum(3);
+    const num3 = createNum(-6);
+    const sub = createMul(sym, num2);
     const stack = [{"fooBar": num}];
     expect(evalNode(sub, stack)).toStrictEqual(num3);
 });

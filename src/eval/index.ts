@@ -4,6 +4,7 @@ import evalSym from "./sym";
 import evalAdd from "./add";
 import {leftChild, rightChild} from "../utils/node";
 import evalSub from "./sub";
+import evalMul from "./mul";
 
 export const evalNode = (node: Node, stack: Stack): Node => {
     switch (node.type) {
@@ -18,6 +19,9 @@ export const evalNode = (node: Node, stack: Stack): Node => {
 
         case "sub":
             return evalSub(node, stack);
+
+        case "mul":
+            return evalMul(node, stack);
 
         default:
             throw "unknown node type";
