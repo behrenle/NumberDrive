@@ -6,6 +6,7 @@ import {leftChild, rightChild} from "../utils/node";
 import evalSub from "./sub";
 import evalMul from "./mul";
 import evalDiv from "./div";
+import evalPow from "./pow";
 
 export const evalNode = (node: Node, stack: Stack): Node => {
     switch (node.type) {
@@ -26,6 +27,9 @@ export const evalNode = (node: Node, stack: Stack): Node => {
 
         case "div":
             return evalDiv(node, stack);
+
+        case "pow":
+            return evalPow(node, stack);
 
         default:
             throw "unknown node type";
