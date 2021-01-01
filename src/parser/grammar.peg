@@ -1,8 +1,8 @@
 RootExpression
 	= Definition
-	/ Expression	
+	/ Expression
 
-Expression = _ node:Add _ { return node }
+Expression = _ node:Vec _ { return node }
 
 EncapsulatedExpression = "(" node:Expression ")" {
 		return node;
@@ -12,6 +12,15 @@ Definition = symbol:Symbol _ "=" _ value:Expression {
 		return {type: "def", symbol, value};
 	}
 
+Item = _ "," _ value:Expression { return value; }
+
+ItemList = first:Expression rest:Item* {
+	return [first].concat(rest);
+}
+
+// tensor
+Vec = "[" _ items:ItemList? _ "]" { return {type: "vec", children: items ? items : []}; }
+	/ Add
 
 // add
 AddItem = Sub / EncapsulatedExpression
@@ -42,7 +51,7 @@ Sub = left:SubItem? _ "-" _ right:SubItem {
 
 // mul
 MulItem = Div / EncapsulatedExpression
-Mul = left:MulItem _ "*" _ right:MulItem { return {type: "mul", children: [left, right]}; }
+Mul = left:MulItem _ "*"? _ right:MulItem { return {type: "mul", children: [left, right]}; }
     / Div
 
 // div
