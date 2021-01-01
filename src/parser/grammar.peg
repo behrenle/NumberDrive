@@ -1,0 +1,40 @@
+Expression = _ node:Add _ { return node }
+
+EncapsulatedExpression = "(" node:Expression ")" {
+		return node;
+	}
+
+// add
+AddItem = Sub / EncapsulatedExpression
+Add = left:AddItem _ "+" _ right:AddItem { return {type: "add", children: [left, right]}; }
+    / Sub
+
+
+// sub
+SubItem = Mul / EncapsulatedExpression
+Sub = left:SubItem _ "-" _ right:SubItem { return {type: "sub", children: [left, right]}; }
+	/ Mul
+
+// mul
+MulItem = Div / EncapsulatedExpression
+Mul = left:MulItem _ "*" _ right:MulItem { return {type: "mul", children: [left, right]}; }
+    / Div
+
+// div
+DivItem = Pow / EncapsulatedExpression
+Div = left:DivItem _ "/" _ right:DivItem { return {type: "div", children: [left, right]}; }
+    / Pow
+
+// pow
+PowItem = Primitive / EncapsulatedExpression
+Pow = left:PowItem _ "^" _ right:PowItem { return {type: "pow", children: [left, right]}; }
+    / Primitive
+
+// primitives
+Primitive = Symbol / Number
+Symbol = ([a-z] / [A-Z] / "_")+ { return {type: "sym", name: text()}; }
+Number = [0-9]+ ("." [0-9]*)? { return {type: "num", value: parseInt(text(), 10)}; }
+
+// misc
+_ "whitespace"
+  	= [ \t\n\r]*
