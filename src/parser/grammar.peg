@@ -8,9 +8,28 @@ EncapsulatedExpression = "(" node:Expression ")" {
 		return node;
 	}
 
-// def
-Definition = symbol:Symbol _ "=" _ value:Expression {
-		return {type: "def", symbol, value};
+// definition
+Definition = target:(FunctionSignature / Symbol) _ "=" _ value:Expression {
+		return {type: "def", target, value};
+	}
+
+
+// function signature
+SymbolType = "number" / "tensor" / "boolean" / "any" { return text(); }
+SymbolTypeAnnotation = ":" _ type:SymbolType { return type; }
+TypedOrUntypedSymbol = symbol:Symbol _ type:SymbolTypeAnnotation? {
+		return {
+			type: type ? type : "any",
+			name: symbol.name
+		};
+	}
+TypedOrUntypedSymbolListItem = _ "," _ symbol:TypedOrUntypedSymbol { return symbol; }
+TypedOrUntypedSymbolList = first:TypedOrUntypedSymbol rest:TypedOrUntypedSymbolListItem* { return [first].concat(rest); }
+FunctionSignature = name:Symbol _ "(" _ parameters:TypedOrUntypedSymbolList? _ ")" {
+		return {
+			type: "FunctionSignature",
+			children: parameters ? parameters : []
+		};
 	}
 
 // item list
