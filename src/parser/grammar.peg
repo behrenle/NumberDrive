@@ -2,23 +2,35 @@ RootExpression
 	= Definition
 	/ Expression
 
-Expression = _ node:Vec _ { return node }
+Expression = _ node:FunctionCall _ { return node }
 
 EncapsulatedExpression = "(" node:Expression ")" {
 		return node;
 	}
 
+// def
 Definition = symbol:Symbol _ "=" _ value:Expression {
 		return {type: "def", symbol, value};
 	}
 
+// item list
 Item = _ "," _ value:Expression { return value; }
-
 ItemList = first:Expression rest:Item* {
 	return [first].concat(rest);
 }
 
-// tensor
+// call
+FunctionCall = symbol:Symbol _ "(" _ parameters:ItemList? _ ")" {
+		const items = parameters ? parameters : [];
+		if (items.length === 1) {
+			return {type: "callOrMul", children: [symbol, items[0]]};
+		}
+		return {type: "call", items, name: symbol.name};
+	}
+	/ Vec
+
+
+// Vec
 Vec = "[" _ items:ItemList? _ "]" { return {type: "vec", children: items ? items : []}; }
 	/ Add
 
