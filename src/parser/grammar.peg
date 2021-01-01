@@ -1,18 +1,43 @@
+RootExpression
+	= Definition
+	/ Expression	
+
 Expression = _ node:Add _ { return node }
 
 EncapsulatedExpression = "(" node:Expression ")" {
 		return node;
 	}
 
+Definition = symbol:Symbol _ "=" _ value:Expression {
+		return {type: "def", symbol, value};
+	}
+
+
 // add
 AddItem = Sub / EncapsulatedExpression
-Add = left:AddItem _ "+" _ right:AddItem { return {type: "add", children: [left, right]}; }
+Add = left:AddItem? _ "+" _ right:AddItem {
+		return {
+			type: "add",
+			children: [
+				left ? left : {type: "num", value: 0},
+				right
+			]
+		};
+	}
     / Sub
 
 
 // sub
 SubItem = Mul / EncapsulatedExpression
-Sub = left:SubItem _ "-" _ right:SubItem { return {type: "sub", children: [left, right]}; }
+Sub = left:SubItem? _ "-" _ right:SubItem {
+		return {
+			type: "sub",
+			children: [
+				left ? left : {type: "num", value: 0},
+				right
+			]
+		};
+	}
 	/ Mul
 
 // mul
