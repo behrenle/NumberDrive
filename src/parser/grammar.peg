@@ -1,15 +1,10 @@
-RootExpression
-	= Definition
-	/ Expression
+RootExpression = _ value:(NumericOrBooleanExpression / Definition / GenericExpression / Primitive) _ !(.+) { return value; }
 
-Expression = _ node:FunctionCall _ { return node }
-
-EncapsulatedExpression = "(" node:Expression ")" {
-		return node;
-	}
+GenericExpression = FunctionCall / Vec
+Primitive = BooleanPrimitive / NumericPrimitive / Vec
 
 // definition
-Definition = target:(FunctionSignature / Symbol) _ "=" _ value:Expression {
+Definition = target:(FunctionSignature / Symbol) _ ":=" _ value:NumericOrBooleanExpression {
 		return {type: "def", target, value};
 	}
 
@@ -33,8 +28,9 @@ FunctionSignature = name:Symbol _ "(" _ parameters:TypedOrUntypedSymbolList? _ "
 	}
 
 // item list
-Item = _ "," _ value:Expression { return value; }
-ItemList = first:Expression rest:Item* {
+ItemValue = NumericOrBooleanExpression / GenericExpression / Primitive
+Item = _ "," _ value:(ItemValue) { return value; }
+ItemList = first:ItemValue rest:Item* {
 	return [first].concat(rest);
 }
 
@@ -46,16 +42,47 @@ FunctionCall = symbol:Symbol _ "(" _ parameters:ItemList? _ ")" {
 		}
 		return {type: "call", items, name: symbol.name};
 	}
-	/ Vec
 
 
 // Vec
 Vec = "[" _ items:ItemList? _ "]" { return {type: "vec", children: items ? items : []}; }
-	/ Add
+
+
+// numeric or boolean expression
+NumericOrBooleanExpression = BooleanExpression / NumericExpression
+
+
+/* boolean expressions */
+BooleanExpression = Or
+EncapsulatedBooleanExpression = "(" _ value:(BooleanExpression / BooleanAtomic) _ ")" { return value; }
+BooleanAtomic = GenericExpression / BooleanPrimitive
+
+OrItem = GenericExpression / And / EncapsulatedBooleanExpression / BooleanPrimitive
+Or  = left:OrItem _ "|" _ right:(Or / OrItem) { return {type: "or", children: [left, right]}; }
+	/ And
+
+AndItem = GenericExpression / Not / EncapsulatedBooleanExpression / BooleanPrimitive
+And = left:AndItem _ "&" _ right:(And / AndItem) { return {type: "and", children: [left, right]}; }
+	/ Not
+
+Not = "!" _ value:(EncapsulatedBooleanExpression / BooleanAtomic) { return {type: "not", value}; }
+
+BooleanPrimitive = Boolean / Symbol
+Boolean = value:("true" / "false") { return {type: "bool", value: value === "true"}; }
+
+
+
+/* numeric expressions */
+NumericExpression = Add
+EncapsulatedNumericExpression = "(" value:(NumericExpression / NumericAtomic) ")" {
+		return value;
+	}
+
+NumericAtomic = GenericExpression / NumericPrimitive
 
 // add
-AddItem = Sub / EncapsulatedExpression
-Add = left:AddItem? _ "+" _ right:AddItem {
+AddItem = GenericExpression / Sub / EncapsulatedNumericExpression / NumericPrimitive
+Add = left:AddItem? _ "+" _ right:(Add / AddItem) {
 		return {
 			type: "add",
 			children: [
@@ -68,8 +95,8 @@ Add = left:AddItem? _ "+" _ right:AddItem {
 
 
 // sub
-SubItem = Mul / EncapsulatedExpression
-Sub = left:SubItem? _ "-" _ right:SubItem {
+SubItem = Mul / EncapsulatedNumericExpression / NumericAtomic
+Sub = left:SubItem? _ "-" _ right:(SubItem / SubItem) {
 		return {
 			type: "sub",
 			children: [
@@ -81,25 +108,27 @@ Sub = left:SubItem? _ "-" _ right:SubItem {
 	/ Mul
 
 // mul
-MulItem = Div / EncapsulatedExpression
-Mul = left:MulItem _ "*"? _ right:MulItem { return {type: "mul", children: [left, right]}; }
+MulItem = Div / EncapsulatedNumericExpression / NumericAtomic
+Mul = left:MulItem _ "*"? _ right:(Mul / MulItem) { return {type: "mul", children: [left, right]}; }
     / Div
 
 // div
-DivItem = Pow / EncapsulatedExpression
-Div = left:DivItem _ "/" _ right:DivItem { return {type: "div", children: [left, right]}; }
+DivItem = Pow / EncapsulatedNumericExpression / NumericAtomic
+Div = left:DivItem _ "/" _ right:(Div / DivItem) { return {type: "div", children: [left, right]}; }
     / Pow
 
 // pow
-PowItem = Primitive / EncapsulatedExpression
+PowItem = EncapsulatedNumericExpression / NumericAtomic
 Pow = left:PowItem _ "^" _ right:PowItem { return {type: "pow", children: [left, right]}; }
-    / Primitive
 
-// primitives
-Primitive = Symbol / Number
-Symbol = ([a-z] / [A-Z] / "_")+ { return {type: "sym", name: text()}; }
+
+// NumericPrimitives
+NumericPrimitive = Symbol / Number
 Number = [0-9]+ ("." [0-9]*)? { return {type: "num", value: parseInt(text(), 10)}; }
 
+
 // misc
+Symbol = ([a-z] / [A-Z] / "_")+ { return {type: "sym", name: text()}; }
+
 _ "whitespace"
   	= [ \t\n\r]*
