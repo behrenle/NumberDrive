@@ -53,9 +53,20 @@ NumericOrBooleanExpression = BooleanExpression / NumericExpression
 
 
 /* boolean expressions */
-BooleanExpression = Or
+BooleanExpression = Relation / Or / EncapsulatedBooleanExpression
 EncapsulatedBooleanExpression = "(" _ value:(BooleanExpression / BooleanAtomic) _ ")" { return value; }
 BooleanAtomic = GenericExpression / BooleanPrimitive
+
+RelationItem = NumericExpression / NumericAtomic
+Relation = Equal / LessThan / LessThanOrEqual / GreaterThan / GreaterThanOrEqual
+
+EqualItem = RelationItem / Or / BooleanAtomic
+Equal = left:EqualItem _ "=" _ right:EqualItem { return {type: "eq", children: [left, right]}; }
+LessThan = left:RelationItem _ "<" _ right:RelationItem { return {type: "lt", children: [left, right]}; }
+LessThanOrEqual = left:RelationItem _ "<=" _ right:RelationItem { return {type: "lte", children: [left, right]}; }
+GreaterThan = left:RelationItem _ ">" _ right:RelationItem { return {type: "gt", children: [left, right]}; }
+GreaterThanOrEqual = left:RelationItem _ ">=" _ right:RelationItem { return {type: "gte", children: [left, right]}; }
+
 
 OrItem = GenericExpression / And / EncapsulatedBooleanExpression / BooleanPrimitive
 Or  = left:OrItem _ "|" _ right:(Or / OrItem) { return {type: "or", children: [left, right]}; }
