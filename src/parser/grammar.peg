@@ -22,7 +22,7 @@ TypedOrUntypedSymbolListItem = _ "," _ symbol:TypedOrUntypedSymbol { return symb
 TypedOrUntypedSymbolList = first:TypedOrUntypedSymbol rest:TypedOrUntypedSymbolListItem* { return [first].concat(rest); }
 FunctionSignature = name:Symbol _ "(" _ parameters:TypedOrUntypedSymbolList? _ ")" {
 		return {
-			type: "FunctionSignature",
+			type: "funcSig",
 			children: parameters ? parameters : []
 		};
 	}

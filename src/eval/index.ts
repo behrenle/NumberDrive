@@ -1,4 +1,4 @@
-import {Node, OperatorNode, Stack} from "../types";
+import {Node, NumericOperatorNode, Stack} from "../types";
 import evalNum from "./num";
 import evalSym from "./sym";
 import evalAdd from "./add";
@@ -36,6 +36,6 @@ export const evalNode = (node: Node, stack: Stack): Node => {
     }
 };
 
-export const evalChildren = (node: OperatorNode, stack: Stack): [Node, Node] => {
+export const evalChildren = (node: NumericOperatorNode, stack: Stack): [Node, Node] => {
     return [evalNode(leftChild(node), stack), evalNode(rightChild(node), stack)];
 }

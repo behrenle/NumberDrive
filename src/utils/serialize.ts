@@ -1,4 +1,4 @@
-import {Node, OperatorNode} from "../types";
+import {Node, NumericOperatorNode} from "../types";
 import {leftChild, rightChild} from "./node";
 
 const connectionStrengths = {
@@ -36,7 +36,7 @@ const serialize = (node: Node): string => {
     }
 };
 
-const serializeOperator = (node: OperatorNode, operatorSymbol: string): string => {
+const serializeOperator = (node: NumericOperatorNode, operatorSymbol: string): string => {
     const nodeConnectionStrength = connectionStrengths[node.type];
     const lChildStr = serializeOperatorChild(leftChild(node), nodeConnectionStrength);
     const rChildStr = serializeOperatorChild(rightChild(node), nodeConnectionStrength);
