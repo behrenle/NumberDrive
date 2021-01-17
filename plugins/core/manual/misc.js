@@ -151,6 +151,16 @@ export default {
                 en: "Logarithm of v to base b",
                 de: "Logarithmus zur Basis b von v."
             }
+        },
+        {
+            synopsis: {
+                en: "fact(n)",
+                de: "fact(n)
+            },
+            description: {
+                en: "Factorial of n",
+                de: "Fakultät von n"
+            }
         }
     ]
 };
