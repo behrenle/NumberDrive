@@ -155,7 +155,7 @@ export default {
         {
             synopsis: {
                 en: "fact(n)",
-                de: "fact(n)
+                de: "fact(n)"
             },
             description: {
                 en: "Factorial of n",
