@@ -20,6 +20,21 @@ function cBinomial(p, n, k) {
 }
 
 const funcs = {
+    fact: function(parameters) {
+        const n = tools.checkParameters(parameters, ["number"])[0];
+        const v = n.getDecimalValue();
+
+        if (v % 1 !== 0)
+            throw "fact: Invalid parameter. Expected a whole number but got a decimal number.";
+
+        let result = new Decimal(1);
+
+        for (let i = 1; i <= v; i++)
+            result = result.mul(i);
+
+        return n.new("Number", result);
+    },
+
     cbinom: function (parameters, stack) {
         let params = tools.checkParameters(parameters, ["number", "number", "number"]),
             n = params[0].getDecimalValue().toNumber(),
