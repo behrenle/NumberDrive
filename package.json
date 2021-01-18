@@ -19,7 +19,8 @@
     "typescript": "^4.1.3"
   },
   "scripts": {
-    "build": "tsc",
+    "build-parser": "node src/parser/generate.js",
+    "build": "npm run build-parser && tsc",
     "test": "jest"
   },
   "repository": {
