@@ -1,5 +1,4 @@
 import Scope from "./scope/Scope.js";
-import Exception from "./exceptions/Exception.js";
 import parse from "./parse.js";
 import prelude from "./prelude.js";
 

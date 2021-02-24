@@ -11,8 +11,13 @@ function executeTestBatch(categoryName, testArray, lambda) {
     testArray.forEach((item, i) => {
         let stack = prelude();
 
-        let parsedInput = NumberDrive.parse(item[0]),
+        let parsedInput, parsedOutput;
+        try {
+            parsedInput = NumberDrive.parse(item[0]);
             parsedOutput = NumberDrive.parse(item[1]);
+        } catch (e) {
+            throw `SyntaxError: ${e.message}`;
+        }
 
         parsedInput.setStack(stack);
         parsedOutput.setStack(stack);
@@ -22,7 +27,7 @@ function executeTestBatch(categoryName, testArray, lambda) {
 
         try {
             assert.equal(
-                result.equals(expected) || result.serialize() == expected.serialize(),
+                result.equals(expected) || result.serialize() === expected.serialize(),
                 true
             );
         } catch (e) {
