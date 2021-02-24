@@ -41,12 +41,16 @@ class Stack {
                     continue;
                 }
                 let value = this.getValue(name);
-                if (value.getType() != "function") {
+                if (value.getType() !== "function") {
                     result.push(new Nodes.Symbol(name));
                 } else {
                     let func = new Nodes.FunctionCall(name, 1, 1);
                     func.setElements(value.getElements().map(x => x.clone()));
-                    result.push(func);
+                    let term = value.expression;
+                    let def = new Nodes.Definition();
+                    def.setLabel(func);
+                    def.setValue(term);
+                    result.push(def);
                 }
             }
             result.reshape([result.getElements().length]);
