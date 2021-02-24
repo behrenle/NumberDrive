@@ -161,6 +161,16 @@ export default {
                 en: "Factorial of n",
                 de: "Fakultät von n"
             }
-        }
+        },
+        {
+            synopsis: {
+                en: "vecangle(u, v)",
+                de: "vecangle(u, v)"
+            },
+            description: {
+                en: "Angle between two vectors u and v",
+                de: "Winkel zwischen zwei Vektoren u und v"
+            }
+        },
     ]
 };

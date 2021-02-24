@@ -186,6 +186,7 @@ export default {
     inlineDefinitions: [
         "normal(x) := 1 / sqrt(2*pi) * exp(x^2 / 2)",
         "cnormal(x) := 0.5 * (1 + erf(x / sqrt(2)))",
+        "vecangle(u, v) := acos(u * v / (abs(u) * abs(v)))"
     ],
     manual: manual
 };
