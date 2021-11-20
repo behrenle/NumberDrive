@@ -83,9 +83,9 @@ class Number extends AbstractNode {
 
             if (magnitude >= 0) {
                 const decimalIndicatorDigit = magnitude.toNumber() + 1 === sigDigits ? 1 : 0;
-                resultStr = this.getValue().toSD(sigDigits + decimalIndicatorDigit);
+                resultStr = this.getValue().toSD(sigDigits + decimalIndicatorDigit).toString();
             } else {
-                resultStr = this.getValue().toSD(sigDigits);
+                resultStr = this.getValue().toSD(sigDigits).toString();
             }
 
             if (!mode && this.getSign().equals(-1))
@@ -93,13 +93,15 @@ class Number extends AbstractNode {
 
             return resultStr;
         } else {
+            let result = this.getSign() >= 0 ? "" : "-";
             const mantisse = new Decimal(10).pow(-magnitude).mul(this.getValue());
-            const power = this.new("Power", 1, 1);
-            power.setBase(this.new("Number", 10, 1, 1));
-            power.setExponent(this.new("Number", magnitude, 1, 1));
-            const product = this.new("Product", 1, 1);
-            product.setElements([this.new("Number", mantisse, this.getSign(), 1), power]);
-            return product.serialize();
+            result += mantisse.toSD(sigDigits) + " * 10^";
+            if (magnitude < 0) {
+                result += "(" + magnitude.toString() + ")";
+            } else {
+                result += magnitude.toString();
+            }
+            return result;
         }
     }
 

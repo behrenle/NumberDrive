@@ -37,6 +37,8 @@ function executeTestBatch(categoryName, testArray, lambda) {
                 output: item[1],
                 ["test(input)"]: result.serialize(),
                 ["test(output)"]: expected.serialize(),
+                ["constructor1"]: result.serialize().constructor.name,
+                ["constructor2"]: expected.serialize().constructor.name
             });
             console.groupEnd();
             failedTests++;
