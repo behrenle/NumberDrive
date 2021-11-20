@@ -76,13 +76,30 @@ class Number extends AbstractNode {
     }
 
     serialize(mode) {
-        var valStr = this.getValue().toSignificantDigits(
-            this.getStack().getSetting("sigDigits" || 6)
-        ).toString()
-        if (!mode && this.getSign().equals(-1)) {
-            return "-" + valStr;
+        const sigDigits = this.getStack().getSetting("sigDigits" || 6);
+        const magnitude = Decimal.log10(this.getValue().abs()).floor();
+        if (!magnitude.abs().gte(sigDigits)) {
+            let resultStr = "";
+
+            if (magnitude >= 0) {
+                const decimalIndicatorDigit = magnitude.toNumber() + 1 === sigDigits ? 1 : 0;
+                resultStr = this.getValue().toSD(sigDigits + decimalIndicatorDigit);
+            } else {
+                resultStr = this.getValue().toSD(sigDigits);
+            }
+
+            if (!mode && this.getSign().equals(-1))
+                return "-" + resultStr;
+
+            return resultStr;
         } else {
-            return valStr;
+            const mantisse = new Decimal(10).pow(-magnitude).mul(this.getValue());
+            const power = this.new("Power", 1, 1);
+            power.setBase(this.new("Number", 10, 1, 1));
+            power.setExponent(this.new("Number", magnitude, 1, 1));
+            const product = this.new("Product", 1, 1);
+            product.setElements([this.new("Number", mantisse, this.getSign(), 1), power]);
+            return product.serialize();
         }
     }
 
