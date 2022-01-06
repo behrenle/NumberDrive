@@ -78,6 +78,9 @@ class Number extends AbstractNode {
     serialize(mode) {
         const sigDigits = this.getStack().getSetting("sigDigits" || 6);
         const magnitude = Decimal.log10(this.getValue().abs()).floor();
+        if (this.getValue().equals(0))
+            return "0";
+
         if (!magnitude.abs().gte(sigDigits)) {
             let resultStr = "";
 
