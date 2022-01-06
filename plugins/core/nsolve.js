@@ -63,6 +63,7 @@ function filterSignFlips(points) {
 }
 
 function analyzeInterval(expr, varName, flip, mode) {
+    //if (mode) console.log("abs dip mode")
     let leftLimit = flip[0],
         rightLimit = flip[1],
         value = new Nodes.Number(),
@@ -212,10 +213,18 @@ const funcs = {
             }
         }
 
+        // remove duplicate solutions
+        let withoutDuplicates = [];
+        results.forEach(result => {
+            if (!withoutDuplicates.some(item => item.equals(result))) {
+                withoutDuplicates.push(result);
+            }
+        })
+
         // create results vector
-        let resultVec = new Nodes.Tensor([results.length]);
-        for (let i = 0; i < results.length; i++) {
-            resultVec.setElement(i, new Nodes.Number(results[i]));
+        let resultVec = new Nodes.Tensor([withoutDuplicates.length]);
+        for (let i = 0; i < withoutDuplicates.length; i++) {
+            resultVec.setElement(i, new Nodes.Number(withoutDuplicates[i]));
         }
 
         // remove evaluation scope
